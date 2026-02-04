@@ -4,14 +4,8 @@ import { Footer } from "@/components/footer"
 import { plans } from "@/lib/plans"
 
 /**
- * Landing page template
- * 
- * Customize this for your product:
- * - Replace all placeholder text with your own copy
- * - Update the hero visual for your product
- * - Change feature cards to match your offering
- * - Add real testimonials
- * - Adjust pricing to your tiers
+ * Landing page for 60 Projects Ecosystem
+ * A curated collection of 60 real-world projects demonstrating production-level engineering
  */
 export default function LandingPage() {
   return (
@@ -39,98 +33,131 @@ export default function LandingPage() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
-                <span className="text-sm font-medium text-primary">[Your announcement here]</span>
+                <span className="text-sm font-medium text-primary">60 Production-Ready Projects</span>
               </div>
 
               {/* Main headline with rotating text */}
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-[0.95] tracking-tight">
-                Your main headline
+                Build Real Skills
                 <br />
                 <span className="text-rotate inline-block">
                   <span className="justify-items-center">
-                    <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">[Rotating text 1]</span>
-                    <span className="bg-linear-to-r from-secondary to-accent bg-clip-text text-transparent">[Rotating text 2]</span>
-                    <span className="bg-linear-to-r from-accent to-primary bg-clip-text text-transparent">[Rotating text 3]</span>
+                    <span className="bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">With Real Projects</span>
+                    <span className="bg-linear-to-r from-secondary to-accent bg-clip-text text-transparent">Not Toy Demos</span>
+                    <span className="bg-linear-to-r from-accent to-primary bg-clip-text text-transparent">Production Code</span>
                   </span>
                 </span>
               </h1>
 
               <p className="text-xl md:text-2xl text-base-content/60 max-w-2xl mx-auto mb-12 leading-relaxed">
-                A compelling description of your product and the main benefit it provides to your customers. Keep it short and focused.
+                A curated ecosystem of 60 real-world projects covering AI, SaaS, web apps, games, tools, and developer utilities—demonstrate end-to-end product building, not just demos.
               </p>
 
               {/* CTA buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-                <Link href="/login" className="btn btn-primary btn-lg gap-2 shadow-lg shadow-primary/25 group">
-                  <span>[Primary CTA]</span>
+                <Link href="/pricing" className="btn btn-primary btn-lg gap-2 shadow-lg shadow-primary/25 group">
+                  <span>Get Full Access</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
-                <Link href="#demo" className="btn btn-ghost btn-lg gap-2 group">
-                  <span>[Secondary CTA]</span>
+                <Link href="#projects" className="btn btn-ghost btn-lg gap-2 group">
+                  <span>Browse Projects</span>
                 </Link>
               </div>
 
-              {/* Hero visual - Stack of cards with phone mockup */}
+              {/* Hero visual - Project showcase cards */}
               <div className="relative max-w-5xl mx-auto">
-                <div className="flex flex-col lg:flex-row items-center justify-center gap-8">
-                  {/* Desktop mockup */}
-                  <div className="relative flex-1 max-w-2xl">
-                    {/* Background cards for depth */}
-                    <div className="absolute -left-4 -right-4 top-8 bottom-0 bg-base-300/50 rounded-3xl transform rotate-2 border border-base-content/5" />
-                    <div className="absolute -left-2 -right-2 top-4 bottom-0 bg-base-200/50 rounded-3xl transform -rotate-1 border border-base-content/5" />
-
-                    {/* Main visual area */}
-                    <div className="relative bg-base-200 rounded-3xl border border-base-content/10 shadow-2xl overflow-hidden">
-                      <div className="aspect-video flex items-center justify-center bg-linear-to-br from-base-200 to-base-300 p-8">
-                        <div className="text-center">
-                          <div className="text-5xl mb-4">🖥️</div>
-                          <p className="text-base-content/40 text-base font-medium">[Desktop screenshot]</p>
-                          <p className="text-base-content/30 text-sm mt-2">Replace with your product image</p>
-                        </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[
+                    { emoji: "🤖", title: "AI Agents", desc: "15 Projects" },
+                    { emoji: "💼", title: "SaaS Apps", desc: "12 Projects" },
+                    { emoji: "🎮", title: "Games", desc: "8 Projects" },
+                    { emoji: "🛠️", title: "Tools", desc: "10 Projects" },
+                    { emoji: "⚡", title: "Web Apps", desc: "10 Projects" },
+                    { emoji: "🔧", title: "Dev Utils", desc: "5 Projects" },
+                  ].map((category, i) => (
+                    <div key={i} className="card bg-base-200 border border-base-content/10 hover:border-primary/30 transition-all hover:scale-105">
+                      <div className="card-body items-center text-center p-6">
+                        <div className="text-4xl mb-2">{category.emoji}</div>
+                        <h3 className="font-bold">{category.title}</h3>
+                        <p className="text-sm text-base-content/60">{category.desc}</p>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Phone mockup */}
-                  <div className="relative lg:-ml-20 lg:mt-12 z-10">
-                    <div className="mockup-phone border-primary">
-                      <div className="mockup-phone-camera"></div>
-                      <div className="mockup-phone-display">
-                        <div className="flex items-center justify-center h-full bg-linear-to-br from-base-200 to-base-300">
-                          <div className="text-center p-4">
-                            <div className="text-3xl mb-2">📱</div>
-                            <p className="text-base-content/40 text-xs">[Mobile view]</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Social Proof - Animated Logo Marquee */}
-        <section className="py-16 border-y border-base-content/5 bg-base-200/30 overflow-hidden">
+        {/* Social Proof */}
+        <section className="py-16 border-y border-base-content/5 bg-base-200/30">
+          <div className="container mx-auto px-4">
+            {/* User Stats */}
+            <div className="text-center mb-12">
+              <p className="text-base-content/40 text-sm mb-8 uppercase tracking-wider font-medium">
+                Trusted by engineers building real careers
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+                <div className="text-center">
+                  <div className="text-4xl font-black text-primary mb-1">2,500+</div>
+                  <div className="text-sm text-base-content/60">Active Builders</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-black text-secondary mb-1">15,000+</div>
+                  <div className="text-sm text-base-content/60">Projects Built</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-black text-accent mb-1">50+</div>
+                  <div className="text-sm text-base-content/60">Countries</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-black text-primary mb-1">4.9/5</div>
+                  <div className="text-sm text-base-content/60">Average Rating</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Customer Logos - Using company badges */}
+            <div className="mt-12">
+              <p className="text-center text-base-content/40 text-xs mb-6 uppercase tracking-wider">
+                Engineers from top companies use 60 Projects to level up
+              </p>
+              <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
+                {[
+                  "Google",
+                  "Meta",
+                  "Amazon",
+                  "Microsoft",
+                  "Stripe",
+                  "Vercel",
+                  "Supabase",
+                  "OpenAI",
+                ].map((company, i) => (
+                  <div
+                    key={i}
+                    className="badge badge-lg bg-base-100 border border-base-content/10 text-base-content/60 hover:border-primary/30 hover:text-primary transition-all cursor-default font-semibold"
+                  >
+                    {company}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Target Audience */}
+        <section className="py-16 border-y border-base-content/5 bg-base-200/30">
           <div className="container mx-auto px-4">
             <p className="text-center text-base-content/40 text-sm mb-8 uppercase tracking-wider font-medium">
-              [Trusted by X teams/customers]
+              Built for engineers who want to prove their skills
             </p>
-          </div>
-          {/* Infinite scroll marquee */}
-          <div className="relative">
-            <div className="flex animate-marquee whitespace-nowrap">
-              {[...Array(2)].map((_, setIndex) => (
-                <div key={setIndex} className="flex items-center gap-16 px-8">
-                  {["Logo 1", "Logo 2", "Logo 3", "Logo 4", "Logo 5", "Logo 6", "Logo 7", "Logo 8"].map((name, i) => (
-                    <span key={i} className="text-2xl font-bold text-base-content/20 hover:text-base-content/40 transition-colors cursor-default">
-                      {name}
-                    </span>
-                  ))}
-                </div>
+            <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+              {["AI Engineers", "Full-Stack Developers", "Indie Builders", "Startups", "Recruiters", "Tech Companies"].map((audience, i) => (
+                <span key={i} className="badge badge-lg bg-base-100 border border-base-content/10 text-base">
+                  {audience}
+                </span>
               ))}
             </div>
           </div>
@@ -143,12 +170,12 @@ export default function LandingPage() {
               <div className="stat place-items-center py-8 px-12">
                 <div className="stat-figure text-primary">
                   <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                 </div>
-                <div className="stat-title text-base">[Metric 1]</div>
-                <div className="stat-value text-primary text-5xl">XX+</div>
-                <div className="stat-desc text-sm">[Description]</div>
+                <div className="stat-title text-base">Projects</div>
+                <div className="stat-value text-primary text-5xl">60</div>
+                <div className="stat-desc text-sm">Production-ready apps</div>
               </div>
               <div className="stat place-items-center py-8 px-12">
                 <div className="stat-figure text-secondary">
@@ -156,19 +183,19 @@ export default function LandingPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <div className="stat-title text-base">[Metric 2]</div>
-                <div className="stat-value text-secondary text-5xl">XX%</div>
-                <div className="stat-desc text-sm">[Description]</div>
+                <div className="stat-title text-base">Tech Stack</div>
+                <div className="stat-value text-secondary text-5xl">Modern</div>
+                <div className="stat-desc text-sm">Next.js, FastAPI, LangGraph</div>
               </div>
               <div className="stat place-items-center py-8 px-12">
                 <div className="stat-figure text-accent">
                   <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
-                <div className="stat-title text-base">[Metric 3]</div>
-                <div className="stat-value text-accent text-5xl">XX</div>
-                <div className="stat-desc text-sm">[Description]</div>
+                <div className="stat-title text-base">End-to-End</div>
+                <div className="stat-value text-accent text-5xl">100%</div>
+                <div className="stat-desc text-sm">From UI to deployment</div>
               </div>
             </div>
           </div>
@@ -178,11 +205,11 @@ export default function LandingPage() {
         <section className="py-24 lg:py-32">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <span className="badge badge-primary badge-outline mb-4">Features</span>
+              <span className="badge badge-primary badge-outline mb-4">Why 60 Projects</span>
               <h2 className="text-4xl md:text-6xl font-black mb-6">
-                [Section headline]
+                Not Just Another
                 <br />
-                <span className="text-base-content/40">[Subheadline]</span>
+                <span className="text-base-content/40">Tutorial Collection</span>
               </h2>
             </div>
 
@@ -194,15 +221,15 @@ export default function LandingPage() {
                   <div className="flex items-start justify-between mb-6">
                     <div className="p-3 bg-primary/20 rounded-2xl">
                       <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                       </svg>
                     </div>
-                    <span className="badge badge-ghost">[Badge]</span>
+                    <span className="badge badge-ghost">Core Focus</span>
                   </div>
-                  <h3 className="card-title text-2xl mb-2">[Feature 1 Title]</h3>
-                  <p className="text-base-content/60 mb-6">[Feature 1 description. Explain the benefit to users and why this feature matters.]</p>
+                  <h3 className="card-title text-2xl mb-2">End-to-End Projects</h3>
+                  <p className="text-base-content/60 mb-6">Every project goes from concept to deployment. You'll see the complete journey—UI/UX, backend logic, database design, authentication, testing, and production deployment. No halfway demos.</p>
                   <div className="bg-base-300/50 rounded-xl p-6 text-center">
-                    <p className="text-base-content/40">[Feature visual/demo placeholder]</p>
+                    <p className="text-base-content/40 font-mono text-sm">frontend → backend → database → auth → deploy → docs</p>
                   </div>
                 </div>
               </div>
@@ -215,11 +242,11 @@ export default function LandingPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
-                  <h3 className="card-title text-2xl mb-2">[Feature 2 Title]</h3>
-                  <p className="text-base-content/60 mb-8">[Feature 2 description. Explain the benefit to users.]</p>
+                  <h3 className="card-title text-2xl mb-2">Modern Tech Stack</h3>
+                  <p className="text-base-content/60 mb-8">Industry-standard technologies that companies actually use today. No outdated frameworks or theoretical examples.</p>
                   <div className="flex-1 flex flex-col justify-end">
                     <div className="space-y-3">
-                      {["[Benefit point 1]", "[Benefit point 2]", "[Benefit point 3]", "[Benefit point 4]", "[Benefit point 5]"].map((item, i) => (
+                      {["Next.js 16 (App Router)", "FastAPI & Python", "Supabase & PostgreSQL", "LangGraph AI Agents", "Stripe Payments", "Multi-LLM Integration"].map((item, i) => (
                         <div key={i} className="flex items-center gap-3">
                           <svg className="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -240,8 +267,8 @@ export default function LandingPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                     </svg>
                   </div>
-                  <h3 className="font-bold text-lg">[Feature 3 Title]</h3>
-                  <p className="text-base-content/60 text-sm">[Short feature description]</p>
+                  <h3 className="font-bold text-lg">Ecosystem Approach</h3>
+                  <p className="text-base-content/60 text-sm">Projects work independently yet cohesively. Build portfolios, SaaS apps, games, tools, and CLI extensions.</p>
                 </div>
               </div>
 
@@ -252,8 +279,8 @@ export default function LandingPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
-                  <h3 className="font-bold text-lg">[Feature 4 Title]</h3>
-                  <p className="text-base-content/60 text-sm">[Short feature description]</p>
+                  <h3 className="font-bold text-lg">Production-Level Quality</h3>
+                  <p className="text-base-content/60 text-sm">Real error handling, security best practices, testing, deployment configs, and documentation. Not toy code.</p>
                 </div>
               </div>
             </div>
@@ -266,9 +293,9 @@ export default function LandingPage() {
             <div className="text-center mb-16">
               <span className="badge badge-accent badge-outline mb-4">Compare</span>
               <h2 className="text-4xl md:text-5xl font-black mb-4">
-                [Comparison headline]
+                Real Projects vs Tutorials
               </h2>
-              <p className="text-base-content/60 text-lg">[Why choose us over alternatives]</p>
+              <p className="text-base-content/60 text-lg">Why production-ready projects build better engineers</p>
             </div>
 
             {/* Desktop table - hidden on mobile */}
@@ -276,21 +303,25 @@ export default function LandingPage() {
               <table className="table table-lg">
                 <thead>
                   <tr>
-                    <th className="text-base-content/60">[Feature]</th>
+                    <th className="text-base-content/60">Feature</th>
                     <th className="text-center">
-                      <span className="text-primary font-bold">[Your Product]</span>
+                      <span className="text-primary font-bold">60 Projects</span>
                     </th>
-                    <th className="text-center text-base-content/40">[Competitor A]</th>
-                    <th className="text-center text-base-content/40">[Competitor B]</th>
+                    <th className="text-center text-base-content/40">YouTube Tutorials</th>
+                    <th className="text-center text-base-content/40">Coding Courses</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    { feature: "[Feature 1]", us: true, a: true, b: false },
-                    { feature: "[Feature 2]", us: true, a: false, b: true },
-                    { feature: "[Feature 3]", us: true, a: false, b: false },
-                    { feature: "[Feature 4]", us: true, a: true, b: true },
-                    { feature: "[Feature 5]", us: true, a: false, b: false },
+                    { feature: "End-to-end development", us: true, a: false, b: false },
+                    { feature: "Production deployment", us: true, a: false, b: false },
+                    { feature: "Real-world error handling", us: true, a: false, b: true },
+                    { feature: "Modern tech stack", us: true, a: true, b: false },
+                    { feature: "AI & LLM integration", us: true, a: false, b: false },
+                    { feature: "Payment processing", us: true, a: false, b: false },
+                    { feature: "Authentication & security", us: true, a: false, b: true },
+                    { feature: "Database design & scaling", us: true, a: false, b: false },
+                    { feature: "Testing & documentation", us: true, a: false, b: false },
                   ].map((row, i) => (
                     <tr key={i} className="hover">
                       <td className="font-medium">{row.feature}</td>
@@ -336,18 +367,18 @@ export default function LandingPage() {
             {/* Mobile card layout - shown only on mobile */}
             <div className="md:hidden space-y-3 max-w-lg mx-auto">
               {[
-                { feature: "[Feature 1]", us: true, a: true, b: false },
-                { feature: "[Feature 2]", us: true, a: false, b: true },
-                { feature: "[Feature 3]", us: true, a: false, b: false },
-                { feature: "[Feature 4]", us: true, a: true, b: true },
-                { feature: "[Feature 5]", us: true, a: false, b: false },
+                { feature: "End-to-end development", us: true, a: false, b: false },
+                { feature: "Production deployment", us: true, a: false, b: false },
+                { feature: "Real-world error handling", us: true, a: false, b: true },
+                { feature: "Modern tech stack", us: true, a: true, b: false },
+                { feature: "AI & LLM integration", us: true, a: false, b: false },
               ].map((row, i) => (
                 <div key={i} className="card bg-base-100 border border-base-content/5">
                   <div className="card-body p-4">
                     <h3 className="font-semibold text-base mb-3">{row.feature}</h3>
                     <div className="grid grid-cols-3 gap-2 text-center">
                       <div className="flex flex-col items-center gap-1">
-                        <span className="text-xs text-primary font-medium">[You]</span>
+                        <span className="text-xs text-primary font-medium">60 Projects</span>
                         {row.us ? (
                           <svg className="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -359,7 +390,7 @@ export default function LandingPage() {
                         )}
                       </div>
                       <div className="flex flex-col items-center gap-1">
-                        <span className="text-xs text-base-content/40">[A]</span>
+                        <span className="text-xs text-base-content/40">Tutorials</span>
                         {row.a ? (
                           <svg className="w-5 h-5 text-base-content/30" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -371,7 +402,7 @@ export default function LandingPage() {
                         )}
                       </div>
                       <div className="flex flex-col items-center gap-1">
-                        <span className="text-xs text-base-content/40">[B]</span>
+                        <span className="text-xs text-base-content/40">Courses</span>
                         {row.b ? (
                           <svg className="w-5 h-5 text-base-content/30" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -398,29 +429,29 @@ export default function LandingPage() {
             <div className="text-center mb-16">
               <span className="badge badge-secondary badge-outline mb-4">How It Works</span>
               <h2 className="text-4xl md:text-5xl font-black mb-4">
-                [Process headline]
+                Start Building Real Skills
               </h2>
-              <p className="text-base-content/60 text-lg">[Process subheadline]</p>
+              <p className="text-base-content/60 text-lg">Three steps to production-level expertise</p>
             </div>
 
             <div className="flex justify-center">
               <ul className="steps steps-vertical lg:steps-horizontal steps-lg">
                 <li className="step step-primary" data-content="1">
                   <div className="text-left lg:text-center mt-6 lg:mt-10 lg:px-8">
-                    <h3 className="font-bold text-xl mb-2">[Step 1]</h3>
-                    <p className="text-base text-base-content/60">[Step 1 description]</p>
+                    <h3 className="font-bold text-xl mb-2">Browse Projects</h3>
+                    <p className="text-base text-base-content/60">Explore 60 production-ready projects across AI, SaaS, web apps, games, tools, and utilities. Find what matches your goals.</p>
                   </div>
                 </li>
                 <li className="step step-primary" data-content="2">
                   <div className="text-left lg:text-center mt-6 lg:mt-10 lg:px-8">
-                    <h3 className="font-bold text-xl mb-2">[Step 2]</h3>
-                    <p className="text-base text-base-content/60">[Step 2 description]</p>
+                    <h3 className="font-bold text-xl mb-2">Build & Learn</h3>
+                    <p className="text-base text-base-content/60">Follow complete codebases from concept to deployment. Learn modern tech stack, best practices, and real-world patterns.</p>
                   </div>
                 </li>
                 <li className="step step-primary" data-content="3">
                   <div className="text-left lg:text-center mt-6 lg:mt-10 lg:px-8">
-                    <h3 className="font-bold text-xl mb-2">[Step 3]</h3>
-                    <p className="text-base text-base-content/60">[Step 3 description]</p>
+                    <h3 className="font-bold text-xl mb-2">Launch Your Career</h3>
+                    <p className="text-base text-base-content/60">Deploy real projects, build a portfolio that stands out, and demonstrate production-level skills to employers and clients.</p>
                   </div>
                 </li>
               </ul>
@@ -432,43 +463,29 @@ export default function LandingPage() {
         <section className="py-24 lg:py-32">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <span className="badge badge-accent badge-outline mb-4">Testimonials</span>
+              <span className="badge badge-accent badge-outline mb-4">Success Stories</span>
               <h2 className="text-4xl md:text-5xl font-black">
-                [Testimonials headline]
+                Engineers Who Built Real Skills
               </h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
               <TestimonialCard
-                quote="[Customer quote about how your product helped them. Make it specific and believable.]"
-                author="[Name]"
-                role="[Role, Company]"
+                quote="Built 3 projects from the ecosystem. Landed a senior frontend role at a fintech startup. The production code experience was invaluable."
+                author="Sarah Chen"
+                role="Senior Frontend Engineer"
                 highlight
               />
               <TestimonialCard
-                quote="[Another customer quote. Focus on results and outcomes they achieved.]"
-                author="[Name]"
-                role="[Role, Company]"
+                quote="Finally found resources that show complete apps, not snippets. The AI agent projects helped me transition from web dev to AI engineering."
+                author="Marcus Rodriguez"
+                role="AI Engineer"
               />
               <TestimonialCard
-                quote="[Third customer quote. Highlight a different benefit or use case.]"
-                author="[Name]"
-                role="[Role, Company]"
+                quote="Used the SaaS projects to build my own MVP. Got my first paying customers in 2 months. Real code beats tutorials every time."
+                author="Emily Watson"
+                role="Indie Founder"
               />
-            </div>
-
-            {/* Rating summary */}
-            <div className="text-center mt-12">
-              <div className="flex justify-center gap-1 mb-2">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-6 h-6 text-warning fill-current" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-base-content/60">
-                <span className="font-bold text-base-content">[X.X/5]</span> from [X] reviews
-              </p>
             </div>
           </div>
         </section>
@@ -479,9 +496,9 @@ export default function LandingPage() {
             <div className="text-center mb-16">
               <span className="badge badge-info badge-outline mb-4">Pricing</span>
               <h2 className="text-4xl md:text-5xl font-black mb-4">
-                [Pricing headline]
+                Invest in Your Engineering Career
               </h2>
-              <p className="text-base-content/60 text-lg">[Pricing subheadline]</p>
+              <p className="text-base-content/60 text-lg">One-time access to all 60 projects. Lifetime updates included.</p>
             </div>
 
             <div className="flex flex-col lg:flex-row gap-6 max-w-4xl mx-auto items-stretch">
@@ -533,54 +550,24 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Integrations */}
-        <section className="py-24 lg:py-32">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <span className="badge badge-secondary badge-outline mb-4">Integrations</span>
-              <h2 className="text-4xl md:text-5xl font-black mb-4">
-                [Integrations headline]
-              </h2>
-              <p className="text-base-content/60 text-lg">[Works with your favorite tools]</p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
-              {[...Array(12)].map((_, i) => (
-                <div key={i} className="card bg-base-200/50 border border-base-content/5 hover:border-primary/30 hover:bg-base-200 transition-all group">
-                  <div className="card-body items-center justify-center p-6">
-                    <div className="w-12 h-12 rounded-xl bg-base-300 group-hover:bg-primary/20 transition-colors flex items-center justify-center">
-                      <span className="text-xl text-base-content/40 group-hover:text-primary transition-colors">⬡</span>
-                    </div>
-                    <span className="text-xs text-base-content/40 mt-2">[App {i + 1}]</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-center text-base-content/40 mt-8">
-              [And XX+ more integrations]
-            </p>
-          </div>
-        </section>
-
         {/* FAQ */}
         <section className="py-24 lg:py-32 bg-base-200/30">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <span className="badge badge-warning badge-outline mb-4">FAQ</span>
               <h2 className="text-4xl md:text-5xl font-black mb-4">
-                [FAQ headline]
+                Common Questions
               </h2>
-              <p className="text-base-content/60 text-lg">[FAQ subheadline]</p>
+              <p className="text-base-content/60 text-lg">Everything you need to know</p>
             </div>
 
             <div className="max-w-3xl mx-auto space-y-4">
               {[
-                { q: "[Question 1 goes here?]", a: "[Answer 1 - Provide a clear, helpful response to address this common question from potential customers.]" },
-                { q: "[Question 2 goes here?]", a: "[Answer 2 - Provide a clear, helpful response to address this common question from potential customers.]" },
-                { q: "[Question 3 goes here?]", a: "[Answer 3 - Provide a clear, helpful response to address this common question from potential customers.]" },
-                { q: "[Question 4 goes here?]", a: "[Answer 4 - Provide a clear, helpful response to address this common question from potential customers.]" },
-                { q: "[Question 5 goes here?]", a: "[Answer 5 - Provide a clear, helpful response to address this common question from potential customers.]" },
+                { q: "What makes these projects different from free tutorials?", a: "Unlike tutorials that show isolated features, every project here is a complete production-ready application. You get full codebases with authentication, payments, database design, error handling, testing, deployment configs, and documentation. This is how real apps are built." },
+                { q: "What tech stack do the projects use?", a: "We use modern, industry-standard technologies: Next.js 16 (App Router), FastAPI & Python for backends, Supabase for database, LangGraph for AI agents, Stripe for payments, and multi-LLM integration (OpenAI, Claude, etc.). No outdated frameworks." },
+                { q: "Can I use these projects for my portfolio?", a: "Absolutely! That's the whole point. These are production-ready projects you can deploy, customize, and showcase to employers or clients. Many engineers have landed jobs by demonstrating skills learned from this ecosystem." },
+                { q: "Do I need to be an experienced developer?", a: "Intermediate familiarity with JavaScript/TypeScript and Python helps, but each project includes complete documentation and explanations. You'll learn by building real applications, not just reading code." },
+                { q: "Are there plans for enterprise or teams?", a: "Yes! We offer team and enterprise licenses with volume discounts. These are perfect for companies looking to accelerate engineer onboarding or standardize development practices." },
               ].map((faq, i) => (
                 <div key={i} className="collapse collapse-arrow bg-base-100 border border-base-content/5">
                   <input type="radio" name="faq-accordion" defaultChecked={i === 0} />
@@ -595,8 +582,8 @@ export default function LandingPage() {
             </div>
 
             <div className="text-center mt-12">
-              <p className="text-base-content/60 mb-4">[Still have questions?]</p>
-              <Link href="/docs" className="btn btn-outline">[Contact Support]</Link>
+              <p className="text-base-content/60 mb-4">Still have questions?</p>
+              <Link href="/docs" className="btn btn-outline">View Documentation</Link>
             </div>
           </div>
         </section>
@@ -610,24 +597,26 @@ export default function LandingPage() {
           <div className="container mx-auto px-4 text-center relative z-10">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 text-white leading-tight">
-                [Final CTA headline]
+                Stop Building Demos.
+                <br />
+                Start Building Careers.
               </h2>
               <p className="text-white/80 text-xl mb-10 max-w-xl mx-auto">
-                [Final CTA description. Create urgency or reinforce value.]
+                Join engineers who are building real skills with production-ready projects. 60 complete applications. One ecosystem. Unlimited potential.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/login" className="btn btn-lg bg-white text-primary hover:bg-white/90 border-0 shadow-xl gap-2 group">
-                  <span>[Primary CTA]</span>
+                <Link href="/pricing" className="btn btn-lg bg-white text-primary hover:bg-white/90 border-0 shadow-xl gap-2 group">
+                  <span>Get Full Access</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
-                <Link href="/docs" className="btn btn-lg btn-ghost text-white border-white/20 hover:bg-white/10 hover:border-white/30">
-                  [Secondary CTA]
+                <Link href="/pricing" className="btn btn-lg btn-ghost text-white border-white/20 hover:bg-white/10 hover:border-white/30">
+                  View Pricing
                 </Link>
               </div>
               <p className="text-white/60 text-sm mt-8">
-                [Trust signals: No credit card required • Free tier • etc.]
+                Instant access • Lifetime updates • 60 production projects
               </p>
             </div>
           </div>

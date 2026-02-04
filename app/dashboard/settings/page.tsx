@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server"
 import { getPlanName } from "@/lib/plans"
 import type { Subscription } from "@/types"
 import { ManageSubscriptionButton } from "./manage-subscription-button"
+import { ThemeSettings } from "@/components/theme-settings"
 
 export const metadata = {
   title: "Settings",
@@ -34,7 +35,7 @@ export default async function SettingsPage() {
       <header className="navbar bg-base-200 border-b border-base-300">
         <div className="flex-1">
           <Link href="/" className="btn btn-ghost text-xl font-bold">
-            <span className="text-primary">👻</span> YourApp
+            <span className="text-primary">◆</span> 60 Projects
           </Link>
         </div>
         <div className="flex-none gap-2">
@@ -78,6 +79,9 @@ export default async function SettingsPage() {
             </div>
           </div>
         </div>
+
+        {/* Theme Settings */}
+        <ThemeSettings />
 
         {/* Subscription */}
         <div className="card bg-base-200 mb-6">

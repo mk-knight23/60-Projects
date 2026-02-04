@@ -1,11 +1,11 @@
 /**
  * Centralized pricing plans configuration
- * 
+ *
  * Single source of truth for all plan data used across:
  * - app/pricing/page.tsx (pricing page)
  * - app/page.tsx (landing page pricing section)
  * - app/dashboard/settings/page.tsx (plan name display)
- * 
+ *
  * To configure:
  * 1. Create products and prices in Stripe (or use Stripe MCP)
  * 2. Update the priceId for each plan below
@@ -25,21 +25,22 @@ export interface Plan {
 }
 
 /**
- * All available plans
+ * All available plans for 60 Projects Ecosystem
  * Update priceId values with your actual Stripe Price IDs
  */
 export const plans: Plan[] = [
   {
-    id: "free",
-    name: "Free",
-    description: "For side projects",
+    id: "starter",
+    name: "Starter",
+    description: "Perfect for exploring",
     price: 0,
     priceId: null, // No Stripe price for free tier
     features: [
-      "100 API calls/month",
-      "Basic analytics",
+      "Access to 10 projects",
+      "Basic documentation",
       "Community support",
-      "1 project",
+      "Code downloads",
+      "Individual use",
     ],
     cta: "Get Started",
     ctaLink: "/login",
@@ -47,32 +48,36 @@ export const plans: Plan[] = [
   {
     id: "pro",
     name: "Pro",
-    description: "For growing apps",
-    price: 29,
+    description: "For serious builders",
+    price: 49,
     priceId: null, // TODO: Add your Stripe Price ID (e.g., "price_xxx")
     features: [
-      "10,000 API calls/month",
-      "Advanced analytics",
+      "Access to all 60 projects",
+      "Complete source code",
+      "Step-by-step tutorials",
+      "Deployment guides",
       "Priority support",
-      "5 projects",
-      "Custom domain",
+      "Lifetime updates",
+      "Commercial license",
     ],
     popular: true,
-    cta: "Start Free Trial",
-    ctaLink: "/login",
+    cta: "Get Full Access",
+    ctaLink: "/pricing",
   },
   {
-    id: "enterprise",
-    name: "Enterprise",
-    description: "For scale",
-    price: 99,
+    id: "team",
+    name: "Team",
+    description: "For startups & teams",
+    price: 199,
     priceId: null, // TODO: Add your Stripe Price ID (e.g., "price_xxx")
     features: [
-      "Unlimited API calls",
-      "White-label option",
+      "Everything in Pro",
+      "Up to 10 team members",
+      "Team collaboration tools",
+      "Custom integrations",
       "Dedicated support",
-      "Unlimited projects",
-      "SLA guarantee",
+      "Office hours (monthly)",
+      "Team license",
     ],
     cta: "Contact Sales",
     ctaLink: "/login",
@@ -83,7 +88,7 @@ export const plans: Plan[] = [
  * Get a plan by its Stripe Price ID
  */
 export function getPlanByPriceId(priceId: string | null): Plan | undefined {
-  if (!priceId) return plans.find(p => p.id === "free")
+  if (!priceId) return plans.find(p => p.id === "starter")
   return plans.find(p => p.priceId === priceId)
 }
 

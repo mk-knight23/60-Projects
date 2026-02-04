@@ -9,8 +9,8 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col bg-base-100">
       <header className="p-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-lg w-fit">
-          <span className="text-primary">👻</span>
-          <span>YourApp</span>
+          <span className="text-primary">◆</span>
+          <span>60 Projects</span>
         </Link>
       </header>
 

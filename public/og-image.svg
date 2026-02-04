@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f8fafc"/>
+
+  <!-- Decorative circles -->
+  <circle cx="100" cy="100" r="200" fill="#8b5cf6" opacity="0.1"/>
+  <circle cx="1100" cy="530" r="250" fill="#ec4899" opacity="0.1"/>
+
+  <!-- Main content container -->
+  <g transform="translate(100, 150)">
+    <!-- Diamond Icon -->
+    <polygon points="75,30 125,100 75,170 25,100" fill="url(#grad)"/>
+
+    <!-- Title -->
+    <text x="200" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="80" font-weight="800" fill="#1f2937">
+      60 Projects
+    </text>
+    <text x="200" y="140" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="600" fill="#8b5cf6">
+      Ecosystem
+    </text>
+
+    <!-- Tagline -->
+    <text x="200" y="200" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="500" fill="#6b7280">
+      I Don't Just Build Projects, I Build Products
+    </text>
+
+    <!-- Feature badges -->
+    <g transform="translate(200, 260)">
+      <rect x="0" y="0" width="180" height="50" rx="25" fill="#8b5cf6" opacity="0.1"/>
+      <text x="90" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600" fill="#8b5cf6" text-anchor="middle">
+        60 Projects
+      </text>
+    </g>
+
+    <g transform="translate(400, 260)">
+      <rect x="0" y="0" width="200" height="50" rx="25" fill="#ec4899" opacity="0.1"/>
+      <text x="100" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600" fill="#ec4899" text-anchor="middle">
+        Production-Ready
+      </text>
+    </g>
+
+    <g transform="translate(620, 260)">
+      <rect x="0" y="0" width="200" height="50" rx="25" fill="#10b981" opacity="0.1"/>
+      <text x="100" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600" fill="#10b981" text-anchor="middle">
+        End-to-End
+      </text>
+    </g>
+  </g>
+
+  <!-- Bottom accent -->
+  <rect x="0" y="580" width="1200" height="50" fill="url(#grad)"/>
+</svg>

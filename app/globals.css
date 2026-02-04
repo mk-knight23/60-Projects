@@ -2,7 +2,7 @@
 
 /* DaisyUI theme configuration - single source of truth */
 @plugin "daisyui" {
-  themes: dracula --default;
+  themes: light, dark, fantasy, garden, wireframe, aqua, winter, nord, silk, cupcake, dracula;
 }
 
 /* Font configuration */

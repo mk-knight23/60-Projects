@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 60">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Diamond Icon -->
+  <polygon points="30,10 45,30 30,50 15,30" fill="url(#grad)"/>
+  <!-- Text -->
+  <text x="60" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="#1f2937">
+    60 Projects
+  </text>
+  <text x="195" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="500" fill="#6b7280">
+    Ecosystem
+  </text>
+</svg>
