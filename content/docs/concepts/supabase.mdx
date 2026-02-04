@@ -1,0 +1,83 @@
+---
+title: "Supabase & Database"
+---
+
+# Supabase & Database
+
+Supabase is your backend — it handles authentication, database, and storage. Think of it as Firebase but with PostgreSQL.
+
+## What Supabase Does
+
+| Feature | What it does |
+|---------|--------------|
+| **Auth** | Magic link login, session management |
+| **Database** | PostgreSQL with a nice UI |
+| **RLS** | Row Level Security — users can only see their own data |
+| **Realtime** | Live updates (not used in boilerplate, but available) |
+
+## Three Clients, Three Contexts
+
+Ghoststack has three Supabase clients. Using the wrong one causes auth failures or security issues.
+
+| Client | Where to use | Security |
+|--------|--------------|----------|
+| **Browser** (`lib/supabase/client.ts`) | Client components with `"use client"` | User's session |
+| **Server** (`createClient()`) | Server components, API routes | Respects RLS |
+| **Admin** (`createAdminClient()`) | Webhooks only | **Bypasses RLS** |
+
+```typescript
+// Server component or API route
+import { createClient } from "@/lib/supabase/server"
+const supabase = await createClient()
+
+// Webhook (needs to bypass RLS)
+import { createAdminClient } from "@/lib/supabase/server"
+const supabase = createAdminClient()
+```
+
+## Row Level Security (RLS)
+
+RLS ensures users can only access their own data. It's like a filter on every query.
+
+Without RLS, any user could query any data. With RLS:
+
+```sql
+-- Policy: Users can only see their own rows
+CREATE POLICY "Users can view own data" ON users
+  FOR SELECT USING (auth.uid() = id);
+```
+
+The boilerplate sets this up for you. When you add new tables, you'll need to add RLS policies too.
+
+## Database Queries
+
+All queries go through `lib/supabase/db.ts`:
+
+| Function | What it does |
+|----------|--------------|
+| `getCurrentUser()` | Get logged-in user |
+| `getCurrentUserWithSubscription()` | User + subscription in one query |
+| `getSubscription(userId)` | Get user's subscription |
+| `upsertSubscription()` | Create/update subscription (webhooks) |
+| `updateProfile()` | Update user name/avatar |
+
+**Error handling:** Functions return `null` on error. Always check for `null`.
+
+## Generating Types
+
+For full TypeScript safety, generate types from your schema:
+
+```bash
+npx supabase gen types typescript --project-id YOUR_PROJECT_ID > types/supabase.ts
+```
+
+This gives you autocomplete and type checking for all your database queries.
+
+## Key Tables
+
+| Table | Purpose |
+|-------|---------|
+| `users` | User profiles (id, email, name, avatar) |
+| `subscriptions` | Stripe subscription state |
+
+Both use RLS to restrict access to own data.

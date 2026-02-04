@@ -1,0 +1,129 @@
+---
+title: "Cron Jobs"
+---
+
+# Cron Jobs
+
+Run scheduled tasks automatically using Supabase pg_cron.
+
+## What Are Cron Jobs?
+
+Cron jobs run code on a schedule:
+- Send weekly digest emails
+- Clean up old data
+- Check subscription status
+- Generate reports
+
+## Why Supabase pg_cron?
+
+Supabase includes **pg_cron** — a PostgreSQL extension for scheduling tasks directly in your database. No external services needed.
+
+Benefits:
+- **Built-in** — Already part of Supabase
+- **Reliable** — Runs in your database
+- **Simple** — No extra services to manage
+- **Free** — Included in Supabase plan
+
+## Setup
+
+### 1. Enable pg_cron
+
+In Supabase Dashboard → **Database** → **Extensions**, enable `pg_cron`.
+
+Or use the Supabase MCP:
+
+```
+Use Supabase MCP to enable the pg_cron extension in my database.
+```
+
+## Prompt Templates
+
+These prompts are independent — use whichever ones you need or create your own.
+
+### Set Up a Scheduled Task
+
+```
+Use Supabase MCP to create a cron job.
+
+Task: [DESCRIBE: e.g., "delete waitlist entries older than 6 months"]
+Schedule: [DESCRIBE: e.g., "every day at midnight", "every Sunday at 2am"]
+
+Please:
+1. Create a database function that performs the task
+2. Set up pg_cron to call it on the schedule
+3. Show me how to verify it's working
+```
+
+### Weekly Cleanup Job
+
+```
+Use Supabase MCP to create a weekly cleanup cron job.
+
+I want to delete:
+- [DESCRIBE OLD DATA: e.g., "unverified users older than 30 days"]
+
+Schedule: Every Sunday at 3am UTC
+
+Please:
+1. Create the cleanup function
+2. Schedule it with pg_cron
+3. Add logging so I can see what was deleted
+```
+
+### Daily Stats Aggregation
+
+```
+Use Supabase MCP to create a daily stats job.
+
+I want to:
+- [DESCRIBE: e.g., "count new signups and store in a stats table"]
+
+Schedule: Every day at midnight UTC
+
+Please set this up with pg_cron.
+```
+
+### Check Expiring Subscriptions
+
+```
+Use Supabase MCP to create a job that checks for expiring subscriptions.
+
+I want to:
+- Find subscriptions expiring in the next 7 days
+- Mark them in a "needs_reminder" column (or similar)
+
+Schedule: Every day at 9am UTC
+
+I'll handle sending emails separately — just flag the records.
+```
+
+### View Existing Cron Jobs
+
+```
+Use Supabase MCP to list all my current pg_cron jobs.
+
+Show me:
+- Job names
+- Schedules
+- What they do
+- Last run status
+```
+
+### Delete a Cron Job
+
+```
+Use Supabase MCP to delete the cron job named "[JOB_NAME]".
+```
+
+## Testing
+
+```
+Use Supabase MCP to manually run my [FUNCTION_NAME] function once to test it.
+
+Show me the results.
+```
+
+After testing, check:
+1. Did the function execute correctly?
+2. Were the right records affected?
+3. Any errors in the logs?

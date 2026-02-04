@@ -1,0 +1,88 @@
+---
+description: Guidelines for writing Ghoststack documentation pages
+globs: content/docs/**/*.mdx
+alwaysApply: false
+---
+
+# Writing Docs Pages
+
+Docs are **action-focused guides** with copy-paste prompts. Keep them short and scannable.
+
+## Structure
+
+Two types of content — keep them clearly separated:
+
+1. **Sequential steps** (Step 1, Step 2...) — Must be followed in order
+2. **Prompt examples** — Independent, pick and choose
+
+```mdx
+---
+title: "Page Title"
+---
+
+# Page Title
+
+[1-2 sentence intro. What this helps you do.]
+
+## Step 1: Do First Thing
+
+[Instructions or prompt]
+
+## Step 2: Do Next Thing
+
+[Instructions or prompt]
+
+---
+
+## Prompt Examples
+
+These prompts are independent — use whichever ones you need or create your own.
+
+### Specific Task
+
+[Prompt in code block]
+
+## Testing
+
+1. Check X
+2. Verify Y
+```
+
+## Writing Prompts
+
+Prompts are the core of each guide. Make them copy-paste ready:
+
+```
+I want to [GOAL].
+
+Please:
+1. [SPECIFIC ACTION]
+2. [SPECIFIC ACTION]
+
+Follow @AGENTS.md for project patterns.
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+- Use `[PLACEHOLDERS]` for user-specific values
+- Include `@AGENTS.md` reference in prompts
+- For UI prompts, add at the **end**: `UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt`
+- For complex prompts, add tip: `> **Tip:** Switch Cursor to **Plan Mode** first`
+- Use MCP tools in prompts when available (Stripe MCP, Supabase MCP, etc.)
+
+## Don't
+
+- Don't explain concepts — link to Learn section instead: `See [Topic](/docs/concepts/topic)`
+- Don't write paragraphs — use bullets and prompts
+- Don't duplicate info from AGENTS.md
+- Don't add "why" explanations — focus on "how"
+- Don't include setup for other features — link to their dedicated pages
+
+## Do
+
+- Start with the main prompt users need
+- Add specific prompts for common variations
+- End with Testing checklist
+- Keep total page under 150 lines
+- Use `> **Tip:**` for helpful hints
+- **Use MCPs when available** — Prefer MCP tools over manual steps or dashboard navigation
+- **Keep it short** — Just enough to get the user going; let prompts and MCPs do the heavy lifting

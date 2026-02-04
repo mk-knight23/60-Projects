@@ -1,0 +1,93 @@
+---
+title: "AI Prompting & AGENTS.md"
+---
+
+# AI Prompting & AGENTS.md
+
+AI coding assistants are only as good as the instructions you give them. This guide covers how to write effective prompts and how `AGENTS.md` keeps the AI aligned with your project's patterns.
+
+The difference between a frustrating AI experience and a productive one often comes down to: (1) being specific about what you want, and (2) giving the AI context about your codebase. Ghoststack's `AGENTS.md` file handles the second part automatically—it tells your AI tool your tech stack, coding conventions, and what to avoid.
+
+---
+
+## Cursor Modes
+
+Cursor has three modes for different tasks:
+
+| Mode | When to Use |
+|------|-------------|
+| **Agent Mode** | Building features, writing code, making changes |
+| **Plan Mode** | Thinking through complex tasks before coding |
+| **Ask Mode** | Questions about code, no changes needed |
+
+Use **Agent Mode** for most of your work.
+
+> **Claude Code users:** Claude Code doesn't have separate modes — it handles planning and execution fluidly based on your prompts.
+
+---
+
+## Writing Good Prompts
+
+Keep it simple and clear:
+
+```
+I want to add a contact form to my landing page.
+
+It should have:
+- Name field
+- Email field  
+- Message textarea
+- Submit button
+
+Send submissions to my email using Resend.
+```
+
+**Tips:**
+- Be specific about what you want
+- `AGENTS.md` is automatically included — no need to reference it
+- Mention files if you know them: `@app/page.tsx`
+
+---
+
+## What is AGENTS.md?
+
+`AGENTS.md` is a file in your project root that tells AI how to write code for *this specific project*. Both Cursor and Claude Code automatically read it with every prompt — you don't need to reference it manually.
+
+It contains:
+- Tech stack and versions
+- Coding patterns to follow
+- File naming conventions
+- What to do and what to avoid
+
+Because it's always included, every response from your AI follows your project's conventions automatically.
+
+> **Claude Code users:** Claude Code reads `CLAUDE.md` by default (same content, different filename). The boilerplate includes both files with identical content.
+
+---
+
+## Adding External Docs (Cursor)
+
+In Cursor, you can give the AI access to documentation:
+
+1. Press `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P` (Windows)
+2. Type "Add new custom docs"
+3. Add a URL like `https://daisyui.com/llms.txt`
+
+Now use `@docs` in prompts to reference it.
+
+In Claude Code, use `@web URL` in your prompts to fetch external documentation.
+
+---
+
+## Find Issues Button (Cursor)
+
+After making changes in Cursor, use the **Find Issues** button in the Git tab. It scans your code for problems before you commit.
+
+---
+
+## Quick Reference
+
+- `AGENTS.md` / `CLAUDE.md` — Automatically included, no need to reference
+- `@filename` — Reference a specific file
+- `@docs` — Reference added documentation (Cursor)
+- `@web URL` — Fetch a webpage for context

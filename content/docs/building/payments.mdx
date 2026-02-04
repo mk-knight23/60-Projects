@@ -1,0 +1,247 @@
+---
+title: "Payments & Subscriptions"
+---
+
+# Payments & Subscriptions
+
+Everything you need for subscriptions is already built:
+
+- **Pricing page** at `/pricing` — displays plans from `lib/plans.ts`
+- **Checkout flow** — creates Stripe sessions with user metadata
+- **Webhooks** — handles payment events and updates your database
+- **Customer portal** — lets users manage their subscription
+
+Your job: connect Stripe and customize the plans. The code is ready.
+
+## Step 1: Create Stripe Account
+
+1. Go to [stripe.com](https://stripe.com) → Sign up
+2. Complete account verification to enable live payments
+
+## Step 2: Enable Stripe MCP
+
+Install the Stripe MCP to let your AI tool interact directly with your Stripe account.
+
+### Cursor
+
+1. Go to [docs.stripe.com/mcp](https://docs.stripe.com/mcp)
+2. Click **Install in Cursor**
+3. Authorize access to your Stripe account when prompted
+
+### Claude Code
+
+Run in your terminal:
+
+```bash
+claude mcp add --transport http stripe https://mcp.stripe.com
+```
+
+Then run `/mcp` inside Claude Code to authenticate.
+
+> **More details:** See [MCP Servers](/docs/concepts/mcps) for full setup instructions.
+
+## Step 3: Get API Keys
+
+If you haven't done so yet, create your local environment file:
+
+```bash
+cp -n .env.example .env.local
+```
+
+In [Stripe Dashboard → API Keys](https://dashboard.stripe.com/apikeys), copy and add to `.env.local`:
+
+```bash
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+STRIPE_SECRET_KEY=sk_live_...
+```
+
+> **Pre-launch approach:** We work directly in Stripe production mode and use 100% discount coupons for testing. This is simpler than juggling test/live modes when you have no real customers yet.
+
+> **Warning:** Once you have real paying customers, copy your products and prices to Stripe Test Mode for staging environments.
+
+> **Warning:** Never paste secret keys into AI prompts. Add them to `.env.local` yourself.
+
+## Step 4: Create Products & Configure Plans
+
+All pricing data lives in `lib/plans.ts` — the single source of truth for:
+- Landing page pricing section
+- `/pricing` page
+- Plan name display in dashboard settings
+
+### Prompt: Create Products
+
+```
+Use the Stripe MCP to create my subscription products:
+
+1. [PLAN NAME] - $[PRICE]/month
+   Description: [SHORT DESCRIPTION]
+   Features:
+   - [FEATURE 1]
+   - [FEATURE 2]
+   - [FEATURE 3]
+
+2. [PLAN NAME] - $[PRICE]/month
+   Description: [SHORT DESCRIPTION]
+   Features:
+   - [FEATURE 1]
+   - [FEATURE 2]
+   - [FEATURE 3]
+
+Create each product with a monthly recurring price in Stripe.
+Then update lib/plans.ts with the Price IDs and all the details above.
+The /pricing page and landing page will automatically display these plans.
+```
+
+The AI will create products in Stripe and update `lib/plans.ts` with matching Price IDs, names, descriptions, and features.
+
+**Manual fallback:** Dashboard → **Products** → **Add Product** → Enter name, price, set billing to "Recurring monthly" → Copy the Price ID (`price_...`) → Update `lib/plans.ts` manually.
+
+## Step 5: Create Test Coupon
+
+### Prompt: Create Test Coupon
+
+```
+Use the Stripe MCP to create a 100% off coupon called "DEV-TEST" for testing.
+```
+
+**Manual fallback:** Dashboard → **Products** → **Coupons** → **Create** → 100% off → Enable "Use customer-facing coupon codes" → Enter "DEV-TEST" as code.
+
+The checkout page already has the "Add promotion code" field enabled — just enter your coupon code to test for free.
+
+## Step 6: Enable Customer Portal
+
+This needs to be done manually in the Stripe Dashboard.
+
+**Settings** → **Billing** → **Customer Portal** → Enable and configure.
+
+---
+
+## Additional Prompts
+
+These prompts are independent — use them anytime after setup is complete or create your own.
+
+### Check Payments Setup
+
+```
+Use the Stripe MCP to verify my Stripe setup, then check the codebase:
+
+1. List products and prices from Stripe
+2. Check lib/plans.ts has matching Price IDs configured
+3. Trace checkout flow: /pricing → checkout → webhook → database
+
+Fix any code issues you find. I'll verify my .env.local values myself.
+```
+
+### Rename Pricing Route
+
+By default the pricing page lives at `/pricing`. To rename it (e.g., to `/pro` or `/plans`):
+
+```bash
+mv app/pricing app/[NEW_NAME]
+```
+
+Or just ask Cursor to do it for you:
+```
+Please use CLI (mv) to move my pricing route from /pricing to [NEW_NAME]
+```
+
+
+Then update links in `components/header.tsx` and anywhere else that links to `/pricing`.
+
+### Customize Pricing Page
+
+```
+Customize the /pricing page:
+- [YOUR CHANGES - e.g., "Add annual pricing toggle", "Change headline to X", "Add testimonial section"]
+
+Keep using lib/plans.ts as the data source.
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+### Restrict Feature to Paid Users
+
+```
+Restrict [FEATURE] to paid subscribers only.
+
+Show the feature if subscribed, show upgrade prompt if not.
+Follow existing dashboard patterns.
+```
+
+## Testing Locally
+
+### Why Webhooks Need Special Setup
+
+When a customer completes checkout, Stripe sends a webhook to your server to confirm the payment. The problem: Stripe can't reach `localhost` — your dev machine isn't accessible from the internet.
+
+Without webhooks working, checkout will complete on Stripe's side but your database won't update.
+
+### Set Up Stripe CLI
+
+The Stripe CLI forwards webhooks from Stripe to your local machine. No need to create a webhook endpoint in the Stripe Dashboard — the CLI handles everything.
+
+1. Install: `brew install stripe/stripe-cli/stripe` (Mac) or [see install docs](https://docs.stripe.com/stripe-cli)
+2. Login: `stripe login --live` (opens browser to authenticate)
+3. Forward webhooks:
+
+```bash
+stripe listen --forward-to localhost:3000/api/webhooks/stripe --live
+```
+
+4. Copy the webhook secret it prints and add to `.env.local` as `STRIPE_WEBHOOK_SECRET`
+
+Keep this terminal running while testing. The CLI will forward all Stripe events to your local server.
+
+> **Multiple Stripe accounts?** If you have more than one Stripe account, make sure the CLI is logged into the correct one — otherwise webhook forwarding will silently fail. To switch accounts:
+> ```bash
+> # Log out of current account
+> stripe logout
+> 
+> # Log back in (opens browser to authenticate)
+> stripe login
+> ```
+
+> **Alternative:** If you prefer not to install the CLI, you can use [ngrok](https://ngrok.com) to expose your localhost and create a temporary webhook endpoint in Stripe Dashboard. But the CLI is simpler for most cases.
+
+### Test the Full Flow
+
+With webhooks forwarding, test everything:
+
+1. **Start checkout**: Go to `/pricing` → Click subscribe
+2. **Apply coupon**: Enter your 100% off coupon code
+3. **Complete checkout**: Submit with your real card (won't be charged)
+4. **Verify redirect**: Should land on dashboard
+5. **Check database**: Subscription should appear in Supabase
+6. **Check settings**: Plan should show in `/dashboard/settings`
+7. **Test portal**: Click "Manage Subscription" → Should open Stripe portal
+8. **Test cancellation**: Cancel the subscription from the portal
+9. **Verify webhook**: Check subscription status updates in your database
+
+---
+
+## Production Webhook Setup
+
+Once your app is deployed, you need to create a webhook endpoint in Stripe Dashboard so Stripe can reach your production server.
+
+> **Important:** The Stripe CLI is only for local development. In production, you need a real webhook endpoint.
+
+1. Go to Stripe Dashboard → **Developers** → **Webhooks** → **Add Endpoint**
+2. URL: `https://your-app.onrender.com/api/webhooks/stripe` (or your domain)
+3. Events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`
+4. Copy the **Signing Secret**
+5. Add to your production environment variables as `STRIPE_WEBHOOK_SECRET`
+
+See [Deploy to Render](/docs/deploying/render) for the full deployment guide.
+
+---
+
+## Before Launch Checklist
+
+- [ ] Production webhook endpoint created and pointing to your live URL
+- [ ] `STRIPE_WEBHOOK_SECRET` set in production environment
+- [ ] Delete or deactivate your test coupon
+- [ ] Test one real payment with a small amount (optional but recommended)
+- [ ] Save your product/price IDs for later migration to test mode
+
+## What's Next
+
+- [Affiliate Marketing](/docs/extras/affiliate) — Let others promote your product

@@ -1,0 +1,42 @@
+{
+  "name": "ghoststack",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "email:dev": "email dev --dir emails --port 3001",
+    "email:export": "email export --dir emails"
+  },
+  "dependencies": {
+    "@react-email/components": "^1.0.6",
+    "@react-email/render": "^2.0.4",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.91.1",
+    "@types/mdx": "^2.0.13",
+    "daisyui": "^5.5.14",
+    "fumadocs-core": "^16.4.8",
+    "fumadocs-mdx": "^14.2.6",
+    "fumadocs-ui": "^16.4.8",
+    "next": "^16.1.6",
+    "next-plausible": "^3.12.5",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "resend": "^6.8.0",
+    "stripe": "^20.2.0"
+  },
+  "devDependencies": {
+    "@react-email/preview-server": "4.3.2",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.4",
+    "react-email": "4.3.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,172 @@
+---
+title: "Security Checklist"
+---
+
+# Security Checklist
+
+Run these audits to find and fix security issues before launch.
+
+## 1. Secrets Exposure Check
+
+API keys and secrets must never be in your code or exposed to browsers.
+
+**Dangerous if exposed:**
+| Secret | Risk |
+|--------|------|
+| `SUPABASE_SERVICE_ROLE_KEY` | Full database access, bypasses RLS |
+| `STRIPE_SECRET_KEY` | Can create charges, access customer data |
+| `STRIPE_WEBHOOK_SECRET` | Can forge payment events |
+| `RESEND_API_KEY` | Can send emails as your domain |
+| `OPENROUTER_API_KEY` | Can run up AI costs |
+
+> **Note:** Never paste actual secret values into AI prompts. Cursor cannot (and should not) read your `.env.local`.
+
+```
+Search my codebase for exposed secrets:
+
+1. Look for hardcoded API keys, tokens, or passwords (strings starting with sk_, whsec_, re_, etc.)
+2. Check for secrets in console.log statements
+3. Find any secret env vars that incorrectly have NEXT_PUBLIC_ prefix
+4. Verify .env.local is in .gitignore
+
+Flag anything concerning with file and line number.
+```
+
+## 2. Environment Variable Audit
+
+Secrets should only be accessible server-side.
+
+**Rule:** Only `NEXT_PUBLIC_*` vars are sent to the browser. Everything else stays on the server.
+
+```
+Audit environment variable usage in my code:
+
+1. List all env vars referenced and where they're used
+2. Flag any secrets that incorrectly have NEXT_PUBLIC_ prefix
+3. Check that SUPABASE_SERVICE_ROLE_KEY is only used in:
+   - API routes
+   - Server components
+   - Webhook handlers
+4. Verify STRIPE_SECRET_KEY is never imported in client components
+
+Show me any violations in the code.
+```
+
+## 3. Authentication Audit
+
+Protected routes must verify auth on the server, not just the client.
+
+**Why:** Client-side checks can be bypassed. Server-side checks cannot.
+
+```
+Audit authentication in my app:
+
+1. List all routes under /dashboard
+2. For each, check if auth is verified server-side using:
+   - supabase.auth.getUser() in server components
+   - Or redirect in middleware
+3. Flag any that only check auth client-side
+4. Check the callback route properly exchanges the auth code
+
+Show me any unprotected routes.
+```
+
+## 4. Database Security (RLS)
+
+Row Level Security ensures users can only access their own data.
+
+**Why:** Without RLS, any authenticated user could query all data.
+
+```
+Use Supabase MCP to audit database security:
+
+1. List all tables in public schema
+2. For each table, check:
+   - Is RLS enabled?
+   - What policies exist?
+   - Can users only access their own rows?
+3. Check for tables without any policies (dangerous!)
+4. Verify service_role policies exist for webhook handlers
+
+Report any tables with weak or missing security.
+```
+
+## 5. Webhook Verification
+
+Stripe webhooks must verify signatures to prevent forged events.
+
+**Why:** Anyone could POST to your webhook URL and fake a payment.
+
+```
+Audit my Stripe webhook security:
+
+1. Find the webhook handler at app/api/webhooks/stripe/route.ts
+2. Check it verifies the Stripe signature using:
+   - stripe.webhooks.constructEvent()
+   - STRIPE_WEBHOOK_SECRET
+3. Verify it returns 400 for invalid signatures
+4. Check it doesn't trust any data without verification
+
+Show me the verification code or flag if missing.
+```
+
+## 6. Input Validation
+
+Never trust data from users or external sources.
+
+```
+Audit input validation in my API routes:
+
+1. List all API routes in app/api/
+2. For each POST/PUT route, check:
+   - Is the request body validated?
+   - Are required fields checked?
+   - Are types verified?
+3. Flag routes that use request data without validation
+
+Show me routes that need better validation.
+```
+
+## 7. Security Headers
+
+HTTP headers add extra protection against common attacks.
+
+```
+Add security headers to my app.
+
+Update next.config.mjs to add these headers:
+- Strict-Transport-Security (force HTTPS)
+- X-Frame-Options: DENY (prevent clickjacking)
+- X-Content-Type-Options: nosniff (prevent MIME sniffing)
+- Referrer-Policy: strict-origin-when-cross-origin
+- Content-Security-Policy (if appropriate)
+
+Show me the configuration.
+```
+
+## 8. Final Security Audit
+
+Run this before launch:
+
+```
+Run a complete security audit before I go live:
+
+1. Search for exposed secrets in code
+2. Verify all secrets are server-side only
+3. Check auth is server-side on protected routes
+4. Use Supabase MCP to verify RLS on all tables
+5. Verify Stripe webhook signature checking
+6. Check for missing input validation
+7. Look for any security TODOs or FIXMEs
+
+This is my final check. Be thorough and flag everything.
+```
+
+## Quick Manual Checks
+
+After running the audits, verify these manually:
+
+1. **Try accessing `/dashboard` logged out** — Should redirect to login
+2. **Check browser DevTools → Network** — No secrets in responses
+3. **Check browser DevTools → Console** — No secrets logged
+4. **Check Stripe Dashboard → Webhooks** — Signature verification enabled

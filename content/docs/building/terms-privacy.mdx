@@ -1,0 +1,77 @@
+---
+title: "Terms & Privacy"
+---
+
+# Terms & Privacy
+
+Ghoststack includes placeholder legal pages at `/privacy` and `/terms`. These need to be replaced with real policies before launching.
+
+Your job: generate or write policies that match your app's data handling and business model.
+
+> **Disclaimer:** This is not legal advice. The prompts generate templates only. Consult a lawyer before launching, especially for paid products or if handling sensitive data.
+
+## Why You Need These
+
+- **Required by law** — Most jurisdictions require privacy policies
+- **Payment processors** — Stripe requires Terms of Service
+- **App stores** — Apple/Google require privacy policies
+- **User trust** — Shows you take data seriously
+
+## Files
+
+- `app/privacy/page.tsx` — Privacy policy
+- `app/terms/page.tsx` — Terms of service
+
+The boilerplate includes placeholders. Replace before launching.
+
+## Prompt: Generate Privacy Policy
+
+```
+Generate a privacy policy for app/privacy/page.tsx.
+
+App name: [YOUR APP NAME]
+What it does: [DESCRIPTION]
+Data collected: [e.g., email, name, payment info]
+Third-party services: Supabase, Stripe, Resend, [OTHERS]
+
+Include: data collection, usage, sharing, security, user rights, contact.
+Use plain language.
+```
+
+## Prompt: Generate Terms of Service
+
+```
+Generate terms of service for app/terms/page.tsx.
+
+App name: [YOUR APP NAME]
+What it does: [DESCRIPTION]
+Paid service: [YES/NO]
+
+Include: acceptance, accounts, payments, prohibited uses, liability, termination.
+Use plain language.
+```
+
+## Prompt: Add Cookie Banner
+
+```
+Add a cookie consent banner.
+
+Create a component, add to layout, store consent in localStorage.
+Link to privacy policy. Use DaisyUI components.
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+## Quick Option
+
+Use a generator for the first draft:
+- [Termly](https://termly.io/) — Free policy generator
+- [iubenda](https://www.iubenda.com/) — GDPR-compliant
+
+Then ask Cursor to format it for your app.
+
+## Testing
+
+1. Read both pages — do they describe what your app actually does?
+2. Check contact email works
+3. Verify links from footer work

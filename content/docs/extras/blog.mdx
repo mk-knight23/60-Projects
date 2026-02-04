@@ -1,0 +1,84 @@
+---
+title: "Blog"
+---
+
+# Blog
+
+Add a blog to your app for content marketing and SEO.
+
+> **Tip:** Switch Cursor to **Plan Mode** first — this is a multi-file setup.
+
+**How it works:** Blog posts are MDX files in `content/blog/`. Add new posts by creating files (or prompting AI to write them). No CMS — deploy to publish.
+
+## Main Prompt
+
+```
+I want to add a blog to my app.
+
+Please create:
+1. Blog listing page at app/blog/page.tsx
+2. Dynamic post page at app/blog/[slug]/page.tsx
+3. Content folder at content/blog/
+4. A sample blog post
+
+Requirements:
+- Use MDX for blog posts
+- Frontmatter: title, date, description, author
+- Blog listing shows title, date, excerpt
+- Individual posts render full MDX
+- Add proper SEO metadata
+- Add "Blog" link to header navigation
+
+Install any needed packages (gray-matter, next-mdx-remote or similar).
+Follow @AGENTS.md patterns.
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+---
+
+## Prompt Examples
+
+These prompts are independent — use whichever ones you need or create your own.
+
+### Write a Blog Post
+
+```
+Create a blog post about [TOPIC].
+
+Audience: [WHO IS IT FOR]
+Key points: [POINT 1], [POINT 2], [POINT 3]
+Tone: [professional / casual / technical]
+
+Save to content/blog/[SLUG].mdx with proper frontmatter.
+Around 800-1200 words, helpful and informative.
+```
+
+### Style Blog Listing
+
+```
+Update my blog listing page design.
+
+Style: [card grid / simple list / featured post + grid]
+
+Include post thumbnails and clean, readable layout.
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+### Add RSS Feed
+
+```
+Add an RSS feed for my blog at app/blog/feed.xml/route.ts.
+
+Include all posts with title, description, date, and link.
+Return proper XML format.
+```
+
+---
+
+## Testing
+
+1. Check blog listing page shows posts
+2. Click through to individual post
+3. Verify MDX content renders correctly
+4. Test on mobile

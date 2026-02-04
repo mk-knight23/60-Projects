@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "url": "https://mcp.supabase.com"
+    },
+    "stripe": {
+      "url": "https://mcp.stripe.com",
+      "headers": {}
+    },
+    "render": {
+      "url": "https://mcp.render.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_RENDER_API_KEY"
+      }
+    },
+    "RapidAPI Hub - Fresh LinkedIn Profile Data": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.rapidapi.com",
+        "--header",
+        "x-api-host: fresh-linkedin-profile-data.p.rapidapi.com",
+        "--header",
+        "x-api-key: YOUR_RAPIDAPI_KEY"
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "title": "Building",
+  "pages": [
+    "workspace-setup",
+    "version-control",
+    "styling",
+    "landing-page",
+    "branding",
+    "header-footer",
+    "auth",
+    "features",
+    "email",
+    "payments",
+    "onboarding",
+    "settings-page",
+    "terms-privacy",
+    "common-issues"
+  ]
+}

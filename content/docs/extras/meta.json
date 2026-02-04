@@ -1,0 +1,15 @@
+{
+  "title": "Extras",
+  "pages": [
+    "add-docs",
+    "waitlist",
+    "blog",
+    "chat",
+    "cdn",
+    "i18n",
+    "rate-limiting",
+    "social-media",
+    "affiliate",
+    "upgrading"
+  ]
+}

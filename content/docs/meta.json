@@ -1,0 +1,19 @@
+{
+  "title": "Docs",
+  "pages": [
+    "index",
+    "tutorial",
+    "---Getting Started---",
+    "...setup",
+    "---Building---",
+    "...building",
+    "---Integrations---",
+    "...integrations",
+    "---Ship It---",
+    "...deploying",
+    "---Extras---",
+    "...extras",
+    "---Learn---",
+    "...concepts"
+  ]
+}

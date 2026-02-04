@@ -1,0 +1,107 @@
+---
+title: "Pre-Launch Checklist"
+---
+
+# Pre-Launch Checklist
+
+Before going live, test your app end-to-end yourself. No prompt can replace actually clicking through your app as a real user would.
+
+## Manual Testing Checklist
+
+Run through these flows yourself:
+
+- [ ] **Build passes** — Run `npm run build` locally, fix any errors (or use prompt, see below)
+- [ ] **Sign up** — Create a new account, receive magic link, land on dashboard
+- [ ] **Sign out / Sign in** — Log out, log back in, verify session works
+- [ ] **Checkout** — Subscribe to a plan (use your 100% off test coupon)
+- [ ] **Webhook** — After checkout, verify subscription appears in database
+- [ ] **Settings** — Check subscription shows correctly, test "Manage Subscription" portal
+- [ ] **Cancel** — Cancel subscription from portal, verify status updates
+- [ ] **Protected routes** — Try accessing `/dashboard` logged out (should redirect)
+- [ ] **Email** — Trigger any transactional emails, verify they arrive
+
+### Tips for Faster Testing
+
+- **Use a fresh browser profile or private browsing** — Avoids cached sessions confusing things
+- **Keep Supabase dashboard open** — Watch the `users` and `subscriptions` tables update in real-time
+- **Keep Stripe dashboard open** — Check webhook logs under Developers → Webhooks → Select endpoint → Recent deliveries
+- **Test on mobile** — Resize browser or use actual phone to catch responsive issues
+
+---
+
+## Verification Prompts
+
+These prompts can help catch things you might miss. Use them as a supplement to manual testing, not a replacement.
+
+### Build & Code Check
+
+```
+Run a pre-deploy check:
+
+1. Run npm run build and fix any errors
+2. Run npm run lint and fix any issues
+3. Flag any TODO comments that need addressing
+
+Report what needs fixing.
+```
+
+### Database Audit
+
+```
+Use Supabase MCP to audit my database:
+
+1. Check users and subscriptions tables exist with RLS enabled
+2. Verify policies restrict users to their own data
+3. Verify the on_auth_user_created trigger exists
+
+Report any issues.
+```
+
+### Placeholder Content Search
+
+```
+Search for placeholder content I might have missed:
+
+1. Look for "TODO", "FIXME", "placeholder", "example.com", "your-"
+2. Check app/privacy/page.tsx and app/terms/page.tsx are customized
+3. Check meta tags in app/layout.tsx
+4. Look for Lorem ipsum or dummy text
+
+List everything that needs updating.
+```
+
+### Security Check
+
+```
+Run a quick security audit:
+
+1. Search for hardcoded API keys or secrets
+2. Check no secrets use NEXT_PUBLIC_ prefix
+3. Verify protected routes check auth server-side
+4. Use Supabase MCP to verify RLS is enabled
+
+Flag any concerns.
+```
+
+---
+
+## Troubleshooting
+
+### Deploy Failed
+
+```
+My deployment to [Render/Vercel] failed.
+
+Error: [PASTE ERROR FROM LOGS]
+
+Help me understand and fix this.
+```
+
+### Works Locally, Broken in Production
+
+```
+My app works locally but [DESCRIBE ISSUE] in production.
+
+Check for hardcoded localhost URLs and list all env vars the code expects.
+I'll verify the env vars are set in my hosting platform myself.
+```

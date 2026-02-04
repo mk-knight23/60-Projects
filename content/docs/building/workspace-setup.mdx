@@ -1,0 +1,203 @@
+---
+title: "Set Up Your Workspace"
+---
+
+# Set Up Your Workspace
+
+Get the Ghoststack code on your computer and running locally.
+
+## Step 1: Get the Code
+
+Choose the method that fits your comfort level:
+
+### Option A: Using Cursor + AI (Easiest)
+
+1. Open Cursor
+2. **File → Open Folder** → Create a new folder for your app (e.g., `my-app`)
+3. Open the folder
+4. Use this prompt in Cursor:
+
+```
+Clone the Ghoststack repo into this folder and set it up for me.                                                                   
+                                                                                                                                     
+If directory is empty, run:                                                                                                        
+gh repo clone d33j4ymk2/ghoststack .                                                                                               
+git remote remove origin                                                                                                           
+																																	
+If directory is not empty, clone into temp subdirectory, move contents up, cleanup, and remove origin remote.                      
+																																	
+Then confirm it worked. 
+```
+
+### Option B: Download ZIP (No Terminal)
+
+1. Go to [github.com/d33j4ymk2/ghoststack](https://github.com/d33j4ymk2/ghoststack)
+2. Click **Code → Download ZIP**
+3. Extract the ZIP and rename the folder to your app name
+4. Open Cursor → **File → Open Folder** → select your folder
+
+### Option C: Using Terminal (Developer)
+
+```bash
+gh auth status              # check you're logged in
+cd ~/Documents              # or wherever you keep projects
+gh repo clone d33j4ymk2/ghoststack your-app
+cd your-app
+git remote remove origin
+cursor .
+```
+
+> **Tip:** Replace `your-app` with your actual app name. Run `gh auth login` if not authenticated.
+
+## Step 2: Clean Up Docs
+
+Choose one option:
+
+### Option A: Remove Docs Completely
+
+If you won't need a `/docs` section in your app:
+
+```bash
+rm -rf content/docs app/docs lib/source.ts source.config.ts .source
+```
+
+
+### Option B: Keep Docs (Clear Content)
+
+If you want a `/docs` section for your own documentation:
+
+**Using Cursor prompt:**
+
+```
+Clear all the Ghoststack documentation content but keep the docs system working.
+
+1. Delete everything inside content/docs/
+2. Create a minimal content/docs/index.mdx with frontmatter (title: "Documentation") and a simple welcome heading
+3. Create content/docs/meta.json with just ["index"] in pages
+
+Keep app/docs/, lib/source.ts, and source.config.ts intact.
+```
+
+**Or run manually:**
+
+```bash
+rm -rf content/docs/*
+cat > content/docs/index.mdx << 'EOF'
+---
+title: Documentation
+description: Welcome to the docs
+---
+
+# Documentation
+
+Welcome to the documentation.
+EOF
+echo '{"title":"Docs","pages":["index"]}' > content/docs/meta.json
+```
+
+Your docs will be at [localhost:3000/docs](http://localhost:3000/docs). See [Create Docs](/docs/extras/add-docs) for how to add pages.
+
+## Step 3: Create Config Files
+
+Create your local config files from the examples:
+
+**Using Cursor:**
+
+```bash
+cp -n .env.example .env.local
+cp -n .cursor/mcp.example.json .cursor/mcp.json
+```
+
+**Using Claude Code:**
+
+```bash
+cp -n .env.example .env.local
+cp -n .mcp.example.json .mcp.json
+```
+
+This creates:
+- `.env.local` — Your environment variables (API keys, etc.)
+- `.cursor/mcp.json` or `.mcp.json` — MCP server configuration
+
+All files are in `.gitignore` since they contain sensitive values. If the files already exist, nothing happens.
+
+> **Note:** You'll fill in the actual values later when setting up [Authentication](/docs/building/auth) and [Payments](/docs/building/payments). For full MCP setup instructions (including CLI alternative), see [MCP Servers](/docs/concepts/mcps).
+
+## Step 4: Install Dependencies
+
+```bash
+npm install
+```
+
+This downloads all the packages your app needs. Takes about a minute.
+
+## Step 5: Start the App
+
+```bash
+npm run dev
+```
+
+## Step 6: Preview Your App
+
+Open your browser and go to:
+
+**[http://localhost:3000](http://localhost:3000)**
+
+> **What's localhost?** When you run `npm run dev`, your computer becomes a mini web server. `localhost` is just your own computer — and `:3000` is the "door" (port) the app uses. It's only visible to you, not the internet.
+
+You should see the Ghoststack landing page. 🎉
+
+## What's Next?
+
+Your app is running locally! Now:
+
+1. **Set up version control** — [Next page](/docs/building/version-control)
+2. **Start building** — [Customize your landing page](/docs/building/landing-page)
+
+**Tip:** Both Cursor and Claude Code automatically read your project's conventions file (`AGENTS.md` or `CLAUDE.md`) with every prompt. Learn more in [AI Prompting](/docs/concepts/ai-prompting).
+
+---
+
+## Troubleshooting
+
+### npm install fails
+
+```
+npm install is failing with errors.
+
+Please help me:
+1. Check the error message
+2. Fix any issues
+3. Try again
+
+Here's the error: [PASTE ERROR]
+```
+
+### App won't start
+
+```
+npm run dev isn't working.
+
+Error: [PASTE ERROR]
+
+Please help me fix this.
+```
+
+### Port already in use
+
+If you see "Port 3000 is already in use":
+
+```
+Something else is using port 3000.
+
+Please help me either:
+1. Find and stop what's using port 3000
+2. Or run my app on a different port
+```
+
+### Can't see the page
+
+If localhost:3000 shows nothing:
+- Make sure `npm run dev` is still running in the terminal
+- Check for errors in the terminal
+- Try refreshing the browser

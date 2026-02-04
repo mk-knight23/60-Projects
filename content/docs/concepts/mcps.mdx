@@ -1,0 +1,223 @@
+---
+title: "MCP Servers"
+---
+
+# MCP Servers
+
+MCP (Model Context Protocol) lets AI coding tools interact directly with external services — no manual dashboard clicking or API boilerplate needed.
+
+## What MCPs Do
+
+Instead of telling your AI "go to Stripe dashboard, click Products, copy the price ID..." you can just say:
+
+```
+Create a new Stripe product called "Pro Plan" at $29/month
+```
+
+The AI uses the Stripe MCP to do it directly.
+
+## Available MCPs
+
+The boilerplate includes configuration for these MCPs:
+
+| Service | What you can do |
+|---------|-----------------|
+| **Supabase** | Create tables, run queries, manage RLS policies, check auth settings |
+| **Stripe** | Create products/prices, check subscriptions, manage customers |
+| **Render** | Deploy apps, check logs, manage environment variables |
+| **RapidAPI** | Access thousands of APIs (LinkedIn, weather, etc.) |
+
+There are hundreds more MCPs available depending on your needs—all compatible with our architecture. For comprehensive directories of available MCPs, see the [Cursor MCP Directory](https://cursor.com/docs/context/mcp/directory) or the [Claude MCP Directory](https://code.claude.com/docs/en/mcp).
+
+## How to Install MCPs
+
+Both Cursor and Claude Code support MCP servers. You have **two ways** to set them up:
+
+1. **From example templates** (quickest) — Copy the included template files and add your API keys
+2. **From provider docs** (most official) — Follow install instructions from service providers
+3. **Manual CLI** (most flexible) — Use `claude mcp add` commands directly
+
+Choose the approach that works best for you.
+
+---
+
+### Option 1: From Template Files (Quickest)
+
+The boilerplate includes pre-configured MCP templates. Just copy and add your API keys.
+
+**Cursor:**
+
+```bash
+cp -n .cursor/mcp.example.json .cursor/mcp.json
+```
+
+**Claude Code:**
+
+```bash
+cp -n .mcp.example.json .mcp.json
+```
+
+Then open the file and add your API keys where needed (e.g., Render, RapidAPI). Services like Supabase and Stripe authenticate via browser when first used.
+
+> **Tip:** Both template files contain the same services — just use the one for your tool.
+
+---
+
+### Option 2: From Provider Docs
+
+Most MCP providers have install instructions on their docs pages:
+
+| Service | Install Page |
+|---------|--------------|
+| **Supabase** | [supabase.com/docs/guides/getting-started/mcp](https://supabase.com/docs/guides/getting-started/mcp) |
+| **Stripe** | [docs.stripe.com/mcp](https://docs.stripe.com/mcp) |
+| **Render** | [render.com/docs/mcp-server](https://render.com/docs/mcp-server) |
+
+**Cursor:** Look for "Install in Cursor" or "Add to Cursor" buttons — one click and it's configured.
+
+**Claude Code:** Look for a `claude mcp add` command to copy and run in your terminal.
+
+---
+
+### Option 3: Manual Setup
+
+Use this if you want full control or need to customize MCP configurations.
+
+#### Cursor (JSON Config)
+
+1. Edit `.cursor/mcp.json` (create from template if you haven't):
+
+```json
+{
+  "mcpServers": {
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp"
+    },
+    "stripe": {
+      "type": "http",
+      "url": "https://mcp.stripe.com/mcp"
+    },
+    "render": {
+      "type": "http",
+      "url": "https://mcp.render.com/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_RENDER_API_KEY"
+      }
+    }
+  }
+}
+```
+
+2. Open **Cursor Settings → MCP** to verify they're active and authorize access when prompted.
+
+> **Docs:** [cursor.com/docs/context/mcp](https://cursor.com/docs/context/mcp)
+
+#### Claude Code (CLI or JSON)
+
+**Via CLI (Recommended):**
+
+```bash
+# Supabase
+claude mcp add --transport http supabase https://mcp.supabase.com/mcp
+
+# Stripe
+claude mcp add --transport http stripe https://mcp.stripe.com/mcp
+
+# Render (requires API key)
+claude mcp add --transport http render https://mcp.render.com/mcp \
+  --header "Authorization: Bearer YOUR_RENDER_API_KEY"
+```
+
+After adding, run `/mcp` inside Claude Code to authenticate with services that require it.
+
+**Via JSON Config:**
+
+Alternatively, edit `.mcp.json` manually with the same format as shown above for Cursor.
+
+> **Docs:** [code.claude.com/docs/en/mcp](https://code.claude.com/docs/en/mcp)
+
+### RapidAPI MCPs
+
+RapidAPI works differently — each API has its own MCP config. The template files include a Twitter API example you can use as a starting point.
+
+**Quick Start (Using Template):**
+
+1. Check `.cursor/mcp.example.json` or `.mcp.example.json` for the RapidAPI Twitter example
+2. Copy the template to your config file if you haven't already
+3. Add your RapidAPI key to the config
+
+**Custom RapidAPI Setup:**
+
+1. Find an API on [rapidapi.com](https://rapidapi.com)
+2. Look for the **MCP Playground** button on the API page
+3. Copy the config for your tool
+
+**Cursor** — Add the config to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "rapidapi-yourapi": {
+      "type": "http",
+      "url": "https://mcp.rapidapi.com",
+      "headers": {
+        "x-api-host": "your-api.p.rapidapi.com",
+        "x-api-key": "YOUR_RAPIDAPI_KEY"
+      }
+    }
+  }
+}
+```
+
+**Claude Code** — Use stdio transport with npx:
+
+```bash
+claude mcp add rapidapi-yourapi --transport stdio -- \
+  npx mcp-remote https://mcp.rapidapi.com \
+  --header "x-api-host: your-api.p.rapidapi.com" \
+  --header "x-api-key: YOUR_RAPIDAPI_KEY"
+```
+
+## Getting Credentials
+
+| Service | Where to get it |
+|---------|-----------------|
+| **Supabase** | Authenticates via browser when you first use it |
+| **Stripe** | Authenticates via browser when you first use it |
+| **Render** | [Account Settings → API Keys](https://dashboard.render.com/settings#api-keys) |
+| **RapidAPI** | Subscribe to an API, copy your API key from the dashboard |
+
+## Using MCPs in Prompts
+
+Reference MCPs in your prompts to tell the AI to use them:
+
+```
+Use the Supabase MCP to create a "projects" table with:
+- id (uuid, primary key)
+- user_id (references users.id)
+- name (text)
+- created_at (timestamp)
+
+Enable RLS so users can only see their own projects.
+```
+
+The AI will use the MCP to create the table directly in your database.
+
+## Discover More MCPs
+
+Both tools have directories of available MCP servers:
+
+- **Cursor:** [cursor.com/docs/context/mcp](https://cursor.com/docs/context/mcp)
+- **Claude Code:** [code.claude.com/docs/en/mcp](https://code.claude.com/docs/en/mcp)
+
+## Why MCPs Matter
+
+| Without MCP | With MCP |
+|-------------|----------|
+| Open Stripe dashboard | Just ask the AI |
+| Navigate to Products | One prompt |
+| Click Create, fill form | Instant |
+| Copy price ID back | Already done |
+
+MCPs turn multi-step manual processes into single prompts.

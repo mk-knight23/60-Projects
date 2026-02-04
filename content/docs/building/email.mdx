@@ -1,0 +1,123 @@
+---
+title: "Transactional Email"
+---
+
+# Transactional Email
+
+Ghoststack includes email infrastructure — Resend integration, react-email templates, local preview server, and an API endpoint for sending.
+
+Your job: add your Resend API key and customize the email templates in `emails/`.
+
+## Step 1: Create Resend Account
+
+1. Go to [resend.com](https://resend.com) → Sign up
+2. Go to **API Keys** → Create key
+3. Add to `.env.local`:
+
+```bash
+RESEND_API_KEY=your-api-key
+# Format: "Display Name <email@domain.com>"
+RESEND_FROM_EMAIL="Your App <onboarding@resend.dev>"
+```
+
+> **Note:** `onboarding@resend.dev` works for testing. Replace with your own domain for production (e.g., `"Your App <noreply@yourdomain.com>"`).
+>
+> **Warning:** Never paste secret keys into AI prompts. Add them to `.env.local` yourself.
+
+## Step 2: Add Your Domain (Production)
+
+1. In Resend → **Domains** → Add your domain
+2. Add the DNS records they provide
+3. Wait for verification
+4. Update `RESEND_FROM_EMAIL` in `.env.local`
+
+## Step 3: Preview Emails Locally
+
+Run the email preview server to see your templates without sending:
+
+```bash
+npm run email:dev
+```
+
+Open [http://localhost:3001](http://localhost:3001) (or what ever the console shows) to preview all templates with sample data.
+
+---
+
+## Prompt Examples
+
+These prompts are independent — use whichever ones you need or create your own.
+
+### Add Email Template
+
+```
+Add a new email template for [PURPOSE].
+
+Subject: [SUBJECT LINE]
+Content: [WHAT TO INCLUDE]
+CTA: [BUTTON TEXT AND DESTINATION]
+
+1. Create the template in emails/[TemplateName].tsx
+2. Add it to emailTemplates in lib/resend.tsx
+3. Add a preview variant in emails/preview.tsx
+
+Use react-email components from @react-email/components.
+Use the shared styles from emails/styles.ts.
+Follow @AGENTS.md patterns.
+```
+
+### Send Email on Event
+
+```
+Send an email when [EVENT - e.g., "user completes onboarding"].
+
+Use the [TEMPLATE NAME] template from lib/resend.tsx.
+Handle errors gracefully.
+Follow @AGENTS.md patterns.
+```
+
+### Match Email Styling to Your Theme
+
+Emails can't use DaisyUI classes — they need inline styles. **Your app's daisyUI theme won't automatically apply to emails**, so you need to manually update the styles in `emails/styles.ts`.
+
+To match your app's look:
+
+1. Go to [DaisyUI Theme Generator](https://daisyui.com/theme-generator/)
+2. Select your theme (or paste your custom theme)
+3. Copy the color values you need (primary, base colors, etc.)
+
+```
+Update the email styling in emails/styles.ts to match my app theme.
+
+Colors from my DaisyUI theme:
+- Primary: [HEX COLOR]
+- Base background: [HEX COLOR]
+- Base content (text): [HEX COLOR]
+- Button text: [HEX COLOR]
+
+Update the shared styles object so all templates use these colors.
+```
+
+---
+
+## File Structure
+
+```
+emails/
+├── styles.ts                  # Shared inline styles
+├── Welcome.tsx                # Welcome email template
+├── SubscriptionConfirmed.tsx  # Subscription confirmation
+└── preview.tsx                # Preview variants (sample data)
+
+lib/resend.tsx                 # sendEmail() + emailTemplates wrapper
+```
+
+---
+
+## Testing
+
+1. Run `npm run email:dev` and check templates render correctly
+2. Send test email to yourself using your app
+3. Check Resend Dashboard → Logs for delivery status
+4. Check spam folder if not received
+
+> **Tip:** Before going live, test your deliverability at [mail-tester.com](https://www.mail-tester.com). Send a test email to the address shown on the site, then check your spam score and recommendations. Aim for 9+/10.

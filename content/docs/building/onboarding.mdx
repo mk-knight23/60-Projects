@@ -1,0 +1,129 @@
+---
+title: "User Onboarding"
+---
+
+# User Onboarding
+
+Add a multi-step onboarding flow for new users. Guide them through setup and collect the info you need.
+
+## Create the Onboarding Flow
+
+Use the main prompt to create your onboarding. Customize the steps for your app.
+
+> **Tip:** Switch Cursor to **Plan Mode** first — this lets you review the approach before the AI starts building.
+
+```
+Create a multi-step onboarding flow for new users.
+
+My app: [DESCRIBE YOUR APP]
+
+Steps:
+1. Welcome — introduce the app
+2. Profile — collect [NAME / COMPANY / ROLE]
+3. Preferences — [LIST PREFERENCES]
+4. Done — show success and go to dashboard
+
+Requirements:
+- Show after first login (check if onboarding_completed is false)
+- Progress indicator (steps component or progress bar)
+- Save data to user profile on completion
+- Skip button that marks onboarding as complete
+- Redirect to dashboard when done
+
+Use Supabase MCP to add onboarding_completed boolean to users table if not yet existing.
+Create at app/onboarding/page.tsx.
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+**Want something simpler?** Use this instead:
+
+```
+Create a simple 2-step onboarding:
+
+1. Welcome + collect display name
+2. Quick feature highlights (3 bullet points)
+
+Save name to users table, mark onboarding complete.
+Redirect to dashboard after.
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt. Keep it minimal.
+Use Supabase MCP if needed to check or update tables or RCPs. 
+```
+
+---
+
+## Prompt Examples
+
+These prompts are independent — use whichever ones you need or create your own.
+
+### Modify Redirect Logic
+
+```
+Modify the onboarding redirect logic.
+
+Current behavior: [DESCRIBE CURRENT]
+New behavior: [DESCRIBE WHAT YOU WANT]
+
+For example:
+- Change where the redirect check happens (middleware vs layout)
+- Add conditions (only for certain user types)
+- Change the redirect destination
+
+Use the existing Supabase auth patterns.
+Use Supabase MCP if needed to check or update tables or RCPs. 
+```
+
+### Customize Steps
+
+```
+Update my onboarding flow at app/onboarding/page.tsx.
+
+Change the steps to:
+1. [STEP 1]: [WHAT TO SHOW/COLLECT]
+2. [STEP 2]: [WHAT TO SHOW/COLLECT]
+3. [STEP 3]: [WHAT TO SHOW/COLLECT]
+
+Keep the progress indicator and completion tracking.
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt. Keep it minimal.
+Use Supabase MCP if needed to check or update tables or RCPs. 
+```
+
+### Add Feature Tour
+
+```
+Add a feature tour/walkthrough after onboarding.
+
+Highlight these features:
+1. [FEATURE 1 - e.g., "Dashboard overview"]
+2. [FEATURE 2 - e.g., "Create your first project"]
+3. [FEATURE 3 - e.g., "Invite team members"]
+
+Use tooltips or a modal-based tour.
+Let users skip or dismiss.
+Track tour_completed in users table.
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt. Keep it minimal.
+Use Supabase MCP if needed to check or update tables or RCPs. 
+```
+
+### Track Analytics
+
+```
+Track onboarding analytics:
+
+1. Which step users drop off
+2. Time spent on each step
+3. Skip rate
+
+Log events to [Plausible / console / Supabase table].
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt. Keep it minimal.
+Use Supabase MCP if needed to check or update tables or RCPs. 
+```
+
+## Testing
+
+1. Create a new account (or reset onboarding_completed to false)
+2. Verify redirect to onboarding after login
+3. Complete each step — data should save
+4. Click skip — should mark complete and redirect
+5. Log in again — should go straight to dashboard
+6. Check user record in Supabase has the saved data

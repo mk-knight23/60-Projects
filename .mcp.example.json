@@ -1,0 +1,24 @@
+{
+	"mcpServers": {
+	  "supabase": {
+		"type": "http",
+		"url": "https://mcp.supabase.com/mcp?project_ref=simphqsqrhxaprloflwd"
+	  },
+	  "stripe": {
+		"type": "http",
+		"url": "https://mcp.stripe.com/mcp"
+	  },
+	  "render": {
+		"type": "http",
+		"url": "https://mcp.render.com/mcp"
+	  },
+	  "rapidapi-twitter": {
+		"type": "http",
+		"url": "https://mcp.rapidapi.com",
+		"headers": {
+		  "x-api-host": "twitter241.p.rapidapi.com",
+		  "x-api-key": ""
+		}
+	  }
+	}
+  }

@@ -1,0 +1,111 @@
+---
+title: "Ghoststack Architecture"
+---
+
+# Ghoststack Architecture
+
+How the pieces fit together.
+
+## Stack Overview
+
+```
+┌─────────────────────────────────────────────────────┐
+│                    Frontend                          │
+│  Next.js App Router + DaisyUI                       │
+│  app/page.tsx, app/dashboard/, app/pricing/         │
+└─────────────────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────┐
+│                   API Routes                         │
+│  app/api/stripe/, app/api/auth/, app/api/email/     │
+└─────────────────────────────────────────────────────┘
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+    ┌──────────┐  ┌──────────┐  ┌──────────┐
+    │ Supabase │  │  Stripe  │  │  Resend  │
+    │ Auth +DB │  │ Payments │  │  Email   │
+    └──────────┘  └──────────┘  └──────────┘
+```
+
+## Request Flows
+
+### Page Load (Server Component)
+```
+User visits /dashboard
+  → proxy.ts checks auth
+  → app/dashboard/page.tsx loads
+  → lib/supabase/server.ts queries DB
+  → Page renders with data
+```
+
+### Auth (Magic Link)
+```
+User enters email on /login
+  → Supabase sends magic link
+  → User clicks link
+  → /callback exchanges code for session
+  → Redirect to /dashboard
+```
+
+### Payment
+```
+User clicks "Subscribe"
+  → /api/stripe/checkout creates session
+  → Stripe hosts checkout
+  → Webhook hits /api/webhooks/stripe
+  → lib/db.ts updates subscription
+```
+
+## Key Files
+
+| Layer | Files | Purpose |
+|-------|-------|---------|
+| **Pages** | `app/page.tsx`, `app/dashboard/` | UI and routing |
+| **API** | `app/api/stripe/`, `app/api/webhooks/` | Backend logic |
+| **Auth** | `proxy.ts`, `lib/supabase/server.ts` | Session + protection |
+| **Database** | `lib/db.ts`, `supabase/setup.sql` | Queries + schema |
+| **Payments** | `lib/stripe.ts`, `lib/plans.ts` | Stripe + pricing |
+| **Email** | `lib/resend.tsx` | Templates + sending |
+| **Config** | `.env.local`, `AGENTS.md` | Secrets + AI context |
+
+## Supabase Clients
+
+Three clients for different contexts:
+
+| Client | File | When to Use |
+|--------|------|-------------|
+| Browser | `lib/supabase/client.ts` | Client components (`"use client"`) |
+| Server | `lib/supabase/server.ts` | Server components, API routes |
+| Admin | `lib/supabase/server.ts` | Webhooks only (bypasses RLS) |
+
+## Folder Structure
+
+```
+app/                    # Pages + API routes
+├── page.tsx            # Landing page
+├── dashboard/          # Protected pages
+├── api/                # Backend endpoints
+└── docs/               # Documentation site
+
+lib/                    # Business logic
+├── db.ts               # Database queries
+├── stripe.ts           # Payment helpers
+├── resend.tsx          # Email templates
+└── supabase/           # Auth clients
+
+components/             # Shared UI
+content/docs/           # Documentation MDX
+```
+
+---
+
+## Prompt: Understand a Flow
+
+```
+I want to understand how [FEATURE] works.
+
+Trace the flow from user action to database.
+Show me which files are involved and how they connect.
+```

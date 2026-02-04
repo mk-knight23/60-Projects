@@ -1,0 +1,139 @@
+---
+title: "SEO Optimization"
+---
+
+# SEO Optimization
+
+Help people find your app on Google.
+
+## What is SEO?
+
+SEO (Search Engine Optimization) helps your app appear in Google search results. Better SEO = more visitors.
+
+## Basics Already Included
+
+Ghoststack includes:
+- `app/sitemap.ts` — Tells Google what pages exist
+- `app/robots.ts` — Tells search engines what to index
+- Meta tags support in layouts
+
+## Prompt Templates
+
+### Add Page Metadata
+
+```
+I want to add SEO metadata to my pages.
+
+For my homepage:
+- Title: [YOUR TITLE]
+- Description: [YOUR DESCRIPTION - ~155 characters]
+- Keywords: [OPTIONAL: key, words, here]
+
+For my pricing page:
+- Title: [YOUR TITLE]
+- Description: [YOUR DESCRIPTION]
+
+Please update the metadata in each page file.
+Follow Next.js 14+ metadata patterns.
+```
+
+### Add OpenGraph Images
+
+```
+I want social media previews when my links are shared.
+
+Please help me:
+1. Create or add an OpenGraph image (1200x630px)
+2. Add OpenGraph metadata to my pages
+3. Test it works with a preview tool
+
+I want the preview to show: [DESCRIBE WHAT YOU WANT]
+```
+
+### Update Sitemap
+
+```
+I added new pages to my app: [LIST PAGES]
+
+Please update app/sitemap.ts to include these pages.
+```
+
+### Add Schema Markup
+
+```
+I want to add structured data for better Google results.
+
+My app is: [TYPE - e.g., "a SaaS tool", "an online course", "a newsletter"]
+
+Please add appropriate schema.org markup to my pages.
+This helps Google understand what my site is about.
+```
+
+### Submit to Google
+
+```
+My app is live at [YOUR URL].
+
+Please guide me through:
+1. Setting up Google Search Console
+2. Submitting my sitemap
+3. Requesting indexing
+4. Checking for any issues
+
+Make it simple — I haven't done this before.
+```
+
+## Quick Wins
+
+| Action | Impact |
+|--------|--------|
+| Good page titles | High |
+| Meta descriptions | High |
+| Fast loading | High |
+| Mobile-friendly | High |
+| Sitemap submitted | Medium |
+| OpenGraph images | Medium for social |
+
+### Prompt: SEO Audit
+
+```
+Please audit my app for basic SEO.
+
+Check:
+1. Do all pages have unique titles?
+2. Do all pages have meta descriptions?
+3. Is the sitemap complete?
+4. Are images optimized?
+5. Is the site mobile-friendly?
+
+Flag anything missing or broken.
+```
+
+## App Icons & Social Images
+
+Next.js looks for these files in `app/` folder:
+- `icon.png` — Favicon (32x32 or larger)
+- `apple-icon.png` — iOS home screen (180x180)
+- `opengraph-image.png` — Social sharing (1200x630)
+
+### Prompt: Set Up App Icons
+
+```
+I want to set up proper icons for my app.
+
+Please help me:
+1. Check if icon.png, apple-icon.png exist in app/
+2. Create or update opengraph-image.png for social sharing
+3. Verify favicon shows in browser tab
+
+My app name is [NAME] and brand color is [COLOR].
+```
+
+**Tip:** Use [favicon.io](https://favicon.io) to generate icons from text or image.
+
+## Testing
+
+1. **Google Search Console** — Check for indexing issues
+2. **[PageSpeed Insights](https://pagespeed.web.dev/)** — Check loading speed
+3. **[metatags.io](https://metatags.io/)** — Preview social cards
+4. **Search your site** — `site:yourapp.com` in Google

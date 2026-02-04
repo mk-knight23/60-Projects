@@ -1,0 +1,84 @@
+---
+title: "Ghoststack Design Philosophy"
+---
+
+# Design Philosophy
+
+How Ghoststack is built and why it matters for vibe coding.
+
+## Built for AI Coding
+
+Ghoststack is designed to be edited by AI (Cursor, Claude). This means:
+
+- **Simple structure** — Easy for AI to understand
+- **Self-contained files** — No chasing dependencies
+- **Consistent patterns** — Same approach everywhere
+- **Clear naming** — Files named what they do
+
+## Key Principles
+
+### 1. Local by Default
+
+Everything a file needs is in the file or clearly imported.
+
+**Good:** Header defines its own links
+**Bad:** Header reads links from a config file somewhere else
+
+### 2. One Obvious Place
+
+Each feature has one place to look:
+- Auth stuff → `lib/supabase/`
+- Payment stuff → `lib/stripe.ts` and `app/api/stripe/`
+- Email stuff → `lib/resend.ts`
+
+### 3. Small Files
+
+Short files are easier to understand and modify:
+- Pages are mostly layout
+- Logic is in lib/ files
+- Components do one thing
+
+### 4. DaisyUI Only
+
+All styling uses DaisyUI components. No custom CSS.
+- Consistent look
+- Easy to modify
+- AI knows DaisyUI well
+
+## Rules for AI
+
+When working with Cursor, include these in your prompts:
+
+```
+Rules:
+- Use DaisyUI components only, no custom CSS
+- Follow existing patterns in the codebase
+- Keep files small and focused
+- Server components unless you need interactivity
+- Handle errors gracefully
+- Check for TypeScript errors after changes
+```
+
+## Prompt Template: Follow Patterns
+
+```
+I want to add [NEW FEATURE].
+
+Please:
+1. Look at how similar features are built in this codebase
+2. Follow the same patterns
+3. Keep files small and focused
+4. Use DaisyUI for all styling
+5. Add proper error handling
+
+Check the codebase first, then implement.
+```
+
+## Why This Matters
+
+AI works best with:
+- **Predictable code** — Same patterns everywhere
+- **Clear structure** — Easy to find things
+- **Simple components** — Less to understand
+
+Ghoststack is built this way so Cursor can help you effectively.

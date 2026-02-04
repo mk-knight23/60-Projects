@@ -1,0 +1,105 @@
+---
+title: "Rate Limiting (Upstash)"
+---
+
+# Rate Limiting (Upstash)
+
+Protect your app from abuse.
+
+## What is Rate Limiting?
+
+Rate limiting stops users from making too many requests. Protects against:
+- Spam and abuse
+- Runaway AI costs
+- Server overload
+
+## Setup
+
+### 1. Create Upstash Account
+
+1. Go to [upstash.com](https://upstash.com)
+2. Sign up
+3. Create a new Redis database
+
+### 2. Get Credentials
+
+In Upstash Dashboard, copy:
+- **UPSTASH_REDIS_REST_URL**
+- **UPSTASH_REDIS_REST_TOKEN**
+
+Add to `.env.local`.
+
+### 3. Install Package
+
+```bash
+npm install @upstash/ratelimit @upstash/redis
+```
+
+## Prompt Templates
+
+### Add Basic Rate Limiting
+
+```
+I want to add rate limiting to my API routes.
+
+Protect these routes:
+- [LIST ROUTES: e.g., "/api/ai", "/api/email"]
+
+Limits:
+- [DESCRIBE: e.g., "10 requests per minute"]
+
+Please:
+1. Create a rate limiting utility in lib/rate-limit.ts
+2. Add it to the specified routes
+3. Return a friendly error when limit is hit
+```
+
+### Rate Limit by User Plan
+
+```
+I want different rate limits for free vs paid users.
+
+- Free users: [X requests per Y time]
+- Paid users: [X requests per Y time]
+
+Please:
+1. Check the user's subscription status
+2. Apply the appropriate limit
+3. Handle errors gracefully
+
+Use our existing subscription checking pattern.
+```
+
+### Protect AI Routes
+
+```
+I want to protect my AI/OpenRouter routes from abuse.
+
+Please add rate limiting:
+- Limit: [e.g., "5 requests per minute"]
+- Per user (use their ID)
+- Show remaining requests in response
+- Friendly error message when limited
+
+This prevents users from running up my AI costs.
+```
+
+### Add Global Rate Limiting
+
+```
+I want rate limiting on all my API routes.
+
+Please:
+1. Add rate limiting in middleware
+2. Apply to all /api routes
+3. Use [X requests per Y time] as the default
+
+Make it easy to exclude specific routes if needed.
+```
+
+## Testing
+
+1. Make repeated requests to a protected endpoint
+2. Verify you get rate limited after hitting the limit
+3. Wait for the window to reset
+4. Verify you can make requests again

@@ -1,0 +1,84 @@
+---
+title: "Customer Support (Crisp)"
+---
+
+# Customer Support (Crisp)
+
+Add live chat support to your app.
+
+## What is Crisp?
+
+[Crisp](https://crisp.chat) adds a chat widget to your site. Users can message you directly.
+
+- Free tier available
+- Mobile app for replies
+- Chat history
+
+## Setup
+
+### 1. Create Crisp Account
+
+1. Go to [crisp.chat](https://crisp.chat)
+2. Sign up
+3. Create a workspace
+
+### 2. Get Website ID
+
+In Crisp Dashboard:
+1. Go to **Settings** → **Website Settings**
+2. Copy your Website ID
+
+## Prompt Templates
+
+### Add Crisp Chat
+
+```
+I want to add Crisp live chat to my app.
+
+My Crisp Website ID is: [YOUR ID]
+
+Please:
+1. Add the Crisp script to my app
+2. Load it on all pages
+3. Make sure it doesn't slow down page load
+
+Keep it simple.
+```
+
+### Show Chat Only When Logged In
+
+```
+I only want the chat widget to show for logged-in users.
+
+Please update the Crisp integration to:
+1. Only load when user is authenticated
+2. Pass user email to Crisp (for identification)
+3. Hide for logged-out visitors
+```
+
+### Show on Specific Pages
+
+```
+I only want the chat widget on these pages:
+- [LIST PAGES: e.g., "/dashboard", "/pricing"]
+
+Please update the Crisp integration to only show on these pages.
+```
+
+### Remove Crisp
+
+```
+I want to remove Crisp from my app.
+
+Please:
+1. Remove the Crisp script/component
+2. Remove any environment variables
+3. Clean up completely
+```
+
+## Testing
+
+1. Load your site
+2. Chat widget should appear (usually bottom-right)
+3. Send a test message
+4. Check you receive it in Crisp Dashboard

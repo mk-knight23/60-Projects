@@ -1,0 +1,93 @@
+---
+title: "CDN (Bunny)"
+---
+
+# CDN (Bunny)
+
+Serve images and files faster worldwide.
+
+## What is a CDN?
+
+A CDN (Content Delivery Network) stores your files on servers around the world. Users download from the nearest server = faster loading.
+
+Use for:
+- User-uploaded images
+- Large files
+- Static assets
+
+## When You Need It
+
+- Your app has lots of images
+- Users upload files
+- You serve files to users globally
+
+**Don't need it yet?** Skip this — add it when you actually need it.
+
+## Setup
+
+### 1. Create Bunny Account
+
+1. Go to [bunny.net](https://bunny.net)
+2. Sign up (pay as you go, very cheap)
+
+### 2. Create Storage Zone
+
+1. Go to **Storage** → **Add Storage Zone**
+2. Choose a name and region
+
+### 3. Create Pull Zone
+
+1. Go to **Pull Zones** → **Add Pull Zone**
+2. Connect to your storage zone
+3. Get your CDN URL
+
+## Prompt Templates
+
+### Set Up Bunny CDN
+
+```
+I want to set up Bunny CDN for user-uploaded images.
+
+Please help me:
+1. What environment variables do I need?
+2. Create a utility to upload files to Bunny
+3. Create an API route for uploads
+4. Show me how to display images from the CDN
+
+Guide me through the setup step by step.
+```
+
+### Add Image Upload
+
+```
+I want users to upload profile pictures stored on Bunny CDN.
+
+Please:
+1. Create upload API route
+2. Store images in Bunny storage
+3. Save CDN URL to user profile
+4. Display images using CDN URL
+
+Keep it simple. Handle errors gracefully.
+```
+
+### Migrate to CDN
+
+```
+I have images stored in [CURRENT LOCATION: Supabase Storage / local / etc].
+
+I want to move them to Bunny CDN for better performance.
+
+Please help me:
+1. Set up Bunny
+2. Update my upload logic
+3. Migrate existing images
+4. Update image URLs in database
+```
+
+## Testing
+
+1. Upload a test image
+2. Access it via CDN URL
+3. Check it loads quickly
+4. Test from different locations if possible

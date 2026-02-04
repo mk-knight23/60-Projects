@@ -1,0 +1,142 @@
+---
+title: Landing Page
+description: Build a high-converting landing page with DaisyUI
+---
+
+# Landing Page
+
+Next, lets build a great landing page. Ghoststack already includes a landing page template the AI can use as a starting point. Like the rest of the app, we will build it exclusively with daisyUI components.
+
+## What You'll Get
+
+- A fully fledged, high-converting landing page
+- Clear messaging and strong calls to action
+- Clean, professional design built entirely with daisyUI
+
+## Main Prompt
+
+Use this to customize the entire landing page for your product:
+
+```
+You are a senior SaaS conversion + frontend expert.
+
+Framework: Next.js (App Router)  
+
+File: app/page.tsx  
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+
+Product:  
+- What it does: [1–2 sentences]  
+- Target audience: [WHO IT’S FOR]  
+- Key features: [F1], [F2], [F3]  
+
+Goal:  
+Rewrite app/page.tsx into a high-converting landing page.
+
+Requirements:  
+- Use only daisyUI components  
+- Mobile-first, clean SaaS look  
+- Strong hero + clear value prop  
+- Features, how it works, social proof, FAQ  
+- Clear CTA repeated  
+
+Copy:  
+- Create all copy  
+- Tone: [professional / playful / technical / friendly]  
+- Benefit-driven, concise, skimmable  
+
+Follow @AGENTS.md patterns.
+```
+
+> **Why `@web https://daisyui.com/llms.txt`?** This gives Cursor access to DaisyUI's documentation, so it generates accurate component code. For a permanent setup (or if you're using Claude Code), see [Set Up DaisyUI Docs for AI](/docs/building/styling#set-up-daisyui-docs-for-ai).
+
+--- 
+
+## Add Specific Elements
+You can also prompt Cursor AI to add or change specific landing page sections — just describe what you want!  
+Here are some examples:
+
+### Add Social Proof
+
+```
+Add a social proof section to my landing page at app/page.tsx.
+
+Include: [TESTIMONIALS / CUSTOMER LOGOS / USER STATS]
+
+Place it after the hero section.
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+### Add FAQ Section
+
+```
+Add an FAQ section to app/page.tsx using DaisyUI collapse components.
+
+Questions:
+1. Q: [QUESTION] A: [ANSWER]
+2. Q: [QUESTION] A: [ANSWER]
+3. Q: [QUESTION] A: [ANSWER]
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+### Add How It Works
+
+```
+Add a "How It Works" section to app/page.tsx with 3 steps:
+1. [STEP 1]
+2. [STEP 2]
+3. [STEP 3]
+
+Use DaisyUI steps component or a simple numbered layout.
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+### Change Hero Style
+
+```
+Update the hero section in app/page.tsx.
+
+Style: [centered with gradient / split layout with image / minimal with large text]
+
+Keep the login/signup CTA button.
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+### Add Feature Cards
+
+```
+Add a features section to app/page.tsx with cards for:
+1. [FEATURE]: [DESCRIPTION]
+2. [FEATURE]: [DESCRIPTION]
+3. [FEATURE]: [DESCRIPTION]
+
+Use DaisyUI card components in a responsive grid.
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+### Update Pricing
+
+The landing page includes a pricing section that pulls from `lib/plans.ts`.
+
+```
+Update my pricing plans in lib/plans.ts:
+- [PLAN 1]: $[PRICE]/month - [FEATURES]
+- [PLAN 2]: $[PRICE]/month - [FEATURES]
+
+UI: daisyUI ONLY (no custom CSS, no other libs). @web https://daisyui.com/llms.txt
+```
+
+This automatically updates both the landing page and `/pricing` page.
+
+## Testing
+
+1. View on desktop and mobile
+2. Check all links work
+3. Test the main CTA button
+4. Read through — does it make sense to someone new?

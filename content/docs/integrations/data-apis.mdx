@@ -1,0 +1,130 @@
+---
+title: "Data APIs (RapidAPI)"
+---
+
+# Data APIs (RapidAPI)
+
+Add external data to your app — weather, finance, social media, and more.
+
+> **See it in action:** Check out the [Twitter Profile Summarizer example](/docs/building/features#example-twitter-profile-summarizer).
+
+## Why RapidAPI?
+
+[RapidAPI](https://rapidapi.com) is a marketplace with thousands of APIs. Instead of signing up for dozens of services and learning each one, you get:
+
+- **One platform** for weather, finance, social, news, and more
+- **Unified billing** — one subscription manages everything
+- **MCP support** — Cursor can understand API schemas directly
+- **Free tiers** — most APIs have free plans to start
+
+> **Not required:** You can use any API directly — see [Using Other APIs](#using-other-apis) below.
+
+---
+
+## Setup
+
+### Step 1: Find & Subscribe
+
+1. Browse [rapidapi.com](https://rapidapi.com) for APIs you need
+2. Test in their playground
+3. Subscribe (many have free tiers)
+
+### Step 2: Connect MCP
+
+Most RapidAPI endpoints have an **MCP Playground** button:
+
+**Cursor:**
+1. Click **MCP Playground** on the API page
+2. Copy the config
+3. Add to `.cursor/mcp.json` (or use the Twitter example in `.cursor/mcp.example.json` as a template)
+4. Verify in **Cursor Settings → MCP**
+
+**Claude Code:**
+1. Use the Twitter example in `.mcp.example.json` as a template, OR
+2. See [MCP Servers](/docs/concepts/mcps#rapidapi-mcps) for CLI setup instructions
+
+---
+
+## Prompt Examples
+
+These prompts are independent — use whichever ones fit your needs or create your own.
+
+### Integrate RapidAPI
+
+```
+I subscribed to [API NAME] on RapidAPI for [PURPOSE].
+
+The MCP is connected. Please:
+1. Create a utility in lib/ to call this API
+2. Use it in my feature
+3. Handle errors gracefully
+
+Use the MCP to understand the API endpoints and response format.
+Follow @AGENTS.md patterns.
+```
+
+### No MCP Available
+
+If MCP isn't working, copy info from RapidAPI:
+
+```
+I want to integrate [API NAME] from RapidAPI.
+
+Code snippet from their docs:
+[PASTE CODE SNIPPET]
+
+Example response:
+[PASTE EXAMPLE JSON]
+
+Please:
+1. Create a utility in lib/
+2. Use RAPIDAPI_KEY from environment
+3. Handle errors gracefully
+
+Follow @AGENTS.md patterns.
+```
+
+### Display API Data
+
+```
+I have data from [API NAME] that returns [DESCRIBE DATA].
+
+Create a component that:
+1. Fetches and displays the data
+2. Shows loading state
+3. Handles errors
+
+UI: daisyUI ONLY. @web https://daisyui.com/llms.txt
+Follow @AGENTS.md patterns.
+```
+
+---
+
+## Using Other APIs
+
+Don't need RapidAPI? Use any API directly:
+
+```
+I want to integrate [API NAME] for [PURPOSE].
+
+API endpoint: [URL]
+Authentication: [How it works - API key header, query param, etc.]
+
+Example response:
+[PASTE EXAMPLE JSON FROM DOCS]
+
+Please:
+1. Create a utility in lib/[api-name].ts
+2. Keep the API key server-side (not NEXT_PUBLIC_)
+3. Handle errors gracefully
+
+Follow @AGENTS.md patterns.
+```
+
+---
+
+## Testing
+
+1. Call your API route — verify data returns
+2. Check error handling — test with invalid input
+3. Monitor usage — check provider dashboard

@@ -1,0 +1,119 @@
+---
+title: "Translations (i18n)"
+---
+
+# Translations (i18n)
+
+Make your app available in multiple languages.
+
+## What is i18n?
+
+i18n (internationalization) means making your app work in different languages. Users see content in their preferred language.
+
+## When You Need It
+
+- Targeting users in multiple countries
+- Growing internationally
+- User requests for other languages
+
+**Not yet?** Skip this until you need it. Adds complexity.
+
+## Recommended: next-intl
+
+[next-intl](https://next-intl-docs.vercel.app/) is the recommended library for Next.js translations.
+
+## Setup
+
+### 1. Install Package
+
+```bash
+npm install next-intl
+```
+
+### 2. Create Translation Files
+
+Create a folder for translations:
+```
+messages/
+├── en.json
+├── es.json
+└── fr.json
+```
+
+## Prompt Templates
+
+### Set Up Translations
+
+```
+I want to add multi-language support to my app.
+
+Languages needed:
+- English (default)
+- [OTHER LANGUAGES: e.g., "Spanish", "French", "German"]
+
+Please:
+1. Install and configure next-intl
+2. Create message files for each language
+3. Set up language detection
+4. Add a language switcher component
+
+Start with the main pages:
+- Landing page
+- Login page
+- Dashboard
+
+Keep it simple to start.
+```
+
+### Translate Specific Page
+
+```
+I want to translate my [PAGE NAME] page.
+
+Current text that needs translation:
+- [LIST KEY TEXT]
+
+Please:
+1. Extract text to translation files
+2. Update the page to use translations
+3. Add translations for: [LANGUAGES]
+
+Keep the existing layout and styling.
+```
+
+### Add Language Switcher
+
+```
+I need a language switcher in my header.
+
+Languages: [LIST LANGUAGES]
+
+Please:
+1. Create a language selector component
+2. Add it to the header
+3. Save preference (localStorage or cookie)
+4. Apply the selected language
+
+Use DaisyUI dropdown or select component.
+```
+
+### Add New Language
+
+```
+I want to add [LANGUAGE] to my existing translations.
+
+Please:
+1. Create the new message file
+2. Copy structure from English
+3. [Translate OR leave for me to translate]
+4. Test that it works
+
+Current languages: [LIST CURRENT LANGUAGES]
+```
+
+## Testing
+
+1. Switch language
+2. Verify text changes
+3. Check all pages show translated text
+4. Test with browser language preference

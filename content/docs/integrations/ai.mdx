@@ -1,0 +1,123 @@
+---
+title: "AI / OpenRouter"
+---
+
+# AI / OpenRouter
+
+Ghoststack includes an OpenRouter integration in `lib/openrouter.ts` — completions, streaming, and pre-configured models.
+
+Your job: add your OpenRouter API key and build AI features using the provided utilities.
+
+## Why OpenRouter?
+
+[OpenRouter](https://openrouter.ai) gives you access to 100+ AI models (GPT-4, Claude, Llama, etc.) through one API. Instead of managing multiple API keys and learning different APIs, you get:
+
+- **One API** for all major models
+- **Automatic fallbacks** if a model is down
+- **Pay-as-you-go** pricing
+- **Easy model switching** — change one line to try a different model
+
+> **Not required:** You can use any AI provider (OpenAI, Anthropic, etc.) — see [Using Other Providers](#using-other-ai-providers) below.
+
+## Setup
+
+1. Go to [openrouter.ai](https://openrouter.ai) → Sign up → Add credits
+2. Go to **Keys** → Create a new key
+3. Add to `.env.local`: `OPENROUTER_API_KEY=your-key`
+
+> **Warning:** Never paste API keys into AI prompts. Add them to `.env.local` yourself.
+
+## Choosing a Model
+
+Browse models on OpenRouter:
+
+- [Most Popular Models](https://openrouter.ai/models?order=most-popular) — Filter by category, provider, price
+- [Monthly Rankings](https://openrouter.ai/rankings?view=month) — See what's trending by use case
+
+> **Tip:** Start with a cheap, fast model (look for $ pricing). Upgrade to more capable models only if needed.
+
+---
+
+## Prompt Examples
+
+These prompts are independent — use whichever ones fit your needs or create your own..
+
+### Add AI Chat
+
+```
+I want to add an AI chat feature.
+
+Requirements:
+- Chat interface on the dashboard
+- Streaming responses
+- Chat history in state (not database)
+- Model: [gpt-4o-mini / claude-3-5-sonnet / etc.]
+
+Use lib/openrouter.ts for AI calls.
+UI: daisyUI ONLY. @web https://daisyui.com/llms.txt
+Follow @AGENTS.md patterns.
+```
+
+### Add AI to a Feature
+
+```
+I want to add AI to [FEATURE].
+
+When the user [TRIGGER], the AI should [WHAT IT DOES].
+
+Example:
+- Input: [EXAMPLE]
+- Output: [EXPECTED RESULT]
+
+Use lib/openrouter.ts. Handle loading and errors.
+Follow @AGENTS.md patterns.
+```
+
+### Generate Content
+
+```
+I need to generate [CONTENT TYPE] using AI.
+
+Use case: [DESCRIBE]
+Input: [WHAT USER PROVIDES]
+Output: [WHAT AI RETURNS]
+
+Use a simple completion (not streaming).
+Model: [CHOOSE MODEL]
+Follow @AGENTS.md patterns.
+```
+
+---
+
+## Using Other AI Providers
+
+Prefer OpenAI, Anthropic, or another provider? Use this prompt:
+
+```
+I want to integrate [PROVIDER NAME - e.g., OpenAI, Anthropic] for AI features.
+
+Please:
+1. Create a utility in lib/[provider].ts similar to lib/openrouter.ts
+2. Use [ENV VAR NAME] for the API key
+3. Support both simple completions and streaming
+4. Add proper error handling
+
+API docs: [PASTE RELEVANT DOCS OR LINK]
+Follow @AGENTS.md patterns.
+```
+
+---
+
+## Best Practices
+
+- **Never expose API key** — Only call AI from server/API routes
+- **Set spending limits** in your provider's dashboard
+- **Choose appropriate models** — Don't use GPT-4 for simple tasks
+- **Rate limit users** — Prevent abuse
+
+## Testing
+
+1. Call your AI endpoint — verify response
+2. Test streaming — verify chunks arrive
+3. Test errors — check error messages display
+4. Check costs — monitor usage in dashboard

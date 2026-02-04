@@ -1,0 +1,11 @@
+{
+  "title": "Learn",
+  "pages": [
+    "design-philosophy",
+    "architecture",
+    "supabase",
+    "mcps",
+    "env-files",
+    "ai-prompting"
+  ]
+}

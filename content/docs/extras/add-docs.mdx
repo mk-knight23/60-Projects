@@ -1,0 +1,118 @@
+---
+title: Create Docs
+description: Add documentation to your app with fumadocs
+---
+
+# Create Docs
+
+Add a documentation site to your app. Docs are powered by [fumadocs](https://fumadocs.dev) — write MDX files and they appear at `/docs` automatically.
+
+## Restore Docs (If Deleted)
+
+If you removed the docs during setup, restore them from git:
+
+```bash
+git checkout HEAD -- content/docs app/docs lib/source.ts source.config.ts
+```
+
+Or use this prompt:
+
+```
+Restore the docs feature from git history.
+
+Find the lastest commit that still had the docs feature and restore the docs setup. Dont restore other files!
+
+E.g. git checkout HEAD -- content/docs app/docs lib/source.ts source.config.ts
+```
+
+Then run `npm run dev` and visit [http://localhost:3000/docs](http://localhost:3000/docs).
+
+---
+
+## Prompt Examples
+
+These prompts are independent — use whichever ones you need or create your own.
+
+### Add a New Page
+
+```
+Create documentation for [FEATURE].
+
+File: content/docs/[SECTION]/[FILENAME].mdx
+
+Include:
+- Frontmatter with title and description
+- Overview of what it does
+- Step-by-step instructions
+- Code examples where helpful
+
+Style: Clear, concise, scannable. Use headings, bullet points, code blocks.
+```
+
+### Add a New Section
+
+```
+Add a new docs section called "[SECTION NAME]".
+
+1. Create folder: content/docs/[section-slug]/
+2. Add meta.json with title and page order
+3. Add the section to content/docs/meta.json
+4. Create the first page: [PAGE NAME].mdx
+
+Follow the existing docs structure.
+```
+
+### Reorder Navigation
+
+```
+Update the docs navigation in content/docs/meta.json.
+
+New order:
+1. [SECTION 1]
+2. [SECTION 2]
+3. [SECTION 3]
+
+Use separators (---Title---) to group related sections.
+```
+
+### Match Docs Theme to Your App
+
+The docs section uses fumadocs with its own CSS variables — **your app's daisyUI theme won't automatically apply here**. You need to adjust `app/docs/docs.css` separately.
+
+1. Go to [DaisyUI Theme Generator](https://daisyui.com/theme-generator/)
+2. Select your theme (or paste your custom theme)
+3. Copy the color values (or click 'CSS' button to copy all)
+
+```
+Update app/docs/docs.css to match my app's daisyUI theme.
+
+Colors from my theme:
+- Primary: [HEX COLOR]
+- Background: [HEX COLOR]
+- Text/foreground: [HEX COLOR]
+
+Convert to oklch format and update the fumadocs CSS variables.
+Keep the existing structure, just update colors.
+
+@web https://daisyui.com/llms.txt
+```
+
+### Improve Existing Docs
+
+```
+Improve the documentation at content/docs/[PATH].mdx
+
+Make it:
+- Clearer and more concise
+- Better organized with headings
+- Include practical examples
+- Add troubleshooting section if missing
+```
+
+---
+
+## Testing
+
+1. Visit [http://localhost:3000/docs](http://localhost:3000/docs)
+2. Check sidebar navigation shows your sections
+3. Verify colors match your app's theme
