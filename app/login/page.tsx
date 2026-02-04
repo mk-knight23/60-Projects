@@ -14,7 +14,7 @@ export default function LoginPage() {
         </Link>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-4 py-12">
+      <main className="flex-1 flex items-center justify-center px-4 py-12 bg-gradient-to-b from-primary/5 to-base-100">
         <Suspense fallback={<LoginSkeleton />}>
           <LoginForm />
         </Suspense>
@@ -72,17 +72,20 @@ function LoginForm() {
   if (sent) {
     return (
       <div className="w-full max-w-sm text-center">
-        <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-          <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-6">
+          <svg className="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold mb-2">Check your email</h1>
+        <h1 className="text-2xl font-bold mb-2">Check your inbox</h1>
         <p className="text-base-content/60 mb-8">
-          We sent a magic link to <span className="font-medium text-base-content">{email}</span>
+          Magic link sent to <span className="font-medium text-base-content">{email}</span>
+        </p>
+        <p className="text-sm text-base-content/50 mb-6">
+          Click the link in the email to sign in instantly
         </p>
         <button className="btn btn-ghost btn-sm" onClick={() => setSent(false)}>
-          ← Use a different email
+          ← Use different email
         </button>
       </div>
     )
@@ -91,8 +94,9 @@ function LoginForm() {
   return (
     <div className="w-full max-w-sm">
       <div className="text-center mb-8">
-        <h1 className="text-2xl font-bold mb-2">Welcome back</h1>
-        <p className="text-base-content/60">Sign in to your account to continue</p>
+        <div className="text-4xl mb-4">🚀</div>
+        <h1 className="text-2xl font-bold mb-2">Start Building Real Projects</h1>
+        <p className="text-base-content/60">Access 60 production-ready projects to level up your skills</p>
       </div>
 
       {error && (
@@ -104,7 +108,7 @@ function LoginForm() {
       <form onSubmit={handleMagicLink}>
         <input
           type="email"
-          placeholder="you@example.com"
+          placeholder="Enter your email"
           className="input input-bordered w-full mb-4"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -115,7 +119,7 @@ function LoginForm() {
           className={`btn btn-primary w-full ${loading ? "loading" : ""}`}
           disabled={loading}
         >
-          {loading ? "Sending..." : "Send Magic Link"}
+          {loading ? "Sending magic link..." : "Get Magic Link →"}
         </button>
       </form>
 
