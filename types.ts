@@ -1,5 +1,5 @@
 /**
- * Shared types for Ghoststack
+ * Shared types for 60 Projects Ecosystem
  * Add your own types as needed - this is just the foundation
  */
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-const themes = ["light", "dark", "fantasy", "garden", "wireframe", "aqua", "winter", "nord", "silk", "cupcake", "dracula"] as const
+const themes = ["light", "dark", "fantasy", "garden", "aqua", "winter", "nord", "silk", "dracula"] as const
 type Theme = (typeof themes)[number]
 
 // Theme icons mapping
@@ -11,12 +11,10 @@ const themeIcons: Record<Theme, string> = {
   dark: "🌙",
   fantasy: "🦄",
   garden: "🌸",
-  wireframe: "📐",
   aqua: "🌊",
   winter: "❄️",
   nord: "🏔️",
   silk: "🎀",
-  cupcake: "🧁",
   dracula: "🧛",
 }
 

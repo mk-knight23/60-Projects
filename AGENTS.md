@@ -1,6 +1,6 @@
-# Ghoststack - AI Agent Context
+# 60 Projects Ecosystem - AI Agent Context
 
-Next.js 16 AI micro SaaS boilerplate.
+Explore 60 production-ready projects covering AI, SaaS, web apps, games, tools, and starter templates.
 
 ## Development Commands
 

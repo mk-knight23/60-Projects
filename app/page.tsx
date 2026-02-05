@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { ProjectShowcase } from "@/components/project-showcase"
 import { plans } from "@/lib/plans"
 
 /**
@@ -61,107 +62,16 @@ export default function LandingPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
-                <Link href="#projects" className="btn btn-ghost btn-lg gap-2 group">
+                <Link href="#showcase" className="btn btn-ghost btn-lg gap-2 group">
                   <span>Browse Projects</span>
                 </Link>
               </div>
-
-              {/* Hero visual - Project showcase cards */}
-              <div className="relative max-w-5xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {[
-                    { emoji: "🤖", title: "AI Agents", desc: "15 Projects" },
-                    { emoji: "💼", title: "SaaS Apps", desc: "12 Projects" },
-                    { emoji: "🎮", title: "Games", desc: "8 Projects" },
-                    { emoji: "🛠️", title: "Tools", desc: "10 Projects" },
-                    { emoji: "⚡", title: "Web Apps", desc: "10 Projects" },
-                    { emoji: "🔧", title: "Dev Utils", desc: "5 Projects" },
-                  ].map((category, i) => (
-                    <div key={i} className="card bg-base-200 border border-base-content/10 hover:border-primary/30 transition-all hover:scale-105">
-                      <div className="card-body items-center text-center p-6">
-                        <div className="text-4xl mb-2">{category.emoji}</div>
-                        <h3 className="font-bold">{category.title}</h3>
-                        <p className="text-sm text-base-content/60">{category.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </section>
 
-        {/* Social Proof */}
-        <section className="py-16 border-y border-base-content/5 bg-base-200/30">
-          <div className="container mx-auto px-4">
-            {/* User Stats */}
-            <div className="text-center mb-12">
-              <p className="text-base-content/40 text-sm mb-8 uppercase tracking-wider font-medium">
-                Trusted by engineers building real careers
-              </p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
-                <div className="text-center">
-                  <div className="text-4xl font-black text-primary mb-1">2,500+</div>
-                  <div className="text-sm text-base-content/60">Active Builders</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-black text-secondary mb-1">15,000+</div>
-                  <div className="text-sm text-base-content/60">Projects Built</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-black text-accent mb-1">50+</div>
-                  <div className="text-sm text-base-content/60">Countries</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-black text-primary mb-1">4.9/5</div>
-                  <div className="text-sm text-base-content/60">Average Rating</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Customer Logos - Using company badges */}
-            <div className="mt-12">
-              <p className="text-center text-base-content/40 text-xs mb-6 uppercase tracking-wider">
-                Engineers from top companies use 60 Projects to level up
-              </p>
-              <div className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
-                {[
-                  "Google",
-                  "Meta",
-                  "Amazon",
-                  "Microsoft",
-                  "Stripe",
-                  "Vercel",
-                  "Supabase",
-                  "OpenAI",
-                ].map((company, i) => (
-                  <div
-                    key={i}
-                    className="badge badge-lg bg-base-100 border border-base-content/10 text-base-content/60 hover:border-primary/30 hover:text-primary transition-all cursor-default font-semibold"
-                  >
-                    {company}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Target Audience */}
-        <section className="py-16 border-y border-base-content/5 bg-base-200/30">
-          <div className="container mx-auto px-4">
-            <p className="text-center text-base-content/40 text-sm mb-8 uppercase tracking-wider font-medium">
-              Built for engineers who want to prove their skills
-            </p>
-            <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-              {["AI Engineers", "Full-Stack Developers", "Indie Builders", "Startups", "Recruiters", "Tech Companies"].map((audience, i) => (
-                <span key={i} className="badge badge-lg bg-base-100 border border-base-content/10 text-base">
-                  {audience}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Project Showcase - Moved to top for visibility */}
+        <ProjectShowcase />
 
         {/* Stats */}
         <section className="py-20">

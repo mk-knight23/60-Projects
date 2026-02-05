@@ -9,7 +9,7 @@ export const metadata = {
     template: "%s | Docs",
     default: "Documentation",
   },
-  description: "Ghoststack Documentation - Build AI-enabled micro SaaS with ease",
+  description: "60 Projects Documentation - Complete guide to the 60 Projects Ecosystem",
 }
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -30,7 +30,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         nav={{
           title: (
             <span className="flex items-center gap-2 font-bold">
-              <span className="text-primary">👻</span> Ghoststack
+              <span className="text-primary">◆</span> 60 Projects
             </span>
           ),
           url: "/",

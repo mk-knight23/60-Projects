@@ -1,28 +1,26 @@
-# Ghoststack
+# 60 Projects Ecosystem
 
-AI micro SaaS boilerplate for vibe coding with Cursor and Claude.
-
-Thanks for purchasing Ghoststack! You're all set to start building.
+Explore 60 production-ready projects covering AI, SaaS, web apps, games, tools, and starter templates. Built with modern technologies and ready to deploy.
 
 ## Get Started
 
-Head over to the docs for setup and tutorials: **[getghoststack.dev/docs](https://getghoststack.dev/docs)**
+Head over to the docs for complete documentation: **[/docs](/docs)**
 
-## Support
+## What's Included
 
-Questions or need help? Reach out anytime: [damian@nclabs.ch](mailto:damian@nclabs.ch)
+- **60 Projects** - Portfolio, Web Apps, Games, Tools, and Starters
+- **Modern Tech Stack** - Next.js, React, Vue, Python, and more
+- **Production Ready** - Deployed on multiple cloud platforms
+- **Open Source** - Learn, modify, and deploy
+
+## Live Projects
+
+Explore the project showcase at **[60projects.dev](https://60projects.dev)**
+
+## Documentation
+
+Complete documentation available at **[60projects.dev/docs](https://60projects.dev/docs)**
 
 ## License
 
-Ghoststack is proprietary software. See [LICENSE](./LICENSE) for details.
-
-**TL;DR:**
-
-- ✅ Build unlimited apps (commercial or personal)
-- ✅ Build for clients
-- ✅ Modify the code
-- ❌ Redistribute or share the source code
-- ❌ Resell or create competing boilerplates
-- ❌ Share with others who haven't purchased a license
-
-By using Ghoststack, you agree to the [license terms](./LICENSE).
+This project is open source and available under the MIT License.

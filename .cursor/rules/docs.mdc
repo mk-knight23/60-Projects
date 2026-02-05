@@ -1,5 +1,5 @@
 ---
-description: Guidelines for writing Ghoststack documentation pages
+description: Guidelines for writing 60 Projects documentation pages
 globs: content/docs/**/*.mdx
 alwaysApply: false
 ---

@@ -77,7 +77,7 @@ export async function complete({
       Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
       "Content-Type": "application/json",
       "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-      "X-Title": process.env.NEXT_PUBLIC_APP_NAME || "Ghoststack",
+      "X-Title": process.env.NEXT_PUBLIC_APP_NAME || "60 Projects",
     },
     body: JSON.stringify({
       model,
@@ -111,7 +111,7 @@ export async function* streamComplete({
       Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
       "Content-Type": "application/json",
       "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-      "X-Title": process.env.NEXT_PUBLIC_APP_NAME || "Ghoststack",
+      "X-Title": process.env.NEXT_PUBLIC_APP_NAME || "60 Projects",
     },
     body: JSON.stringify({
       model,

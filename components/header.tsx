@@ -45,11 +45,13 @@ export function Header() {
     public: [
       { href: "/", label: "Home" },
       { href: "/#features", label: "Features" },
+      { href: "/#showcase", label: "Showcase" },
       { href: "/pricing", label: "Pricing" },
       { href: "/docs", label: "Docs" },
     ],
     authenticated: [
       { href: "/dashboard", label: "Dashboard" },
+      { href: "/docs", label: "Documentation" },
       { href: "/dashboard/settings", label: "Settings" },
     ],
   }
@@ -59,8 +61,8 @@ export function Header() {
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-            <Image src="/logo.svg" alt="60 Projects Ecosystem Logo" width={140} height={28} priority />
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg hover:opacity-80 transition-opacity">
+            <Image src="/logo.svg" alt="60 Projects Ecosystem Logo" width={160} height={50} priority />
           </Link>
 
           {/* Desktop Navigation */}

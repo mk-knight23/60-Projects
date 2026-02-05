@@ -105,9 +105,7 @@ export default async function DashboardPage() {
                 Account Settings
               </Link>
               <a
-                href="https://github.com/your-repo/ghoststack"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/docs"
                 className="btn btn-outline btn-sm"
               >
                 View Docs

@@ -1,0 +1,312 @@
+---
+title: "Running Projects Locally"
+description: "Step-by-step guide to set up and run 60 Projects locally"
+---
+
+# Running Projects Locally
+
+Learn how to clone, set up, and run any project from the 60 Projects Ecosystem on your local machine.
+
+## 📋 Prerequisites
+
+Before running any project, ensure you have:
+
+- **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
+- **Git** - [Download here](https://git-scm.com/)
+- **Code Editor** - VS Code recommended [Download here](https://code.visualstudio.com/)
+- **Package Manager** - npm, yarn, or pnpm (npm comes with Node.js)
+
+### Verify Installation
+
+```bash
+node --version    # Should be v18 or higher
+npm --version     # Should be v9 or higher
+git --version     # Should show git version
+```
+
+## 🚀 Quick Start
+
+### Option 1: Clone Individual Project
+
+```bash
+# 1. Navigate to your projects directory
+cd ~/projects
+
+# 2. Clone the specific project repository
+git clone https://github.com/yourusername/project-name.git
+
+# 3. Enter the project directory
+cd project-name
+
+# 4. Install dependencies
+npm install
+
+# 5. Start the development server
+npm run dev
+
+# 6. Open in browser
+# Navigate to http://localhost:3000
+```
+
+### Option 2: Clone Entire Ecosystem
+
+```bash
+# 1. Clone the main repository
+git clone https://github.com/yourusername/60-projects-ecosystem.git
+
+# 2. Enter the repository
+cd 60-projects-ecosystem
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the development server
+npm run dev
+
+# 5. Open in browser
+# Navigate to http://localhost:3000
+```
+
+## 🔧 Project-Specific Setup
+
+Some projects require additional setup steps:
+
+### Projects with Database
+
+```bash
+# 1. Set up environment variables
+cp .env.example .env.local
+
+# 2. Edit .env.local with your credentials
+# Add database URL, API keys, etc.
+
+# 3. Run database migrations (if applicable)
+npm run db:migrate
+
+# 4. Start the development server
+npm run dev
+```
+
+### Projects with API Keys
+
+```bash
+# 1. Create .env.local file
+touch .env.local
+
+# 2. Add your API keys
+API_KEY=your_api_key_here
+SECRET_KEY=your_secret_key_here
+
+# 3. Start the development server
+npm run dev
+```
+
+### Projects with Authentication
+
+```bash
+# 1. Set up authentication provider
+# (e.g., Supabase, Auth0, Clerk)
+
+# 2. Add credentials to .env.local
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_supabase_key
+
+# 3. Start the development server
+npm run dev
+```
+
+## 📦 Available Scripts
+
+Most projects include these npm scripts:
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run test         # Run tests
+npm run preview      # Preview production build locally
+```
+
+## 🌐 Common Local URLs
+
+Projects typically run on these ports:
+
+| Port | URL | Project Type |
+|------|-----|--------------|
+| 3000 | http://localhost:3000 | Next.js projects |
+| 5173 | http://localhost:5173 | Vite projects |
+| 8080 | http://localhost:8080 | Alternative Next.js |
+| 4200 | http://localhost:4200 | Angular projects |
+
+## 🐛 Troubleshooting
+
+### Port Already in Use
+
+**Error:** `Port 3000 is already in use`
+
+**Solution:**
+```bash
+# Find process using the port
+lsof -ti:3000
+
+# Kill the process
+kill -9 $(lsof -ti:3000)
+
+# OR use a different port
+npm run dev -- -p 3001
+```
+
+### Module Not Found
+
+**Error:** `Cannot find module 'xyz'`
+
+**Solution:**
+```bash
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### Environment Variables Not Working
+
+**Error:** `undefined environment variable`
+
+**Solution:**
+```bash
+# Ensure .env.local exists and is in the correct location
+ls -la .env.local
+
+# Restart the dev server after adding env vars
+npm run dev
+```
+
+### Build Errors
+
+**Error:** TypeScript or build errors
+
+**Solution:**
+```bash
+# Clear Next.js cache
+rm -rf .next
+
+# Reinstall dependencies
+rm -rf node_modules package-lock.json
+npm install
+
+# Restart dev server
+npm run dev
+```
+
+## 🔐 Environment Variables Template
+
+Create a `.env.local` file for projects requiring configuration:
+
+```bash
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+
+# API Keys
+OPENAI_API_KEY=your_openai_key
+STRIPE_SECRET_KEY=your_stripe_key
+
+# Authentication
+NEXTAUTH_SECRET=your_nextauth_secret
+NEXTAUTH_URL=http://localhost:3000
+
+# External Services
+RESEND_API_KEY=your_resend_key
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_supabase_key
+```
+
+## 📱 Testing Locally
+
+### Responsive Design Testing
+
+1. Open browser DevTools (F12 or Cmd+Option+I)
+2. Click device toolbar icon (Cmd+Shift+M)
+3. Select different device presets
+4. Test touch interactions
+
+### API Testing
+
+```bash
+# Install a REST client
+npm install -g curl
+
+# Test endpoints
+curl http://localhost:3000/api/endpoint
+```
+
+### Database Testing
+
+```bash
+# Connect to local database
+psql -U user -d dbname
+
+# Run queries
+SELECT * FROM users LIMIT 10;
+```
+
+## 🚀 Production Build
+
+Test the production build locally before deploying:
+
+```bash
+# 1. Build the project
+npm run build
+
+# 2. Start production server
+npm run start
+
+# 3. Or use preview mode
+npm run preview
+
+# 4. Test at http://localhost:3000
+```
+
+## 📊 Development Tips
+
+### Hot Reload
+- Most projects support hot reload
+- Changes reflect immediately in browser
+- No need to restart server
+
+### Debugging
+- Use `console.log()` for quick debugging
+- Add `debugger` statement for breakpoints
+- Use browser DevTools for inspection
+
+### Performance
+- Run `npm run build` to check production bundle size
+- Use React DevTools for component profiling
+- Test with Lighthouse for performance metrics
+
+## 🔄 Updating Projects
+
+Keep projects up to date:
+
+```bash
+# Fetch latest changes
+git pull origin main
+
+# Update dependencies
+npm update
+
+# Check for outdated packages
+npm outdated
+
+# Upgrade to latest versions
+npm install package@latest
+```
+
+## 📚 Next Steps
+
+- **Explore Projects:** Browse [Project Categories](/docs/portfolio/overview)
+- **Deploy:** Learn [Deployment Options](/docs/deployment/overview)
+- **Customize:** Modify projects for your needs
+
+---
+
+**Next:** [Learn about the tech stack](/docs/getting-started/tech-stack)

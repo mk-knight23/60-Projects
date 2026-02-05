@@ -1,5 +1,5 @@
 {
-  "name": "ghoststack",
+  "name": "60-projects-ecosystem",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -36,6 +36,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
+    "playwright": "^1.58.1",
     "react-email": "4.3.2",
     "tailwindcss": "^4",
     "typescript": "^5"

@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server"
 import type { User, Subscription, UserProfile } from "@/types"
 
 /**
- * Common database queries for Ghoststack
+ * Common database queries for 60 Projects Ecosystem
  * These patterns make it easy for AI assistants to reference and extend
  */
 

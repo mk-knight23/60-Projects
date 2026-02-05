@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import { createCheckoutSession } from "@/lib/stripe"
+import { createCheckoutSession, validatePromotionCode } from "@/lib/stripe"
 
 /**
  * POST /api/stripe/checkout
- * Create a Stripe Checkout session for subscription
+ * Create a Stripe Checkout session for subscription with optional coupon
  */
 export async function POST(request: NextRequest) {
   try {
-    const { priceId } = await request.json()
+    const { priceId, coupon } = await request.json()
 
     if (!priceId) {
       console.error("Checkout error: Missing priceId")
@@ -18,7 +18,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log("Creating checkout for priceId:", priceId)
+    console.log("Creating checkout for priceId:", priceId, "coupon:", coupon || "none")
+
+    // Validate coupon if provided
+    let promotionCode: string | undefined
+    if (coupon) {
+      const validation = await validatePromotionCode(coupon)
+      if (!validation.valid) {
+        console.error("Checkout error: Invalid coupon", validation.error)
+        return NextResponse.json(
+          { error: validation.error || "Invalid coupon code" },
+          { status: 400 }
+        )
+      }
+      console.log("✅ Coupon validated:", coupon, "→ Stripe ID:", validation.couponId)
+      promotionCode = validation.couponId
+    }
 
     // Get current user
     const supabase = await createClient()
@@ -36,11 +51,12 @@ export async function POST(request: NextRequest) {
 
     console.log("User authenticated:", user.id, user.email)
 
-    // Create checkout session
+    // Create checkout session with promotion code
     const session = await createCheckoutSession({
       priceId,
       userId: user.id,
       userEmail: user.email!,
+      promotionCode,
     })
 
     console.log("Checkout session created:", session.id)

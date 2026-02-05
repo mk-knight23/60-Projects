@@ -1,5 +1,5 @@
 -- ===========================================
--- Ghoststack Database Setup
+-- 60 Projects Ecosystem Database Setup
 -- Run this in your Supabase SQL Editor
 -- https://supabase.com/dashboard/project/_/sql
 -- ===========================================

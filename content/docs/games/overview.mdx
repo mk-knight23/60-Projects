@@ -1,0 +1,398 @@
+---
+title: "Games (25-34)"
+description: "Interactive browser-based games built with modern web technologies"
+---
+
+# Browser Games
+
+Interactive games showcasing web technologies for game development, including canvas rendering, physics engines, and real-time interactions.
+
+## 📋 Overview
+
+Game projects demonstrate:
+- **Canvas Rendering** - HTML5 Canvas API
+- **Game Physics** - Collision detection, gravity, movement
+- **User Input** - Keyboard, mouse, touch controls
+- **Game Logic** - State management, scoring, levels
+- **Audio Systems** - Sound effects, background music
+- **Game Loops** - Animation frames, delta time
+- **Responsive Design** - Mobile and desktop play
+
+## 🎮 Projects List
+
+### 25-27: Arcade Games
+
+#### 25 - Snake Game
+**Tech Stack:** HTML5 Canvas, JavaScript, TypeScript
+
+Classic snake game featuring:
+- Smooth movement controls
+- Food spawning system
+- Score tracking
+- Difficulty levels
+- High score persistence
+- Pause/resume functionality
+
+**Features:**
+- Arrow key controls
+- Mobile touch support
+- Collision detection
+- Speed progression
+
+#### 26 - Tetris Clone
+**Tech Stack:** React, Canvas API, TypeScript
+
+Tetris-style puzzle game:
+- 7 tetromino shapes
+- Piece rotation
+- Line clearing
+- Level progression
+- Next piece preview
+- Hold piece mechanic
+- Ghost piece (landing preview)
+
+**Features:**
+- Keyboard controls
+- Touch gestures
+- Score system
+- Game over detection
+
+#### 27 - Breakout
+**Tech Stack:** Vanilla JavaScript, Canvas
+
+Brick-breaking game:
+- Paddle control
+- Ball physics
+- Brick destruction
+- Power-ups
+- Multi-ball mode
+- Score multiplier
+- Multiple levels
+
+**Features:**
+- Mouse/touch control
+- Particle effects
+- Sound effects
+- Progressive difficulty
+
+---
+
+### 28-30: Puzzle Games
+
+#### 28 - Sudoku
+**Tech Stack:** React, TypeScript
+
+Logic puzzle game:
+- 9x9 grid generation
+- Difficulty levels
+- Validation system
+- Note-taking mode
+- Hint system
+- Timer
+- Solution checker
+
+**Features:**
+- Random puzzle generation
+- Mistake counter
+- Auto-fill candidates
+- Undo/redo
+- Save progress
+
+#### 29 - Memory Match
+**Tech Stack:** Vue.js, CSS Grid
+
+Card matching game:
+- Grid of face-down cards
+- Flip animation
+- Match detection
+- Move counter
+- Timer
+- Multiple themes
+- Level progression
+
+**Features:**
+- Card pair matching
+- Memory training
+- Increasing difficulty
+- Score tracking
+
+#### 30 - 2048 Clone
+**Tech Stack:** React, TypeScript
+
+Number merging puzzle:
+- 4x4 grid
+- Swipe controls
+- Tile merging logic
+- Score tracking
+- High score save
+- Undo function
+- Animations
+
+**Features:**
+- Keyboard and touch
+- Smooth animations
+- Win/lose conditions
+- Continue option
+
+---
+
+### 31-33: Action & Strategy
+
+#### 31 - Space Shooter
+**Tech Stack:** HTML5 Canvas, JavaScript
+
+Arcade space shooter:
+- Player spaceship
+- Enemy waves
+- Projectile system
+- Power-ups
+- Boss battles
+- Score system
+- Multiple weapons
+
+**Features:**
+- WASD/Arrow movement
+- Mouse aiming
+- Auto-fire option
+- Collision detection
+- Particle effects
+
+#### 32 - Tower Defense
+**Tech Stack:** React, Canvas API
+
+Strategy defense game:
+- Tower placement
+- Enemy pathfinding
+- Wave system
+- Tower upgrades
+- Resource management
+- Multiple tower types
+- Special abilities
+
+**Features:**
+- Strategic placement
+- Resource economy
+- Level progression
+- Score tracking
+
+#### 33 - Chess Game
+**Tech Stack:** React, TypeScript, Chess.js
+
+Classic board game:
+- Full chess rules
+- Move validation
+- Check/checkmate detection
+- AI opponent
+- Two-player mode
+- Move history
+- Timer option
+
+**Features:**
+- Legal move highlighting
+- Castling, en passant
+- Pawn promotion
+- Undo moves
+- Game review
+
+---
+
+### 34: Casual Games
+
+#### 34 - Clicker/Idle Game
+**Tech Stack:** React, TypeScript
+
+Incremental game:
+- Click mechanics
+- Upgrades system
+- Auto-clickers
+- Prestige system
+- Achievements
+- Save/load game
+- Offline progress
+
+**Features:**
+- Resource accumulation
+- Unlockables
+- Stat tracking
+- Infinite progression
+
+---
+
+## 🎨 Game Development Concepts
+
+### Core Game Loop
+```javascript
+function gameLoop() {
+  update()      // Update game state
+  draw()        // Render frame
+  requestAnimationFrame(gameLoop)
+}
+```
+
+### State Management
+- **Game States** - Menu, playing, paused, game over
+- **Entity State** - Position, velocity, health
+- **Progress State** - Level, score, unlocks
+- **Settings** - Audio, controls, difficulty
+
+### Input Handling
+- **Keyboard** - Arrow keys, WASD, spacebar
+- **Mouse** - Click, drag, hover
+- **Touch** - Tap, swipe, pinch
+- **Gamepad** - Controller support
+
+## 🛠️ Technical Features
+
+### Canvas Rendering
+- **Drawing Shapes** - Rectangles, circles, lines
+- **Images** - Sprites, backgrounds
+- **Text** - Score, UI elements
+- **Transformations** - Rotate, scale, translate
+- **Clipping** - Mask regions
+- **Compositing** - Blend modes
+
+### Physics Systems
+- **Movement** - Velocity, acceleration
+- **Gravity** - Falling objects
+- **Collision** - AABB, circle collision
+- **Bouncing** - Angle reflection
+- **Friction** - Slow down over time
+
+### Audio Management
+- **Sound Effects** - Click, explosion, success
+- **Background Music** - Looping tracks
+- **Volume Control** - Mute, adjust levels
+- **Audio Formats** - MP3, OGG, WAV
+
+### Performance Optimization
+- **Request Animation Frame** - Smooth 60fps
+- **Delta Time** - Frame-independent movement
+- **Object Pooling** - Reuse entities
+- **Canvas Caching** - Pre-render static elements
+- **Lazy Loading** - Load assets on demand
+
+## 🎯 Game Design Patterns
+
+### Entity-Component-System (ECS)
+- **Entities** - Game objects
+- **Components** - Data (position, sprite)
+- **Systems** - Logic (movement, rendering)
+
+### State Machine
+- **States** - Idle, running, jumping
+- **Transitions** - State change conditions
+- **Actions** - State-specific behavior
+
+### Observer Pattern
+- **Events** - Game events system
+- **Listeners** - Subscribe to events
+- **Dispatch** - Trigger events
+
+## 📊 Tech Stack Summary
+
+| Technology | Usage | Projects |
+|------------|-------|----------|
+| HTML5 Canvas | Rendering | 8 projects |
+| JavaScript | Game Logic | 10 projects |
+| TypeScript | Type Safety | 6 projects |
+| React | UI/Game Layer | 5 projects |
+| Vue.js | Alternative UI | 2 projects |
+
+## 🎵 Game Assets
+
+### Graphics
+- **Sprites** - Character animations
+- **Backgrounds** - Level backgrounds
+- **UI Elements** - Buttons, panels
+- **Icons** - Power-ups, items
+
+### Audio
+- **Sound Effects** - Short, impactful sounds
+- **Music** - Background tracks
+- **Voice** - Character dialogue
+- **Ambient** - Environmental sounds
+
+### Formats
+- **Images** - PNG, SVG, WebP
+- **Audio** - MP3, OGG, WAV
+- **Fonts** - TTF, WOFF, WOFF2
+
+## 📚 What You'll Learn
+
+Building these games teaches you:
+
+- **Game Loops** - Core game architecture
+- **Canvas API** - 2D rendering
+- **Event Handling** - User input
+- **Collision Detection** - Physics basics
+- **State Management** - Game state
+- **Performance** - Optimization techniques
+- **Game Design** - Fun mechanics
+- **UI/UX** - Game interfaces
+
+## 🔧 Setup & Run
+
+```bash
+# Clone any game project
+git clone [repository-url]
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## 🚀 Deployment
+
+Games can be deployed as:
+- **Static Sites** - Netlify, Vercel, Cloudflare Pages
+- **Progressive Web Apps** - Installable games
+- **Mobile Apps** - Capacitor, Cordova wrappers
+
+See [Deployment Guide](/docs/deployment/overview) for details.
+
+## 🎮 Platform Considerations
+
+### Desktop
+- Keyboard controls
+- Mouse precision
+- Larger screens
+- More processing power
+
+### Mobile
+- Touch gestures
+- Responsive design
+- Performance optimization
+- Battery considerations
+- Portrait/landscape modes
+
+## 🌟 Advanced Features
+
+### Multiplayer
+- WebSockets for real-time
+- Server authority
+- Lag compensation
+- Synchronization
+
+### Save Systems
+- Local storage
+- Cloud saves
+- Progress tracking
+- Achievement sync
+
+### Monetization
+- In-app purchases
+- Ads integration
+- Premium unlocks
+- Donation system
+
+---
+
+**Next:** [Explore Tools](/docs/tools/overview)

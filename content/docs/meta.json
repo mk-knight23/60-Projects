@@ -1,19 +1,17 @@
 {
-  "title": "Docs",
   "pages": [
     "index",
-    "tutorial",
     "---Getting Started---",
-    "...setup",
-    "---Building---",
-    "...building",
-    "---Integrations---",
-    "...integrations",
-    "---Ship It---",
-    "...deploying",
-    "---Extras---",
-    "...extras",
-    "---Learn---",
-    "...concepts"
+    "getting-started/overview",
+    "getting-started/running-projects",
+    "getting-started/tech-stack",
+    "---Project Categories---",
+    "portfolio/overview",
+    "web-apps/overview",
+    "games/overview",
+    "tools/overview",
+    "starters/overview",
+    "---Deployment---",
+    "deployment/overview"
   ]
 }

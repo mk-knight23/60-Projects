@@ -1,8 +1,7 @@
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { SubscribeButton } from "@/components/subscribe-button"
-import { plans } from "@/lib/plans"
+import { PricingContent } from "@/components/pricing-content"
 
 export const metadata = {
   title: "Pricing",
@@ -10,7 +9,7 @@ export const metadata = {
 }
 
 /**
- * Pricing page - clean, focused design
+ * Pricing page - clean, focused design with coupon support
  * Plan data is centralized in lib/plans.ts
  */
 export default function PricingPage() {
@@ -31,56 +30,8 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* Pricing Cards */}
-        <section className="py-12 px-4">
-          <div className="container mx-auto max-w-4xl">
-            <div className="grid md:grid-cols-2 gap-6">
-              {plans.map((plan) => (
-                <div
-                  key={plan.id}
-                  className={`rounded-2xl p-8 ${plan.popular
-                      ? "border-2 border-primary bg-base-100 relative"
-                      : "border border-base-300 bg-base-100"
-                    }`}
-                >
-                  {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="badge badge-primary">Most Popular</span>
-                    </div>
-                  )}
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold mb-1">{plan.name}</h3>
-                    <p className="text-sm text-base-content/60">{plan.description}</p>
-                  </div>
-                  <div className="mb-6">
-                    <span className="text-4xl font-bold">${plan.price}</span>
-                    <span className="text-base-content/60">/month</span>
-                  </div>
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature, i) => (
-                      <PricingFeature key={i}>{feature}</PricingFeature>
-                    ))}
-                  </ul>
-                  {plan.priceId ? (
-                    <SubscribeButton
-                      priceId={plan.priceId}
-                      className={`btn w-full ${plan.popular ? "btn-primary" : "btn-outline"}`}
-                    >
-                      {plan.cta}
-                    </SubscribeButton>
-                  ) : (
-                    <Link
-                      href={plan.ctaLink}
-                      className={`btn w-full ${plan.popular ? "btn-primary" : "btn-outline"}`}
-                    >
-                      {plan.cta}
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Pricing Content (Client Component) */}
+        <PricingContent />
 
         {/* FAQ */}
         <section className="py-20 px-4 bg-base-200/50">
@@ -124,16 +75,5 @@ export default function PricingPage() {
 
       <Footer />
     </div>
-  )
-}
-
-function PricingFeature({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex items-center gap-3 text-sm">
-      <svg className="w-4 h-4 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-      </svg>
-      <span className="text-base-content/80">{children}</span>
-    </li>
   )
 }

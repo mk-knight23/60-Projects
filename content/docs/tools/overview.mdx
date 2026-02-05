@@ -1,0 +1,400 @@
+---
+title: "Developer Tools (35-44)"
+description: "Developer utilities and productivity tools"
+---
+
+# Developer Tools
+
+Practical utilities and productivity tools for developers, designers, and content creators.
+
+## 📋 Overview
+
+Tools projects showcase:
+- **DOM Manipulation** - Direct browser interaction
+- **File Processing** - Upload, parse, transform
+- **Data Conversion** - Format transformation
+- **Code Generation** - Boilerplate creators
+- **Developer Utilities** - Testing, debugging
+- **Productivity Apps** - Workflow automation
+
+## 🛠️ Projects List
+
+### 35-37: Code Tools
+
+#### 35 - JSON Formatter/Validator
+**Tech Stack:** React, TypeScript
+
+Developer utility for JSON:
+- Format/beautify JSON
+- Validate JSON syntax
+- Minify JSON
+- Color-coded output
+- Error highlighting
+- Copy to clipboard
+- File upload/paste input
+
+**Features:**
+- Real-time validation
+- Syntax error detection
+- Collapsible sections
+- Export formatted JSON
+- Compare two JSONs
+
+#### 36 - CSS Generator
+**Tech Stack:** React, Tailwind CSS
+
+Visual CSS tool:
+- Gradient generator
+- Box shadow creator
+- Border radius tool
+- Flexbox playground
+- Grid layout builder
+- Animation generator
+- Export CSS code
+
+**Features:**
+- Live preview
+- Copy CSS
+- Preset templates
+- Responsive preview
+
+#### 37 - Regular Expression Tester
+**Tech Stack:** Vue.js, JavaScript
+
+Regex testing tool:
+- Real-time matching
+- Highlighted matches
+- Explanation of patterns
+- Common regex library
+- Test strings
+- Export regex
+- Language-specific syntax
+
+**Features:**
+- Match/group highlighting
+- Replacement tester
+- Regex debugger
+- Save favorite patterns
+
+---
+
+### 38-40: Converter Tools
+
+#### 38 - Unit Converter
+**Tech Stack:** React, TypeScript
+
+Multi-purpose converter:
+- Length (m, ft, in, cm)
+- Weight (kg, lb, oz)
+- Temperature (°C, °F, K)
+- Data (MB, GB, TB)
+- Speed (m/s, km/h, mph)
+- Time (sec, min, hours)
+- Currency (live rates)
+
+**Features:**
+- Real-time conversion
+- Multiple units
+- Copy result
+- Conversion history
+
+#### 39 - Color Converter
+**Tech Stack:** React, JavaScript
+
+Color format converter:
+- HEX ↔ RGB ↔ HSL
+- Color picker
+- Palette generator
+- Contrast checker
+- Accessibility check
+- Export as CSS/Sass
+- Color harmony finder
+
+**Features:**
+- Visual color picker
+- Multiple formats
+- WCAG compliance
+- Palette suggestions
+
+#### 40 - Markdown Editor
+**Tech Stack:** React, MDX
+
+Markdown writing tool:
+- Live preview
+- Syntax highlighting
+- Export as HTML/PDF
+- Template library
+- Word count
+- Dark mode
+- Auto-save
+
+**Features:**
+- Split view
+- Toolbar shortcuts
+- Table of contents
+- Image upload
+- GitHub Flavored Markdown
+
+---
+
+### 41-43: Generator Tools
+
+#### 41 - QR Code Generator
+**Tech Stack:** React, QRCode Library
+
+QR code creator:
+- Text to QR code
+- URL to QR code
+- Custom colors
+- Size adjustment
+- Error correction levels
+- Download as PNG/SVG
+- Bulk generation
+
+**Features:**
+- Multiple formats
+- Logo embedding
+- Vector export
+- Scan testing
+
+#### 42 - Password Generator
+**Tech Stack:** React, TypeScript
+
+Security tool:
+- Customizable length
+- Character options (uppercase, lowercase, numbers, symbols)
+- Exclude similar characters
+- Password strength meter
+- Generate multiple
+- Copy to clipboard
+- Password history
+
+**Features:**
+- Entropy calculation
+- Strength indicator
+- Pronounceable option
+- Passphrase mode
+
+#### 43 - Lorem Ipsum Generator
+**Tech Stack:** React, JavaScript
+
+Content placeholder tool:
+- Paragraph generation
+- Word count control
+- Multiple themes
+- HTML/format options
+- Copy to clipboard
+- Custom templates
+- Fake data generator (names, emails, dates)
+
+**Features:**
+- Various languages
+- Rich text format
+- Code snippets
+- Image placeholders
+
+---
+
+### 44: Developer Utilities
+
+#### 44 - Browser DevTools Extension
+**Tech Stack:** TypeScript, Chrome Extension API
+
+Developer productivity:
+- DOM inspector
+- Network monitor
+- Console enhancements
+- Performance profiler
+- Color picker
+- Ruler tool
+- Screenshot capture
+
+**Features:**
+- Element highlighting
+- CSS editor
+- JavaScript console
+- Request/response viewer
+- Timeline recording
+
+---
+
+## 🎨 Common UI Patterns
+
+### Input Forms
+- **Text Inputs** - Single line, multi-line
+- **File Upload** - Drag & drop, click to upload
+- **Select Dropdowns** - Single/multiple selection
+- **Toggle Switches** - On/off options
+- **Sliders** - Numeric ranges
+- **Color Pickers** - Visual color selection
+
+### Output Display
+- **Code Blocks** - Syntax highlighted
+- **Previews** - Live result display
+- **Tables** - Structured data
+- **Cards** - Information blocks
+- **Modals** - Detailed views
+- **Toasts** - Notifications
+
+### Interactions
+- **Copy Buttons** - One-click copy
+- **Download Links** - File downloads
+- **Clear/Reset** - Start over
+- **Undo/Redo** - History navigation
+- **Save/Load** - Persistence
+
+## 🔧 Technical Concepts
+
+### File Processing
+```javascript
+// Handle file upload
+const handleFile = (file) => {
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    const content = e.target.result
+    processContent(content)
+  }
+  reader.readAsText(file)
+}
+```
+
+### Clipboard API
+```javascript
+// Copy to clipboard
+navigator.clipboard.writeText(text)
+
+// Read from clipboard
+navigator.clipboard.readText()
+```
+
+### Download Generation
+```javascript
+// Trigger download
+const downloadFile = (content, filename, type) => {
+  const blob = new Blob([content], { type })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  a.click()
+}
+```
+
+## 📊 Tech Stack Summary
+
+| Technology | Usage | Projects |
+|------------|-------|----------|
+| React | UI Framework | 7 projects |
+| Vue.js | Alternative Framework | 2 projects |
+| TypeScript | Type Safety | 8 projects |
+| JavaScript | Logic | 10 projects |
+| HTML5 APIs | Native Features | All projects |
+
+## 🎯 Key Features
+
+### Real-Time Processing
+- Instant feedback
+- Live preview
+- Dynamic updates
+- Progressive results
+
+### User Experience
+- Clean interface
+- Fast operations
+- Mobile responsive
+- Accessible controls
+
+### Data Handling
+- Input validation
+- Error handling
+- Edge case management
+- Performance optimization
+
+### Export Options
+- Copy to clipboard
+- Download as file
+- Shareable links
+- Print-friendly
+
+## 📚 What You'll Learn
+
+Building these tools teaches you:
+
+- **DOM Manipulation** - Direct browser interaction
+- **File Handling** - Upload, read, process files
+- **Data Transformation** - Convert between formats
+- **User Input** - Forms, validation, feedback
+- **Performance** - Efficient processing
+- **Browser APIs** - Clipboard, download, storage
+- **Regex** - Pattern matching
+- **Algorithm Design** - Conversion logic
+
+## 🔧 Setup & Run
+
+```bash
+# Clone any tool project
+git clone [repository-url]
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## 🌐 Deployment
+
+Tools deploy easily as static sites:
+- **Netlify** - Drag & drop deployment
+- **Vercel** - Git integration
+- **Cloudflare Pages** - Edge deployment
+- **GitHub Pages** - Free hosting
+
+See [Deployment Guide](/docs/deployment/overview)
+
+## 🎨 Design Considerations
+
+### User Interface
+- **Simplicity** - Minimal, focused design
+- **Clarity** - Clear labels and instructions
+- **Consistency** - Uniform patterns
+- **Feedback** - Immediate response
+
+### Accessibility
+- **Keyboard Navigation** - Full keyboard support
+- **Screen Readers** - ARIA labels
+- **Color Contrast** - WCAG AA compliant
+- **Focus States** - Visible indicators
+
+### Performance
+- **Code Splitting** - Load only needed code
+- **Lazy Loading** - Defer non-critical features
+- **Caching** - Store results
+- **Web Workers** - Background processing
+
+## 🚀 Advanced Features
+
+### PWA Support
+- Install as app
+- Offline functionality
+- Push notifications
+- Background sync
+
+### Data Persistence
+- Local storage
+- IndexedDB
+- Cloud sync
+- Export/import settings
+
+### Integrations
+- Browser extensions
+- API integrations
+- Third-party services
+- Webhooks
+
+---
+
+**Next:** [Explore Starters](/docs/starters/overview)
