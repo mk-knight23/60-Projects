@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+import { Chat } from "@/components/chat"
 
 export const metadata = {
   title: "Dashboard",
@@ -88,6 +89,11 @@ export default async function DashboardPage() {
             <div className="stat-value text-success text-lg">Active</div>
             <div className="stat-desc">Account in good standing</div>
           </div>
+        </div>
+
+        {/* Chat Section */}
+        <div className="mb-8">
+          <Chat />
         </div>
 
         {/* Quick Actions */}
