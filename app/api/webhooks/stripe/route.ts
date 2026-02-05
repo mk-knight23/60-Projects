@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
   const signature = request.headers.get("stripe-signature")
 
   if (!signature) {
+    console.error("❌ Webhook: Missing stripe-signature header")
     return NextResponse.json(
       { error: "Missing stripe-signature header" },
       { status: 400 }
@@ -30,8 +31,11 @@ export async function POST(request: NextRequest) {
 
   try {
     event = constructWebhookEvent(body, signature)
+    console.log(`✅ Webhook: Received ${event.type} event`)
   } catch (error) {
-    console.error("Webhook signature verification failed:", error)
+    console.error("❌ Webhook signature verification failed:", error)
+    console.error("💡 Tip: Make sure STRIPE_WEBHOOK_SECRET is set in .env.local")
+    console.error("💡 Get it from: https://dashboard.stripe.com/webhooks")
     return NextResponse.json(
       { error: "Invalid signature" },
       { status: 400 }
@@ -84,9 +88,11 @@ async function handleCheckoutCompleted(
 ) {
   const userId = session.metadata?.userId || session.client_reference_id
   if (!userId) {
-    console.error("No user ID in checkout session")
+    console.error("❌ Webhook: No user ID in checkout session", { session })
     return
   }
+
+  console.log(`🔄 Webhook: Processing checkout for user ${userId}`)
 
   // Get subscription details
   const stripeSubscription = await stripe.subscriptions.retrieve(
@@ -94,7 +100,7 @@ async function handleCheckoutCompleted(
   ) as unknown as Stripe.Subscription & { current_period_start: number; current_period_end: number }
 
   // Upsert subscription in database
-  await supabase.from("subscriptions").upsert({
+  const { error } = await supabase.from("subscriptions").upsert({
     user_id: userId,
     status: stripeSubscription.status,
     stripe_customer_id: session.customer as string,
@@ -110,7 +116,11 @@ async function handleCheckoutCompleted(
     updated_at: new Date().toISOString(),
   })
 
-  console.log(`Subscription created for user ${userId}`)
+  if (error) {
+    console.error("❌ Webhook: Failed to upsert subscription:", error)
+  } else {
+    console.log(`✅ Webhook: Subscription created for user ${userId}`)
+  }
 }
 
 async function handleSubscriptionUpdated(
@@ -118,12 +128,14 @@ async function handleSubscriptionUpdated(
   subscription: Stripe.Subscription
 ) {
   // Type assertion for period fields (present in API response but may not be in types)
-  const sub = subscription as Stripe.Subscription & { 
+  const sub = subscription as Stripe.Subscription & {
     current_period_start: number
-    current_period_end: number 
+    current_period_end: number
   }
-  
-  await supabase
+
+  console.log(`🔄 Webhook: Updating subscription ${sub.id} (status: ${sub.status})`)
+
+  const { error } = await supabase
     .from("subscriptions")
     .update({
       status: sub.status,
@@ -135,14 +147,20 @@ async function handleSubscriptionUpdated(
     })
     .eq("stripe_subscription_id", sub.id)
 
-  console.log(`Subscription ${sub.id} updated`)
+  if (error) {
+    console.error("❌ Webhook: Failed to update subscription:", error)
+  } else {
+    console.log(`✅ Webhook: Subscription ${sub.id} updated`)
+  }
 }
 
 async function handleSubscriptionDeleted(
   supabase: ReturnType<typeof createAdminClient>,
   subscription: Stripe.Subscription
 ) {
-  await supabase
+  console.log(`🔄 Webhook: Canceling subscription ${subscription.id}`)
+
+  const { error } = await supabase
     .from("subscriptions")
     .update({
       status: "canceled",
@@ -150,5 +168,9 @@ async function handleSubscriptionDeleted(
     })
     .eq("stripe_subscription_id", subscription.id)
 
-  console.log(`Subscription ${subscription.id} canceled`)
+  if (error) {
+    console.error("❌ Webhook: Failed to cancel subscription:", error)
+  } else {
+    console.log(`✅ Webhook: Subscription ${subscription.id} canceled`)
+  }
 }

@@ -7,7 +7,7 @@ import { NextResponse, type NextRequest } from "next/server"
 export const auth = {
   redirectAfterLogin: "/dashboard",
   redirectAfterLogout: "/",
-  protectedRoutes: ["/dashboard"],
+  protectedRoutes: ["/dashboard", "/onboarding"],
 }
 
 /**
@@ -74,6 +74,22 @@ export async function proxy(request: NextRequest) {
 
   if (user && (pathname === "/login" || pathname === "/signup")) {
     return NextResponse.redirect(new URL(auth.redirectAfterLogin, request.url))
+  }
+
+  // Check if user needs onboarding
+  if (user && !pathname.startsWith("/onboarding")) {
+    const { data: userProfile } = await supabase
+      .from("users")
+      .select("onboarding_completed")
+      .eq("id", user.id)
+      .single()
+
+    if (userProfile && !userProfile.onboarding_completed) {
+      // Only redirect dashboard pages to onboarding
+      if (pathname.startsWith("/dashboard")) {
+        return NextResponse.redirect(new URL("/onboarding", request.url))
+      }
+    }
   }
 
   return supabaseResponse

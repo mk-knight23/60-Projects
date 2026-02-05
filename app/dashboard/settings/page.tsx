@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
-import { getPlanName } from "@/lib/plans"
+import { getPlanName, plans } from "@/lib/plans"
 import type { Subscription } from "@/types"
 import { ManageSubscriptionButton } from "./manage-subscription-button"
+import { SubscribeButton } from "@/components/subscribe-button"
 import { ThemeSettings } from "@/components/theme-settings"
 
 export const metadata = {
@@ -115,15 +116,25 @@ export default async function SettingsPage() {
 function SubscriptionDetails({ subscription }: { subscription: Subscription | null }) {
   // No subscription = Free plan
   if (!subscription || !subscription.stripe_subscription_id) {
+    const paidPlan = plans.find(p => p.price > 0)
     return (
       <div className="flex items-center justify-between py-2">
         <div>
           <p className="font-medium">Free Plan</p>
           <p className="text-sm text-base-content/70">Upgrade for more features</p>
         </div>
-        <Link href="/pricing" className="btn btn-primary btn-sm">
-          Upgrade
-        </Link>
+        {paidPlan?.priceId ? (
+          <SubscribeButton
+            priceId={paidPlan.priceId}
+            className="btn btn-primary btn-sm"
+          >
+            Upgrade
+          </SubscribeButton>
+        ) : (
+          <Link href="/pricing" className="btn btn-primary btn-sm">
+            View Plans
+          </Link>
+        )}
       </div>
     )
   }

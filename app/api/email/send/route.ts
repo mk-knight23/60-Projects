@@ -48,6 +48,12 @@ export async function POST(request: NextRequest) {
         case "subscriptionConfirmed":
           emailContent = emailTemplates.subscriptionConfirmed(data?.planName || "your plan")
           break
+        case "onboardingComplete":
+          emailContent = emailTemplates.onboardingComplete(data?.userName, data?.completedSteps)
+          break
+        case "passwordReset":
+          emailContent = emailTemplates.passwordReset(data?.resetLink, data?.userName)
+          break
         default:
           return NextResponse.json(
             { error: `Unknown template: ${template}` },

@@ -152,7 +152,7 @@ export function Footer() {
 
             {/* Tagline */}
             <div className="text-base-content/40">
-              I Don't Just Build Projects, I Build Products
+              I Don&apos;t Just Build Projects, I Build Products
             </div>
           </div>
         </div>

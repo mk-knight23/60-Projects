@@ -30,57 +30,32 @@ export interface Plan {
  */
 export const plans: Plan[] = [
   {
-    id: "starter",
-    name: "Starter",
-    description: "Perfect for exploring",
+    id: "free",
+    name: "Free",
+    description: "Project Screenshot",
     price: 0,
-    priceId: null, // No Stripe price for free tier
+    priceId: "price_1SxGjP5ZGtnsiZyYQ6hVjN08",
     features: [
-      "Access to 10 projects",
-      "Basic documentation",
-      "Community support",
-      "Code downloads",
-      "Individual use",
+      "Get Demo",
+      "5 Projects on mail",
     ],
     cta: "Get Started",
     ctaLink: "/login",
   },
   {
-    id: "pro",
-    name: "Pro",
-    description: "For serious builders",
-    price: 49,
-    priceId: null, // TODO: Add your Stripe Price ID (e.g., "price_xxx")
+    id: "paid",
+    name: "Paid",
+    description: "All 60 Projects",
+    price: 10,
+    priceId: "price_1SxGjT5ZGtnsiZyYmq1U8DSy",
     features: [
-      "Access to all 60 projects",
-      "Complete source code",
-      "Step-by-step tutorials",
-      "Deployment guides",
-      "Priority support",
-      "Lifetime updates",
-      "Commercial license",
+      "All 60 Projects Code",
+      "Docs on Use",
+      "Real Life use case",
     ],
     popular: true,
-    cta: "Get Full Access",
-    ctaLink: "/pricing",
-  },
-  {
-    id: "team",
-    name: "Team",
-    description: "For startups & teams",
-    price: 199,
-    priceId: null, // TODO: Add your Stripe Price ID (e.g., "price_xxx")
-    features: [
-      "Everything in Pro",
-      "Up to 10 team members",
-      "Team collaboration tools",
-      "Custom integrations",
-      "Dedicated support",
-      "Office hours (monthly)",
-      "Team license",
-    ],
-    cta: "Contact Sales",
-    ctaLink: "/login",
+    cta: "Subscribe Now",
+    ctaLink: "/dashboard",
   },
 ]
 
@@ -88,7 +63,7 @@ export const plans: Plan[] = [
  * Get a plan by its Stripe Price ID
  */
 export function getPlanByPriceId(priceId: string | null): Plan | undefined {
-  if (!priceId) return plans.find(p => p.id === "starter")
+  if (!priceId) return plans.find(p => p.price === 0)
   return plans.find(p => p.priceId === priceId)
 }
 
@@ -97,7 +72,7 @@ export function getPlanByPriceId(priceId: string | null): Plan | undefined {
  */
 export function getPlanName(priceId: string | null): string {
   const plan = getPlanByPriceId(priceId)
-  return plan?.name ?? "Pro" // Default to Pro if unknown price ID
+  return plan?.name ?? "Free" // Default to Free if unknown price ID
 }
 
 /**

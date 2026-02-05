@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import PlausibleProvider from "next-plausible"
 import { ToastProvider } from "@/components/toast"
+import { CookieBanner } from "@/components/cookie-banner"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -63,16 +64,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function() {
-              const theme = localStorage.getItem('theme') || 'fantasy';
-              document.documentElement.setAttribute('data-theme', theme);
-            })();
-          `,
-        }}
-      />
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'fantasy';
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch (e) {
+                  document.documentElement.setAttribute('data-theme', 'fantasy');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <PlausibleProvider
           domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN || ""}
@@ -80,6 +87,7 @@ export default function RootLayout({
         >
           <ToastProvider>{children}</ToastProvider>
         </PlausibleProvider>
+        <CookieBanner />
       </body>
     </html>
   )

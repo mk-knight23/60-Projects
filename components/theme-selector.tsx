@@ -31,11 +31,12 @@ export function ThemeSelector() {
 
   // Apply theme and read from localStorage on mount
   useEffect(() => {
-    setMounted(true)
     const saved = localStorage.getItem("theme") as Theme | null
     const preferred = saved || "fantasy"
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Need to sync with localStorage on mount
     setTheme(preferred)
     document.documentElement.setAttribute("data-theme", preferred)
+    setMounted(true)
   }, [])
 
   // Change theme

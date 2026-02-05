@@ -1,5 +1,7 @@
 import { Resend } from "resend"
 
+import { OnboardingCompleteEmail } from "@/emails/OnboardingComplete"
+import { PasswordResetEmail } from "@/emails/PasswordReset"
 import { SubscriptionConfirmedEmail } from "@/emails/SubscriptionConfirmed"
 import { WelcomeEmail } from "@/emails/Welcome"
 
@@ -62,21 +64,53 @@ export async function sendEmail({
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://yourapp.com"
 
 export const emailTemplates = {
-  welcome: (name: string) => ({
-    subject: "Welcome!",
-    react: <WelcomeEmail name={name} dashboardUrl={`${appUrl}/dashboard`} />,
+  welcome: (name: string = "there") => ({
+    subject: "Welcome to 60 Projects Ecosystem 🚀",
+    react: (
+      <WelcomeEmail name={name} dashboardUrl={`${appUrl}/dashboard`} appUrl={appUrl} />
+    ),
   }),
 
-  subscriptionConfirmed: (planName: string) => ({
-    subject: "Subscription Confirmed",
+  subscriptionConfirmed: (planName: string, userName?: string) => ({
+    subject: `Your ${planName} subscription is active 🎉`,
     react: (
       <SubscriptionConfirmedEmail
         planName={planName}
+        userName={userName}
         settingsUrl={`${appUrl}/dashboard/settings`}
+        appUrl={appUrl}
+      />
+    ),
+  }),
+
+  passwordReset: (resetLink: string, userName?: string) => ({
+    subject: "Reset your password",
+    react: (
+      <PasswordResetEmail
+        resetLink={resetLink}
+        userName={userName}
+        appUrl={appUrl}
+      />
+    ),
+  }),
+
+  onboardingComplete: (userName?: string, completedSteps?: string[]) => ({
+    subject: "You're all set up! 🎉",
+    react: (
+      <OnboardingCompleteEmail
+        userName={userName}
+        completedSteps={completedSteps}
+        nextStepsUrl={`${appUrl}/dashboard`}
+        appUrl={appUrl}
       />
     ),
   }),
 }
 
 // Re-export templates for direct use
-export { SubscriptionConfirmedEmail, WelcomeEmail }
+export {
+  OnboardingCompleteEmail,
+  PasswordResetEmail,
+  SubscriptionConfirmedEmail,
+  WelcomeEmail,
+}

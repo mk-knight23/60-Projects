@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { SubscribeButton } from "@/components/subscribe-button"
 import { plans } from "@/lib/plans"
 
 export const metadata = {
@@ -32,8 +33,8 @@ export default function PricingPage() {
 
         {/* Pricing Cards */}
         <section className="py-12 px-4">
-          <div className="container mx-auto max-w-5xl">
-            <div className="grid md:grid-cols-3 gap-6">
+          <div className="container mx-auto max-w-4xl">
+            <div className="grid md:grid-cols-2 gap-6">
               {plans.map((plan) => (
                 <div
                   key={plan.id}
@@ -60,12 +61,21 @@ export default function PricingPage() {
                       <PricingFeature key={i}>{feature}</PricingFeature>
                     ))}
                   </ul>
-                  <Link
-                    href={plan.ctaLink}
-                    className={`btn w-full ${plan.popular ? "btn-primary" : "btn-outline"}`}
-                  >
-                    {plan.cta}
-                  </Link>
+                  {plan.priceId ? (
+                    <SubscribeButton
+                      priceId={plan.priceId}
+                      className={`btn w-full ${plan.popular ? "btn-primary" : "btn-outline"}`}
+                    >
+                      {plan.cta}
+                    </SubscribeButton>
+                  ) : (
+                    <Link
+                      href={plan.ctaLink}
+                      className={`btn w-full ${plan.popular ? "btn-primary" : "btn-outline"}`}
+                    >
+                      {plan.cta}
+                    </Link>
+                  )}
                 </div>
               ))}
             </div>

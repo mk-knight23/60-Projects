@@ -11,11 +11,14 @@ export async function POST(request: NextRequest) {
     const { priceId } = await request.json()
 
     if (!priceId) {
+      console.error("Checkout error: Missing priceId")
       return NextResponse.json(
         { error: "Price ID is required" },
         { status: 400 }
       )
     }
+
+    console.log("Creating checkout for priceId:", priceId)
 
     // Get current user
     const supabase = await createClient()
@@ -24,11 +27,14 @@ export async function POST(request: NextRequest) {
     } = await supabase.auth.getUser()
 
     if (!user) {
+      console.error("Checkout error: No authenticated user")
       return NextResponse.json(
-        { error: "Authentication required" },
+        { error: "Authentication required. Please sign in." },
         { status: 401 }
       )
     }
+
+    console.log("User authenticated:", user.id, user.email)
 
     // Create checkout session
     const session = await createCheckoutSession({
@@ -37,11 +43,14 @@ export async function POST(request: NextRequest) {
       userEmail: user.email!,
     })
 
+    console.log("Checkout session created:", session.id)
+
     return NextResponse.json({ url: session.url })
   } catch (error) {
     console.error("Checkout error:", error)
+    const errorMessage = error instanceof Error ? error.message : "Failed to create checkout session"
     return NextResponse.json(
-      { error: "Failed to create checkout session" },
+      { error: errorMessage },
       { status: 500 }
     )
   }

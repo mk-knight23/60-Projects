@@ -227,7 +227,7 @@ export default function LandingPage() {
                     <span className="badge badge-ghost">Core Focus</span>
                   </div>
                   <h3 className="card-title text-2xl mb-2">End-to-End Projects</h3>
-                  <p className="text-base-content/60 mb-6">Every project goes from concept to deployment. You'll see the complete journey—UI/UX, backend logic, database design, authentication, testing, and production deployment. No halfway demos.</p>
+                  <p className="text-base-content/60 mb-6">Every project goes from concept to deployment. You&apos;ll see the complete journey—UI/UX, backend logic, database design, authentication, testing, and production deployment. No halfway demos.</p>
                   <div className="bg-base-300/50 rounded-xl p-6 text-center">
                     <p className="text-base-content/40 font-mono text-sm">frontend → backend → database → auth → deploy → docs</p>
                   </div>

@@ -133,3 +133,45 @@ export async function getCurrentUserWithSubscription(): Promise<{
   const subscription = await getSubscription(user.id)
   return { user, subscription }
 }
+
+// ============================================
+// Onboarding Queries
+// ============================================
+
+export async function hasCompletedOnboarding(userId: string): Promise<boolean> {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from("users")
+    .select("onboarding_completed")
+    .eq("id", userId)
+    .single()
+  return data?.onboarding_completed ?? false
+}
+
+export async function completeOnboarding(userId: string): Promise<boolean> {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from("users")
+    .update({ onboarding_completed: true })
+    .eq("id", userId)
+  return !error
+}
+
+export async function saveOnboardingData(
+  userId: string,
+  data: {
+    name?: string
+    interests?: string[]
+    project_preferences?: string[]
+  }
+): Promise<boolean> {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from("users")
+    .update({
+      ...(data.name && { name: data.name }),
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", userId)
+  return !error
+}

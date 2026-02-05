@@ -43,25 +43,43 @@ export async function createCheckoutSession({
   successUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?checkout=success`,
   cancelUrl = `${process.env.NEXT_PUBLIC_APP_URL}/pricing?checkout=canceled`,
 }: CreateCheckoutParams) {
-  const session = await stripe.checkout.sessions.create({
-    customer_email: userEmail,
-    client_reference_id: userId,
-    mode: "subscription",
-    allow_promotion_codes: true,
-    line_items: [
-      {
-        price: priceId,
-        quantity: 1,
-      },
-    ],
-    success_url: successUrl,
-    cancel_url: cancelUrl,
-    metadata: {
-      userId,
-    },
+  console.log("🔄 Stripe: Creating checkout session", {
+    priceId,
+    userId,
+    userEmail,
+    successUrl,
+    cancelUrl,
   })
 
-  return session
+  try {
+    const session = await stripe.checkout.sessions.create({
+      customer_email: userEmail,
+      client_reference_id: userId,
+      mode: "subscription",
+      allow_promotion_codes: true,
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      metadata: {
+        userId,
+      },
+    })
+
+    console.log("✅ Stripe: Checkout session created", {
+      sessionId: session.id,
+      url: session.url,
+    })
+
+    return session
+  } catch (error) {
+    console.error("❌ Stripe: Failed to create checkout session", error)
+    throw error
+  }
 }
 
 // ============================================

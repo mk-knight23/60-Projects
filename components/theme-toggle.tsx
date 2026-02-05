@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-const themes = ["fantasy", "dracula"] as const
-type Theme = (typeof themes)[number]
+type Theme = "fantasy" | "dracula"
 
 /**
  * Theme toggle button - switches between fantasy (light) and dracula (dark)
@@ -15,11 +14,12 @@ export function ThemeToggle() {
 
   // Apply theme and read from localStorage on mount
   useEffect(() => {
-    setMounted(true)
     const saved = localStorage.getItem("theme") as Theme | null
     const preferred = saved || "fantasy"
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Need to sync with localStorage on mount
     setTheme(preferred)
     document.documentElement.setAttribute("data-theme", preferred)
+    setMounted(true)
   }, [])
 
   // Toggle theme
