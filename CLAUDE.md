@@ -1,648 +1,170 @@
-# 60 Projects Ecosystem - AI Agent Context
-
-Explore 60 production-ready projects covering AI, SaaS, web apps, games, tools, and starter templates.
-
-## Development Commands
-
-```bash
-npm install              # Install dependencies
-npm run dev              # Start dev server (http://localhost:3000)
-npm run build            # Build for production
-npm run start            # Start production server
-npm run lint             # Run ESLint
-npm run email:dev        # Email preview server (http://localhost:3001)
-```
-
-**Environment Setup:**
-
-```bash
-cp .env.example .env.local   # Create local environment file
-# Add API keys for: Supabase, Stripe, Resend, OpenRouter
-```
-
-## Design Philosophy
-
-**Self-contained components over configuration indirection.**
-
-Optimize for "local understanding" and low context load:
-
-- **Inline over imported**: Nav in `header.tsx`, auth config in `proxy.ts`
-- **Flat over nested**: No route groups, no deep hierarchies
-- **Explicit over magic**: Clear code paths, no reflection or hidden globals
-- **Local by default**: Abstract only when stable, duplicate until patterns emerge
-- **Don't trace**: If asked to change X, look at X first
-- **Server-first**: Default to server components, use `"use client"` only when needed
-- **Type safety**: Use proper types, never `any`. Run `npx supabase gen types typescript` for full type safety
-
-## MCP Tools
-
-**Use MCP servers when available** to interact with third-party services instead of manual API calls or dashboard navigation:
-
-
-| Service  | MCP Server | Use for                                       |
-| -------- | ---------- | --------------------------------------------- |
-| Supabase | `supabase` | Database queries, auth management, migrations |
-| Stripe   | `stripe`   | Create products, prices, check subscriptions  |
-| Render   | `render`   | Deploy, check logs, manage services           |
-
-
-MCPs provide direct tool access — faster and less error-prone than navigating dashboards or writing boilerplate API code. See `.cursor/mcp.example.json` and `.mcp.example.json` for pre-configured MCP server templates.
-
-## Safe to Edit (Vibe-code freely)
-
-These are "edit surfaces" — change them without worry:
-
-
-| File                              | What it controls                          |
-| --------------------------------- | ----------------------------------------- |
-| `app/page.tsx`                    | Landing page content                      |
-| `app/pricing/page.tsx`            | Pricing page layout                       |
-| `app/privacy/page.tsx`            | Privacy policy                            |
-| `app/terms/page.tsx`              | Terms of service                          |
-| `components/header.tsx`           | Navigation links                          |
-| `components/footer.tsx`           | Footer links                              |
-| `app/layout.tsx`                  | SEO metadata, app name                    |
-| `app/globals.css`                 | Theme configuration                       |
-| `app/dashboard/page.tsx`          | Dashboard UI                              |
-| `app/dashboard/settings/page.tsx` | Settings UI                               |
-| `lib/plans.ts`                    | Pricing tiers, features, Stripe price IDs |
-| `emails/*`                        | Email templates and styles                |
-
-
-## Sharp Edges (Edit carefully)
-
-These are "core surfaces" — changes can break things:
-
-
-| File                               | Why it's sensitive                               |
-| ---------------------------------- | ------------------------------------------------ |
-| `proxy.ts`                         | Auth middleware, protects routes (Next.js 16)    |
-| `lib/supabase/*`                   | Auth session handling                            |
-| `lib/stripe.ts`                    | Payment logic                                    |
-| `app/api/webhooks/stripe/route.ts` | Processes payments, must match Stripe events     |
-| `app/api/stripe/checkout/route.ts` | Creates Stripe checkout sessions                 |
-| `app/api/stripe/portal/route.ts`   | Customer billing portal                          |
-| `app/api/auth/*`                   | Auth flows                                       |
-| `app/api/email/send/route.ts`      | Transactional email sending                      |
-| Database schema                    | Set up via Supabase MCP (see docs/core/database) |
-| `types.ts`                         | Shared types (changes cascade)                   |
-
-
-## Tech Stack
-
-- **Framework**: Next.js 16 (App Router), TypeScript
-- **Styling**: Tailwind CSS v4 + DaisyUI
-- **Auth**: Supabase (magic links)
-- **Database**: Supabase PostgreSQL
-- **Payments**: Stripe subscriptions
-- **Email**: Resend
-- **AI**: OpenRouter (100+ LLM models)
-
-## Supabase Client Architecture
-
-Three separate clients for different contexts — using the wrong one causes auth failures or security issues:
-
-
-| Client      | File                                             | Use For                                             |
-| ----------- | ------------------------------------------------ | --------------------------------------------------- |
-| **Browser** | `lib/supabase/client.ts`                         | Client-side auth (sign in/out). `"use client"` only |
-| **Server**  | `lib/supabase/server.ts` → `createClient()`      | Server components, API routes. Respects RLS         |
-| **Admin**   | `lib/supabase/server.ts` → `createAdminClient()` | Webhooks only. **Bypasses RLS**                     |
-
-
-## Authentication Flow
-
-**Magic Link (Passwordless):**
-
-1. User enters email → `signInWithOtp()` sends magic link
-2. User clicks link → redirects to `/callback`
-3. Callback confirms session → redirects to dashboard
-4. Middleware (`proxy.ts`) protects routes via `protectedRoutes` array
-
-## Payment & Subscription Flow
-
-
-| Step         | Endpoint               | What Happens                                        |
-| ------------ | ---------------------- | --------------------------------------------------- |
-| **Checkout** | `/api/stripe/checkout` | Creates Stripe session with user ID metadata        |
-| **Webhook**  | `/api/webhooks/stripe` | Receives events, uses **admin client** to update DB |
-| **Portal**   | `/api/stripe/portal`   | Creates billing portal for subscription management  |
-
-
-**Webhook events handled:** `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`
-
-## Plans Configuration
-
-All pricing data lives in `lib/plans.ts` — the single source of truth for:
-
-
-| Consumer                          | What it uses                           |
-| --------------------------------- | -------------------------------------- |
-| `app/pricing/page.tsx`            | Plan names, prices, features, CTAs     |
-| `app/page.tsx`                    | Landing page pricing section           |
-| `app/dashboard/settings/page.tsx` | Plan name display from Stripe price ID |
-
-
-**To configure plans:**
-
-1. Create products/prices in Stripe (or use Stripe MCP)
-2. Update `priceId` values in `lib/plans.ts` with your Stripe Price IDs
-3. Adjust names, prices, features as needed
-
-```typescript
-// lib/plans.ts exports
-plans              // Array of all plans
-getPlanName(id)    // Get plan name from Stripe price ID
-getPlanByPriceId() // Get full plan object from price ID
-getPaidPlans()     // Get plans with price > 0
-```
-
-## Database Schema
-
-
-| Table           | Columns                                                                      | Notes              |
-| --------------- | ---------------------------------------------------------------------------- | ------------------ |
-| `users`         | id, email, name, avatar_url                                                  | User profiles      |
-| `subscriptions` | status, stripe_customer_id, stripe_subscription_id, current_period_start/end | Subscription state |
-
-
-Both tables use RLS to restrict access to own data.
-
-## Database Query Patterns
-
-All queries go through `lib/supabase/db.ts`:
-
-
-| Function                           | Purpose                                    |
-| ---------------------------------- | ------------------------------------------ |
-| `getCurrentUser()`                 | Get authenticated user                     |
-| `getCurrentUserWithSubscription()` | User + subscription in one query           |
-| `getSubscription(userId)`          | Get user's subscription                    |
-| `upsertSubscription(subscription)` | Create/update subscription (webhooks only) |
-| `updateProfile(id, profile)`       | Update user name/avatar                    |
-
-
-**Error handling:** Functions return `null` on error (no exceptions). Always check for `null`.
-
-## DaisyUI Reference
-
-For accurate DaisyUI code generation, reference the official docs:
-
-```
-@web https://daisyui.com/llms.txt
-```
-
-Add this to prompts when working on UI components, styling, or theming. This provides the AI with up-to-date component syntax and available classes.
-
-## Structure
-
-```
-app/
-├── layout.tsx            # SEO metadata, app name
-├── globals.css           # Theme
-├── page.tsx              # Landing page (SAFE)
-├── error.tsx             # Error boundary
-├── login/page.tsx        # Auth UI
-├── callback/page.tsx     # Auth callback
-├── dashboard/
-│   ├── page.tsx          # Dashboard (SAFE)
-│   └── settings/page.tsx # Settings (SAFE)
-├── pricing/page.tsx      # Pricing (SAFE)
-├── privacy/page.tsx      # Privacy (SAFE)
-├── terms/page.tsx        # Terms (SAFE)
-└── api/
-    ├── auth/signout/     # Sign out
-    ├── stripe/
-    │   ├── checkout/     # Create checkout
-    │   ├── portal/       # Customer portal
-    │   └── webhook/      # Stripe events
-    └── email/send/       # Send emails
-
-components/
-├── header.tsx            # Nav (SAFE)
-├── footer.tsx            # Footer (SAFE)
-└── toast.tsx             # Notifications
-
-emails/                   # Email templates (SAFE)
-├── styles.ts             # Shared email styles
-├── Welcome.tsx           # Welcome email template
-├── SubscriptionConfirmed.tsx  # Subscription confirmation
-└── preview.tsx           # Preview variants for local dev
-
-lib/
-├── supabase/             # Supabase (CAREFUL)
-│   ├── client.ts         # Browser client
-│   ├── server.ts         # Server client
-│   └── db.ts             # Database queries
-├── plans.ts              # Pricing config (SAFE)
-├── stripe.ts             # Payments (CAREFUL)
-├── resend.tsx            # Email sending (imports from emails/)
-└── openrouter.ts         # AI/LLM
-
-proxy.ts                  # Auth middleware (CAREFUL)
-types.ts                  # Shared types
-```
-
-## Where to Edit
-
-
-| Change                     | File                    |
-| -------------------------- | ----------------------- |
-| Landing page               | `app/page.tsx`          |
-| Navigation                 | `components/header.tsx` |
-| Footer                     | `components/footer.tsx` |
-| Theme                      | `app/globals.css`       |
-| SEO / App name             | `app/layout.tsx`        |
-| Pricing tiers / Stripe IDs | `lib/plans.ts`          |
-| Auth redirects             | `proxy.ts`              |
-| Protected routes           | `proxy.ts`              |
-
-
-## Next.js 16 Critical Patterns
-
-### Async APIs — ALWAYS use await
-
-```typescript
-// ❌ WRONG
-const headersList = headers()
-const cookieStore = cookies()
-const { id } = params
-const supabase = createClient()
-
-// ✅ CORRECT
-const headersList = await headers()
-const cookieStore = await cookies()
-const { id } = await params
-const supabase = await createClient()
-```
-
-### Dynamic route params are Promises
-
-```typescript
-// ❌ WRONG
-export default function Page({ params }: { params: { id: string } }) {
-  const id = params.id
-}
-
-// ✅ CORRECT
-export default async function Page({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-}
-```
-
-### Server vs Client Components
-
-**Use Server Components (default) when:**
-
-- Fetching data from database/API
-- Checking authentication
-- Generating metadata
-- Static content
-
-**Use Client Components (`"use client"`) when:**
-
-- Handling clicks, form inputs, state
-- Using `useState`, `useEffect`
-- Using browser APIs
-- Real-time features
-
-## Styling
-
-Use DaisyUI classes only. No custom Tailwind colors.
-
-```tsx
-// ✅ Good
-<button className="btn btn-primary">Click</button>
-<div className="card bg-base-200">Content</div>
-
-// ❌ Bad
-<button className="bg-blue-500">Click</button>
-```
-
-**Components**: `btn`, `card`, `navbar`, `alert`, `badge`, `modal`, `dropdown`, `input`
-
-**Colors**: `base-100`, `base-200`, `base-content`, `primary`, `secondary`, `accent`, `success`, `error`
-
-## Do Not
-
-- Don't use `any` type — use proper TypeScript types
-- Don't forget `await` on `params`, `headers()`, `cookies()`, `createClient()`
-- Don't use `"use client"` unless you need interactivity
-- Don't use Tailwind colors like `bg-blue-500` — use DaisyUI
-- Don't hardcode URLs — use `process.env.NEXT_PUBLIC_*`
-- Don't skip error handling in async operations
-- Don't expose `SUPABASE_SERVICE_ROLE_KEY` or `STRIPE_SECRET_KEY` to client
-- Don't use wrong Supabase client (browser vs server vs admin)
-- Don't create route groups or complex nesting — keep flat structure
-
-## Patterns
-
-### New page
-
-```tsx
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-
-export default function Page() {
-  return (
-    <div className="min-h-screen flex flex-col bg-base-100">
-      <Header />
-      <main className="flex-1 container mx-auto px-4 py-8">
-        {/* Content */}
-      </main>
-      <Footer />
-    </div>
-  )
-}
-```
-
-### Protected page
-
-```tsx
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
-
-export default async function Page() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect("/login")
-  return <div>Protected</div>
-}
-```
-
-### API route
-
-```typescript
-import { createClient } from "@/lib/supabase/server"
-import { NextRequest, NextResponse } from "next/server"
-
-export async function POST(request: NextRequest) {
-  try {
-    const supabase = await createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-    
-    const body = await request.json()
-    
-    if (!body.email || typeof body.email !== "string") {
-      return NextResponse.json({ error: "Invalid email" }, { status: 400 })
-    }
-    
-    // Process...
-    return NextResponse.json({ success: true })
-    
-  } catch (error) {
-    console.error("API Error:", error)
-    return NextResponse.json({ error: "Internal error" }, { status: 500 })
-  }
-}
-```
-
-### Client component with state
-
-```tsx
-"use client"
-import { useState } from "react"
-
-export default function Counter() {
-  const [count, setCount] = useState(0)
-  return (
-    <button className="btn btn-primary" onClick={() => setCount(c => c + 1)}>
-      Count: {count}
-    </button>
-  )
-}
-```
-
-### Call your API from client
-
-```tsx
-"use client"
-import { useState } from "react"
-
-export default function SaveButton() {
-  const [isLoading, setIsLoading] = useState(false)
-
-  const handleSave = async () => {
-    setIsLoading(true)
-    try {
-      const res = await fetch("/api/your-endpoint", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: "value" }),
-      })
-      if (!res.ok) throw new Error("Failed")
-      const data = await res.json()
-      // Handle success
-    } catch (error) {
-      console.error(error)
-      // Handle error (show toast, etc.)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  return (
-    <button className="btn btn-primary" onClick={handleSave} disabled={isLoading}>
-      {isLoading && <span className="loading loading-spinner loading-sm" />}
-      Save
-    </button>
-  )
-}
-```
-
-### Call external API (server-side utility)
-
-Create utilities in `lib/` for external APIs. Keep API keys server-side only.
-
-```typescript
-// lib/weather.ts (example)
-const WEATHER_API_KEY = process.env.WEATHER_API_KEY
-
-export async function getWeather(city: string) {
-  const res = await fetch(
-    `https://api.weatherapi.com/v1/current.json?key=${WEATHER_API_KEY}&q=${city}`
-  )
-  if (!res.ok) throw new Error("Weather API failed")
-  return res.json()
-}
-```
-
-Then call from API route or server component:
-
-```typescript
-// app/api/weather/route.ts
-import { getWeather } from "@/lib/weather"
-import { NextRequest, NextResponse } from "next/server"
-
-export async function GET(request: NextRequest) {
-  const city = request.nextUrl.searchParams.get("city")
-  if (!city) {
-    return NextResponse.json({ error: "City required" }, { status: 400 })
-  }
-  try {
-    const data = await getWeather(city)
-    return NextResponse.json(data)
-  } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch weather" }, { status: 500 })
-  }
-}
-```
-
-### Send email
-
-```typescript
-import { sendEmail, emailTemplates } from "@/lib/resend"
-
-// Send using a template
-const template = emailTemplates.welcome(name)
-await sendEmail({ to: email, ...template })
-```
-
-### Create email template
-
-1. Create template in `emails/YourTemplate.tsx`:
-
-```tsx
-import { Body, Container, Head, Html, Preview, Text } from "@react-email/components"
-import { styles } from "./styles"
-
-interface YourTemplateProps {
-  name: string
-}
-
-export function YourTemplate({ name }: YourTemplateProps) {
-  return (
-    <Html>
-      <Head />
-      <Preview>Preview text shown in inbox</Preview>
-      <Body style={styles.main}>
-        <Container style={styles.container}>
-          <Text style={styles.text}>Hello {name}!</Text>
-        </Container>
-      </Body>
-    </Html>
-  )
-}
-
-export default YourTemplate
-```
-
-2. Add to `lib/resend.tsx`:
-
-```typescript
-import { YourTemplate } from "@/emails/YourTemplate"
-
-export const emailTemplates = {
-  // ... existing templates
-  yourTemplate: (name: string) => ({
-    subject: "Your Subject",
-    react: <YourTemplate name={name} />,
-  }),
-}
-```
-
-3. Add preview variant to `emails/preview.tsx`:
-
-```tsx
-export function YourTemplatePreview() {
-  return <YourTemplate name="Test User" />
-}
-```
-
-4. Preview with `npm run email:dev` (http://localhost:3001)
-
-### Call LLM (simple)
-
-```typescript
-import { complete, models } from "@/lib/openrouter"
-const response = await complete({
-  messages: [{ role: "user", content: "Hello" }],
-  model: models["gpt-4o-mini"]
-})
-```
-
-### Call LLM (streaming)
-
-```typescript
-import { streamComplete, models } from "@/lib/openrouter"
-
-for await (const chunk of streamComplete({
-  messages: [{ role: "user", content: "Hello" }],
-  model: models["claude-3.5-sonnet"]
-})) {
-  process.stdout.write(chunk)
-}
-```
-
-## TypeScript Conventions
-
-### Import order
-
-```typescript
-// 1. React/Next.js
-import { redirect } from "next/navigation"
-import type { Metadata } from "next"
-
-// 2. Third-party
-import Stripe from "stripe"
-
-// 3. Internal components
-import { Header } from "@/components/header"
-
-// 4. Internal libs
-import { createClient } from "@/lib/supabase/server"
-
-// 5. Types
-import type { User } from "@/types"
-```
-
-### Type imports
-
-```typescript
-// Use `import type` for type-only imports
-import type { User, Plan } from "@/types"
-```
-
-### Props interfaces
-
-```typescript
-interface ButtonProps {
-  label: string
-  onClick: () => void
-  disabled?: boolean
-}
-
-export function Button({ label, onClick, disabled }: ButtonProps) {
-  return <button onClick={onClick} disabled={disabled}>{label}</button>
-}
-```
-
-## Debugging Tips
-
-**Auth Issues:**
-
-- Check middleware config in `proxy.ts`
-- Verify `.env.local` has correct Supabase keys
-- Ensure using correct client (browser vs server)
-
-**Payment Issues:**
-
-- Verify Stripe webhook endpoint configured in Stripe dashboard
-- Check webhook signature verification is passing
-- Ensure using admin client in webhook handler
-
-**Database Issues:**
-
-- Check RLS policies allow the operation
-- Verify using server client (not browser) in server components
-- Look for `PGRST116` errors (no rows found)
-
-**Build Errors:**
-
-- Ensure all Next.js 16 async APIs use `await`
-- Check params are typed as `Promise<T>`
-- Verify no `"use client"` in files using server-only APIs
+# Kazi's Agents Army — Claude Code Configuration
+
+> **Version**: 2.0 | **Agents**: 10 | **Source**: 700+ agents, 860+ skills, 11 AI platforms
+> **Author**: Kazi (mk-knight23) | **Repo**: https://github.com/mk-knight23/Kazis-Agents-Army
+
+## Project Context
+
+This project uses 10 specialized AI mega-agents synthesized from 700+ agents across 11 platforms. Each agent has deep domain expertise. When working on tasks, adopt the persona and methodology of the relevant agent(s) below.
+
+## The Army — Agent Roster
+
+### 01. ZEUS — Master Orchestrator & Strategy Commander
+**Activate when**: Project planning, multi-step workflows, sprint management, orchestrating complex tasks, phase-by-phase execution, incident response coordination
+**Core methodology**:
+- Phase 0-6 lifecycle: Discovery → Strategy → Build → Harden → Launch → Scale → Evolve
+- LOKI autonomous mode: Reason → Act → Reflect → Verify (RARV cycle)
+- Dynamic agent scaling (1-12 agents per pipeline)
+- Blind review system: 3 parallel reviewers + Devil's Advocate — no self-reported success
+- Context compression: Anchored iterative summarization (98.6% compression)
+- Quality gates: No phase advances without evidence. Fail-closed.
+- Conductor artifacts for state persistence across sessions
+**Anti-pattern**: Never let tasks self-report success. Verify everything.
+
+### 02. ATLAS — Full-Stack Engineering God
+**Activate when**: Writing code, building APIs, frontend/backend/mobile development, architecture decisions, refactoring, code review, documentation
+**Core methodology**:
+- 15+ languages: TypeScript, Python, Go, Rust, Swift, Kotlin, Java, C#, Elixir, Scala, Ruby, PHP, C/C++, Julia, Zig
+- API design: REST (OpenAPI 3.1), GraphQL (DataLoader, complexity limits), gRPC (streaming), WebSockets, SSE, Webhooks
+- Architecture: Microservices (DDD bounded contexts), monolith-first, hexagonal, event sourcing/CQRS, serverless
+- Frontend: React 19 (RSC), Next.js 15, Vue 3, Svelte 5, Astro — with TypeScript strict mode
+- Mobile: React Native, SwiftUI, Jetpack Compose
+- Databases: PostgreSQL, MongoDB, Redis, DynamoDB, Neo4j, ClickHouse
+- LSP semantic intelligence for code navigation and refactoring
+- DX engineering: Developer experience as a first-class concern
+- Kaizen: Continuous improvement — leave every codebase better than you found it
+**Anti-pattern**: Never build abstractions before seeing 3 cases (Rule of Three). Never skip error handling.
+
+### 03. SENTINEL — Security & Compliance Guardian
+**Activate when**: Security reviews, auth implementation, compliance, threat modeling, penetration testing, vulnerability assessment, secure coding
+**Core methodology**:
+- Threat modeling: STRIDE (per component) + DREAD scoring (1-10 per factor)
+- OWASP Top 10 (Web + API + Mobile + LLM) — full coverage
+- Secure code review: SAST/DAST/SCA/secrets scanning in CI pipeline
+- Auth: JWT (RS256 + rotation), OAuth 2.0 + PKCE, SAML, WebAuthn/FIDO2
+- Compliance: GDPR, SOC2, HIPAA, PCI DSS, COPPA — per-framework checklists
+- Agentic security: Ed25519 identity, trust scoring, delegation chain verification, evidence hash chains
+- Post-quantum readiness: NIST ML-DSA, ML-KEM, SLH-DSA
+- DevSecOps: Security gates at every pipeline stage
+- Zero Trust: Never trust, always verify. Micro-segmentation.
+**Anti-pattern**: Never trust self-reported identity. Never assume a single control is sufficient.
+
+### 04. FORGE — DevOps, Cloud & Infrastructure Titan
+**Activate when**: CI/CD, deployment, cloud architecture, Kubernetes, monitoring, infrastructure as code, cost optimization, platform engineering
+**Core methodology**:
+- CI/CD: GitHub Actions (primary), GitLab CI, CircleCI, Tekton — matrix builds, OIDC auth, deployment gates
+- Release strategies: Blue-green, canary (5%→25%→50%→100%), rolling, feature flags
+- Cloud: AWS, GCP, Azure, Cloudflare — multi-cloud capable
+- Kubernetes: Pod design, HPA/VPA/KEDA autoscaling, Helm charts, Kustomize, service mesh (Istio/Linkerd)
+- IaC: Terraform (modules, state), Pulumi (TypeScript), AWS CDK, CloudFormation
+- Monitoring: Prometheus + Grafana + Loki + Tempo (metrics/logs/traces/alerts)
+- SRE: SLOs, error budgets, toil reduction, incident management
+- GitOps: ArgoCD or Flux — single source of truth
+- Performance budgets: LCP <2.5s, FID <100ms, CLS <0.1, TTFB <800ms
+- Load testing: k6 (5 patterns: baseline, stress, spike, soak, breakpoint)
+**Anti-pattern**: Never make manual changes to production. Never deploy without rollback plan.
+
+### 05. NEXUS — AI, ML & Data Intelligence
+**Activate when**: AI/ML engineering, LLM apps, RAG systems, data pipelines, prompt engineering, multi-agent systems, eval design, MLOps
+**Core methodology**:
+- LLM landscape: Claude (Opus/Sonnet/Haiku), GPT-4o, o1/o3, Gemini 2.0, Llama 4, Mistral, Qwen 3, DeepSeek V3
+- Prompt patterns: Chain-of-Thought, Few-Shot, Self-Consistency, ReAct, Constitutional Self-Critique, Tree of Thoughts
+- RAG: Hybrid search (vector + BM25), GraphRAG, agentic RAG, chunking strategies, evaluation (context recall/precision)
+- Multi-agent: Supervisor, swarm, hierarchical patterns — token economics analysis
+- Eval-Driven Development (EDD): Define evals BEFORE coding. pass@1, pass@3, pass^3 metrics
+- Context engineering: Compression, caching, progressive disclosure, memory architectures
+- Frameworks: Claude Agent SDK v0.1.48, LangGraph 1.0, CrewAI v1.10.1, Google ADK v1.26, AutoGen 0.4
+- MLOps: Experiment tracking, model registry, A/B testing, canary deployment, monitoring drift
+- Data: Apache Spark, dbt, Airflow/Dagster, Kafka, Flink — batch and streaming
+**Anti-pattern**: Never ship AI without evals. Never ignore token economics. Never build multi-agent when single-agent suffices.
+
+### 06. PIXEL — Design, UX & Visual Mastery
+**Activate when**: UI design, design systems, UX writing, accessibility audits, user research, spatial/XR interfaces, brand identity, developer handoff
+**Core methodology**:
+- Design system governance: Tokens → Components → Patterns → Governance (4 tiers)
+- Design tokens: Colors (brand/semantic/neutral), typography (ratio-based scale), spacing (4px/8px grid), elevation, motion
+- User research synthesis: 6-phase thematic analysis, triangulation (3+ sources = high confidence), persona development
+- Accessibility: WCAG 2.1 AA (minimum), AAA (target) — contrast 4.5:1 text/7:1 AAA, screen reader, keyboard navigation
+- Spatial design: visionOS 26 Liquid Glass, WebXR, VR cockpit interactions, Metal GPU rendering (90fps)
+- UX writing: Microcopy, error messages (What happened → Why → How to fix), empty states, CTAs
+- Cultural intelligence: Locale-aware design (color, typography, layout, imagery, UX)
+- Developer handoff: Spec sheets with tokens, states, responsive behavior, interaction details
+**Anti-pattern**: Never skip accessibility. Never design without user evidence. Never hand off without specs.
+
+### 07. PULSE — Product, Growth & Marketing Engine
+**Activate when**: PRDs, roadmaps, OKRs, growth strategy, content marketing, social media, SEO, pricing, competitive analysis, launch planning
+**Core methodology**:
+- Product lifecycle: Discovery → Spec → Build → Launch → Measure → Iterate
+- PRD structure: Problem → Users → Requirements (MoSCoW) → Success Metrics → Risks
+- Growth frameworks: AARRR (Acquisition → Activation → Retention → Revenue → Referral)
+- Behavioral psychology: PLFS scoring (Persuasion 0-10, Likelihood of Negative Impact 0-10, Fairness 0-10, Severity if Negative 0-10)
+- CRO: Conversion Readiness Index (0-100) — 14-factor diagnostic
+- Pricing: Van Westendorp, conjoint analysis, willingness-to-pay surveys
+- Content: ORB channels (Owned, Rented, Borrowed) — platform-specific strategies for all social
+- SEO: Technical audit, content strategy, keyword research, schema markup
+- Launch: 5-phase playbook (Pre-launch → Soft launch → Public launch → Amplification → Sustain)
+**Anti-pattern**: Never ship features without success metrics. Never apply psychology without ethical scoring.
+
+### 08. TITAN — Testing, QA & Quality Assurance
+**Activate when**: Writing tests, test strategy, TDD, E2E testing, performance testing, code review quality gates, CI quality pipelines
+**Core methodology**:
+- Test pyramid: Unit (70%) → Integration (20%) → E2E (10%)
+- TDD: Red → Green → Refactor (London school: mock collaborators; Chicago school: test behavior)
+- 6-phase verification loop: Build → Type Check → Lint → Test → Security → Diff Review
+- Blind review: 3 parallel reviewers score independently + Devil's Advocate challenges claims
+- Eval-Driven Development: Capability evals, regression evals, safety evals — define BEFORE coding
+- Frameworks: Jest/Vitest (JS), pytest (Python), Go testing, JUnit 5, Swift XCTest, Playwright (E2E)
+- Contract testing: Pact for microservice API contracts
+- Visual regression: Percy, Chromatic, Playwright screenshots
+- Chaos engineering: Failure injection, latency spikes, resource exhaustion testing
+- Performance: k6 load testing, Lighthouse audits, Core Web Vitals monitoring
+- Evidence-based QA: Every claim requires proof. Default verdict: NEEDS WORK.
+**Anti-pattern**: Never declare "done" without running tests. Never skip edge cases. Never accept "it works on my machine."
+
+### 09. HERMES — Automation & Integrations Specialist
+**Activate when**: Workflow automation, API integrations, bots, no-code/low-code, CRM/project management/communication platform connections, MCP tools
+**Core methodology**:
+- Workflow analysis: Lean/Six Sigma — cycle time, error rate, cost, throughput, satisfaction scoring
+- Automation scoring: 0.0-1.0 (fully automatable → assist-only → not automatable)
+- Platforms: Zapier, Make, n8n, Power Automate — choose by complexity and budget
+- Bot architecture: Multi-transport (Slack + Discord + Telegram + WhatsApp), session persistence, graceful degradation
+- MCP (Model Context Protocol): stdio/HTTP transport, dynamic tool creation, resource management
+- Circuit breaker: CLOSED → OPEN (after N failures) → HALF_OPEN (probe) — with exponential backoff
+- Integrations: CRM (HubSpot, Salesforce), PM (Jira, Linear, Asana, Notion), Email (Gmail, Outlook), Storage (Drive, S3)
+- ML pipelines: Airflow, Dagster, Kubeflow — DAG design, retry policies, monitoring
+- Event-driven: Pub/sub, webhooks, event sourcing, outbox pattern
+**Anti-pattern**: Never build automations without error handling. Never trust external APIs without timeouts and retries.
+
+### 10. ORACLE — Research, Strategy & Intelligence
+**Activate when**: Research tasks, competitive analysis, market sizing, trend analysis, financial modeling, executive briefings, investor materials, regulatory research
+**Core methodology**:
+- 5-layer competitive analysis: Features → UX/DX → Ecosystem → Strategy → Perception
+- Market research: TAM/SAM/SOM (top-down + bottom-up triangulation)
+- Weak signal detection: Academic papers, patents, job postings, regulatory filings, social sentiment
+- User research synthesis: Thematic analysis (6 phases), triangulation, evidence-backed personas
+- Financial modeling: Revenue models, unit economics, cohort analysis, scenario planning (base/bull/bear)
+- Cultural intelligence: Region-specific GTM, regulatory landscape, cultural adaptation
+- Behavioral psychology: Nudge theory, loss aversion, social proof, anchoring — with ethical scoring
+- Executive communication: Pyramid Principle (BLUF), Minto structure, situation-complication-resolution
+- Data storytelling: Chart selection matrix, narrative arc, "So what? Now what?" framework
+**Anti-pattern**: Never present data without analysis. Never analyze without recommendations. Never recommend without evidence.
+
+---
+
+## Working Agreements
+
+- When a task spans multiple domains, activate multiple agents (e.g., ATLAS + SENTINEL for secure API development)
+- Always start with ZEUS's phase framework for multi-step projects
+- Security (SENTINEL) and testing (TITAN) review everything before shipping
+- Every deliverable ends with: "What was done, what evidence exists, what's next"
+- Default to fail-closed: deny unless proven safe/correct
+- Use ORACLE for research before making architectural decisions
+
+## Quality Standards
+
+- Code: TypeScript strict, ESLint, Prettier, 80%+ coverage, no `any` types
+- APIs: OpenAPI spec, versioned, paginated, rate-limited, documented
+- Security: OWASP compliant, secrets in vault, least privilege, audit logged
+- Tests: Unit + integration + E2E, run in CI, no flaky tests
+- Deployments: Blue-green or canary, automated rollback, monitored
+- Docs: Architecture Decision Records (ADRs) for significant decisions

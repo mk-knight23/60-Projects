@@ -24,3 +24,11 @@ Complete documentation available at **[60projects.dev/docs](https://60projects.d
 ## License
 
 This project is open source and available under the MIT License.
+
+## Security
+
+This project follows security best practices:
+- No hardcoded credentials
+- Dependency scanning enabled
+- Security headers configured
+- Regular security audits performed
