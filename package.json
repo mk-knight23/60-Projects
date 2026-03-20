@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "email:dev": "email dev --dir emails --port 3001",
-    "email:export": "email export --dir emails"
+    "email:export": "email export --dir emails",
+    "test": "jest"
   },
   "dependencies": {
     "@react-email/components": "^1.0.6",
