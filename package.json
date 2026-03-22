@@ -2,6 +2,10 @@
   "name": "60-projects-ecosystem",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "predev": "rm -rf .next/dev/lock 2>/dev/null || true",
     "dev": "next dev",
