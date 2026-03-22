@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="60 Projects Ecosystem — I Don't Just Build Projects, I Build Products." />
+  <meta property="og:title" content="60 Projects Ecosystem" />
+  <meta property="og:description" content="I Don't Just Build Projects, I Build Products." />
+  <meta property="og:image" content="/og-image.png" />
+  <title>60 Projects Ecosystem</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --border: #222222;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --green: #22c55e;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+
+    .container { max-width: 680px; width: 100%; text-align: center; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #f1f5f9 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline { font-size: 1.125rem; color: var(--muted); margin-bottom: 2.5rem; font-style: italic; }
+
+    .stats { display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem; flex-wrap: wrap; }
+
+    .stat { display: flex; flex-direction: column; align-items: center; }
+    .stat-num { font-size: 1.75rem; font-weight: 800; color: var(--accent); }
+    .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 3rem; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.75rem; border-radius: 0.5rem;
+      font-size: 0.95rem; font-weight: 600;
+      text-decoration: none; transition: all 0.15s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(99,102,241,0.4); }
+    .btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-secondary:hover { background: var(--surface); border-color: #333; }
+
+    .deployments { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 2rem; }
+
+    .deployment {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 0.5rem; padding: 0.75rem 1rem;
+      text-decoration: none; transition: all 0.15s ease;
+      display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+    }
+
+    .deployment:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .deployment-name { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+    .deployment-status { font-size: 0.7rem; color: var(--green); }
+
+    .section-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+
+    footer { margin-top: 3rem; font-size: 0.8rem; color: var(--muted); }
+    footer a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="badge"><span class="dot"></span>All systems operational</div>
+    <h1>60 Projects<br>Ecosystem</h1>
+    <p class="tagline">"I Don't Just Build Projects, I Build Products."</p>
+    <div class="stats">
+      <div class="stat"><span class="stat-num">60</span><span class="stat-label">Projects</span></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">Categories</span></div>
+      <div class="stat"><span class="stat-num">8</span><span class="stat-label">Deployments</span></div>
+    </div>
+    <div class="cta-group">
+      <a href="https://mkazi.live" class="btn btn-primary">&#9654; Launch App</a>
+      <a href="https://github.com/mk-knight23/60-Projects" class="btn btn-secondary">&#10022; GitHub</a>
+    </div>
+    <p class="section-label">Live deployments</p>
+    <div class="deployments">
+      <a href="https://mkazi.live" class="deployment">
+        <span class="deployment-name">Vercel</span><span class="deployment-status">&#9679; Live</span>
+      </a>
+      <a href="https://60-projects-ecosystem.netlify.app" class="deployment">
+        <span class="deployment-name">Netlify</span><span class="deployment-status">&#9679; Live</span>
+      </a>
+      <a href="https://sixty-projects-eco.web.app" class="deployment">
+        <span class="deployment-name">Firebase</span><span class="deployment-status">&#9679; Live</span>
+      </a>
+      <a href="https://github.com/mk-knight23/60-Projects" class="deployment">
+        <span class="deployment-name">AWS Amplify</span><span class="deployment-status">&#9679; Live</span>
+      </a>
+    </div>
+    <footer>Built by <a href="https://github.com/mk-knight23">MK Knight</a> &mdash; Next.js 16 &middot; React 19 &middot; TypeScript 5</footer>
+  </div>
+</body>
+</html>
