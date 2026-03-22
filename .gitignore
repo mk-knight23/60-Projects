@@ -75,3 +75,11 @@ copy_docs.sh
 
 # DaisyUI
 daisyui.mdc
+# Netlify build artifacts (do not commit)
+.netlify/
+
+# Firebase deploy cache (do not commit)
+.firebase/
+
+# Amplify build artifacts
+/tmp/amplify-deploy.zip

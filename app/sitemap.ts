@@ -1,10 +1,12 @@
-import { MetadataRoute } from "next"
+import { MetadataRoute } from "next";
+
+export const dynamic = "force-static";
 
 /**
  * Sitemap - add your pages here
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
   return [
     {
@@ -25,5 +27,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
-  ]
+  ];
 }

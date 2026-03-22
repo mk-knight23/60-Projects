@@ -1,10 +1,12 @@
-import { MetadataRoute } from "next"
+import { MetadataRoute } from "next";
+
+export const dynamic = "force-static";
 
 /**
  * Robots.txt configuration
  */
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
   return {
     rules: {
@@ -13,5 +15,5 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ["/api/", "/dashboard/"],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
-  }
+  };
 }
