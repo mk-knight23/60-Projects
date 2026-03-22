@@ -1,6 +1,7 @@
 /**
  * Model configuration for AI chat
- * Supports both OpenRouter free models and custom API providers
+ * Supports both OpenRouter models and custom API providers
+ * Updated: March 2026 — includes Claude 4.x, Gemini 2.x, Llama 4, Qwen 3
  */
 
 // ============================================
@@ -36,6 +37,45 @@ export const OPENROUTER_FREE_MODELS = {
 } as const
 
 // ============================================
+// OpenRouter Paid Models (Claude 4.x — March 2026)
+// ============================================
+
+export const OPENROUTER_PAID_MODELS = {
+  // Claude 4.6 family — Anthropic's latest
+  "claude-haiku-4-5": {
+    id: "anthropic/claude-haiku-4-5-20251001",
+    name: "Claude Haiku 4.5",
+    provider: "openrouter",
+    description: "Fast, efficient — ideal for quick tasks (3x cost savings vs Sonnet)",
+  },
+  "claude-sonnet-4-6": {
+    id: "anthropic/claude-sonnet-4-6",
+    name: "Claude Sonnet 4.6",
+    provider: "openrouter",
+    description: "Best coding model — primary for complex development tasks",
+  },
+  "claude-opus-4-6": {
+    id: "anthropic/claude-opus-4-6",
+    name: "Claude Opus 4.6",
+    provider: "openrouter",
+    description: "Deepest reasoning — architectural decisions, research",
+  },
+  // Other frontier models
+  "gpt-4o": {
+    id: "openai/gpt-4o",
+    name: "GPT-4o",
+    provider: "openrouter",
+    description: "OpenAI's flagship multimodal model",
+  },
+  "gemini-2-flash": {
+    id: "google/gemini-2.0-flash-001",
+    name: "Gemini 2.0 Flash",
+    provider: "openrouter",
+    description: "Google's fast, efficient model",
+  },
+} as const
+
+// ============================================
 // Custom Models (Z.AI and others)
 // ============================================
 
@@ -46,6 +86,7 @@ export const CUSTOM_MODELS = {
     baseUrl: "https://api.z.ai/api/coding/paas/v4/chat/completions",
     provider: "z-ai",
     maxOutputTokens: 131072,
+    description: "Z.AI's powerful coding-optimized model",
   },
 } as const
 
@@ -55,6 +96,7 @@ export const CUSTOM_MODELS = {
 
 export const ALL_MODELS = {
   ...OPENROUTER_FREE_MODELS,
+  ...OPENROUTER_PAID_MODELS,
   ...CUSTOM_MODELS,
 } as const
 
@@ -64,7 +106,9 @@ export type ModelKey = keyof typeof ALL_MODELS
 // Model Selection Groups
 // ============================================
 
-export const OPENROUTER_MODELS = Object.keys(OPENROUTER_FREE_MODELS) as ModelKey[]
+export const FREE_MODEL_KEYS = Object.keys(OPENROUTER_FREE_MODELS) as ModelKey[]
+export const PAID_MODEL_KEYS = Object.keys(OPENROUTER_PAID_MODELS) as ModelKey[]
+export const OPENROUTER_MODELS = [...FREE_MODEL_KEYS, ...PAID_MODEL_KEYS]
 export const ZAI_MODELS = Object.keys(CUSTOM_MODELS) as ModelKey[]
 
 // ============================================
@@ -72,3 +116,19 @@ export const ZAI_MODELS = Object.keys(CUSTOM_MODELS) as ModelKey[]
 // ============================================
 
 export const DEFAULT_MODEL: ModelKey = "glm-4-7"
+
+// ============================================
+// Model Metadata Helpers
+// ============================================
+
+export function getModelName(key: ModelKey): string {
+  return ALL_MODELS[key].name
+}
+
+export function isOpenRouterModel(key: ModelKey): boolean {
+  return ALL_MODELS[key].provider === "openrouter"
+}
+
+export function isZAIModel(key: ModelKey): boolean {
+  return ALL_MODELS[key].provider === "z-ai"
+}

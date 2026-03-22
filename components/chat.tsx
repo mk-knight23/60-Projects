@@ -1,43 +1,51 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { ALL_MODELS, DEFAULT_MODEL, OPENROUTER_MODELS, ZAI_MODELS, type ModelKey } from "@/lib/models"
+import { useState, useRef, useEffect } from "react";
+import {
+  ALL_MODELS,
+  DEFAULT_MODEL,
+  FREE_MODEL_KEYS,
+  PAID_MODEL_KEYS,
+  ZAI_MODELS,
+  type ModelKey,
+} from "@/lib/models";
 
 type Message = {
-  role: "system" | "user" | "assistant"
-  content: string
-}
+  role: "system" | "user" | "assistant";
+  content: string;
+};
 
 export function Chat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hello! I'm your AI assistant. I can help you with coding, questions, and creative tasks. Select a model and start chatting!",
+      content:
+        "Hello! I'm your AI assistant. I can help you with coding, questions, and creative tasks. Select a model and start chatting!",
     },
-  ])
-  const [input, setInput] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [selectedModel, setSelectedModel] = useState<ModelKey>(DEFAULT_MODEL)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  ]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedModel, setSelectedModel] = useState<ModelKey>(DEFAULT_MODEL);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+    scrollToBottom();
+  }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!input.trim() || isLoading) return
+    if (!input.trim() || isLoading) return;
 
-    const userMessage: Message = { role: "user", content: input.trim() }
-    const newMessages = [...messages, userMessage]
-    setMessages(newMessages)
-    setInput("")
-    setIsLoading(true)
+    const userMessage: Message = { role: "user", content: input.trim() };
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    setInput("");
+    setIsLoading(true);
 
     try {
       const response = await fetch("/api/chat", {
@@ -47,48 +55,51 @@ export function Chat() {
           messages: newMessages,
           model: selectedModel,
         }),
-      })
+      });
 
       if (!response.ok) {
-        const errorText = await response.text()
-        throw new Error(errorText || "Failed to get response")
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to get response");
       }
 
       // Create assistant message for streaming
-      const assistantMessage: Message = { role: "assistant", content: "" }
-      setMessages((prev) => [...prev, assistantMessage])
+      const assistantMessage: Message = { role: "assistant", content: "" };
+      setMessages((prev) => [...prev, assistantMessage]);
 
-      const reader = response.body?.getReader()
-      const decoder = new TextDecoder()
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
 
-      if (!reader) throw new Error("No response body")
+      if (!reader) throw new Error("No response body");
 
-      let fullContent = ""
+      let fullContent = "";
 
       while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
+        const { done, value } = await reader.read();
+        if (done) break;
 
-        const chunk = decoder.decode(value)
-        const lines = chunk.split("\n").filter((line) => line.startsWith("data: "))
+        const chunk = decoder.decode(value);
+        const lines = chunk
+          .split("\n")
+          .filter((line) => line.startsWith("data: "));
 
         for (const line of lines) {
-          const data = line.slice(6)
-          if (data === "[DONE]") break
+          const data = line.slice(6);
+          if (data === "[DONE]") break;
 
           try {
-            const parsed = JSON.parse(data)
-            const content = parsed.choices?.[0]?.delta?.content || parsed.content
+            const parsed = JSON.parse(data);
+            const content =
+              parsed.choices?.[0]?.delta?.content || parsed.content;
             if (content) {
-              fullContent += content
+              fullContent += content;
               setMessages((prev) => {
-                const updated = [...prev]
+                const updated = [...prev];
                 updated[updated.length - 1] = {
                   role: "assistant",
                   content: fullContent,
-                }
-                return updated
-              })
+                };
+                return updated;
+              });
             }
           } catch {
             // Ignore parse errors
@@ -96,18 +107,18 @@ export function Chat() {
         }
       }
     } catch (error) {
-      console.error("Chat error:", error)
+      console.error("Chat error:", error);
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
           content: `Sorry, I encountered an error: ${error instanceof Error ? error.message : "Unknown error"}. Please try again.`,
         },
-      ])
+      ]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const clearChat = () => {
     setMessages([
@@ -115,10 +126,10 @@ export function Chat() {
         role: "assistant",
         content: "Chat cleared. How can I help you?",
       },
-    ])
-  }
+    ]);
+  };
 
-  const getModelLabel = (key: ModelKey) => ALL_MODELS[key].name
+  const getModelLabel = (key: ModelKey) => ALL_MODELS[key].name;
 
   return (
     <div className="card bg-base-200 shadow-xl h-[700px] flex flex-col">
@@ -143,8 +154,26 @@ export function Chat() {
                   </option>
                 ))}
               </optgroup>
-              <optgroup label="OpenRouter Free Models">
-                {OPENROUTER_MODELS.map((key) => (
+              <optgroup label="Claude 4.x (OpenRouter)">
+                {PAID_MODEL_KEYS.filter((k) =>
+                  ALL_MODELS[k].id.includes("claude"),
+                ).map((key) => (
+                  <option key={key} value={key}>
+                    {getModelLabel(key)}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="OpenRouter Free">
+                {FREE_MODEL_KEYS.map((key) => (
+                  <option key={key} value={key}>
+                    {getModelLabel(key)}
+                  </option>
+                ))}
+              </optgroup>
+              <optgroup label="Other (OpenRouter)">
+                {PAID_MODEL_KEYS.filter(
+                  (k) => !ALL_MODELS[k].id.includes("claude"),
+                ).map((key) => (
                   <option key={key} value={key}>
                     {getModelLabel(key)}
                   </option>
@@ -168,7 +197,9 @@ export function Chat() {
               {ALL_MODELS[selectedModel].name}
             </span>
             <span className="text-base-content/60">
-              {ALL_MODELS[selectedModel].provider === "z-ai" ? "Z.AI" : "OpenRouter"}
+              {ALL_MODELS[selectedModel].provider === "z-ai"
+                ? "Z.AI"
+                : "OpenRouter"}
             </span>
           </div>
         </div>
@@ -188,7 +219,9 @@ export function Chat() {
                 </div>
               )}
               <div className="chat-bubble">
-                <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                <p className="whitespace-pre-wrap break-words">
+                  {message.content}
+                </p>
               </div>
             </div>
           ))}
@@ -244,5 +277,5 @@ export function Chat() {
         </form>
       </div>
     </div>
-  )
+  );
 }
