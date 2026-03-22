@@ -4,6 +4,10 @@
 
 # [![CI/CD](https://github.com/mk-knight23/60-Projects/actions/workflows/ci.yml/badge.svg)](https://github.com/mk-knight23/60-Projects/actions)
 
+# [![CI/CD](https://github.com/mk-knight23/60-Projects/actions/workflows/ci.yml/badge.svg)](https://github.com/mk-knight23/60-Projects/actions)
+
+# [![CI/CD](https://github.com/mk-knight23/60-Projects/actions/workflows/ci.yml/badge.svg)](https://github.com/mk-knight23/60-Projects/actions)
+
 [![CI/CD](https://github.com/mk-knight23/60-Projects/actions/workflows/ci.yml/badge.svg)](https://github.com/mk-knight23/60-Projects/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black)](https://nextjs.org)

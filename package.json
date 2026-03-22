@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.15.9",
+    "@railway/cli": "^4.33.0",
     "@react-email/preview-server": "^5.2.9",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
@@ -53,6 +54,7 @@
     "react-email": "4.3.2",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.6",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.76.0"
   }
 }

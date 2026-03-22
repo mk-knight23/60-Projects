@@ -1,0 +1,7 @@
+name = "60-projects-ecosystem"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+[vars]
+NEXT_PUBLIC_APP_URL = "https://60-projects-ecosystem.pages.dev"
