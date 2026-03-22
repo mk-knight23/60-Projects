@@ -36,6 +36,7 @@
     "stripe": "^20.2.0"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.15.9",
     "@react-email/preview-server": "^5.2.9",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
