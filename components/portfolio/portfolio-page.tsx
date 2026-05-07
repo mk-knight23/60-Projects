@@ -58,6 +58,22 @@ const Ico = {
   ),
 }
 
+// Deterministic pseudo-random heatmap (avoids SSR/CSR hydration mismatch).
+// Computed once at module scope — same cells on server + client.
+const HEATMAP_CELLS: number[] = (() => {
+  let seed = 0x60601337
+  const rand = () => {
+    seed = (seed + 0x6d2b79f5) | 0
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+  return Array.from({ length: 52 * 7 }, () => {
+    const r = rand()
+    return r < 0.45 ? 0 : r < 0.65 ? 1 : r < 0.8 ? 2 : r < 0.92 ? 3 : 4
+  })
+})()
+
 function Counter({ target, suffix = "", duration = 1800 }: { target: number; suffix?: string; duration?: number }) {
   const [val, setVal] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
@@ -425,9 +441,6 @@ function Showcase() {
     return matchCat && matchQ
   })
   const displayed = showAll ? filtered : filtered.slice(0, LIMIT)
-  useEffect(() => {
-    setShowAll(false)
-  }, [cat, q])
   const cats = [
     { key: "all", label: "All", count: allProjects.length },
     ...Object.entries(CATEGORY_INFO).map(([k, v]) => ({ key: k, label: v.label, count: v.count })),
@@ -452,7 +465,10 @@ function Showcase() {
             className={s.searchInput}
             placeholder="Search projects, tech, category…"
             value={q}
-            onChange={(e) => setQ(e.target.value)}
+            onChange={(e) => {
+              setQ(e.target.value)
+              setShowAll(false)
+            }}
           />
         </div>
         <div className={s.filterRow}>
@@ -460,7 +476,10 @@ function Showcase() {
             <button
               key={c.key}
               className={`${s.filterBtn} ${cat === c.key ? s.filterBtnActive : ""}`}
-              onClick={() => setCat(c.key)}
+              onClick={() => {
+                setCat(c.key)
+                setShowAll(false)
+              }}
             >
               {c.key !== "all" && CAT_EMOJI[c.key as ProjectCategory]} {c.label}
               <span className={s.filterCount}>{c.count}</span>
@@ -493,13 +512,7 @@ function Showcase() {
 }
 
 function GitHubSection() {
-  const cellsRef = useRef<number[] | null>(null)
-  if (cellsRef.current === null) {
-    cellsRef.current = Array.from({ length: 52 * 7 }, () => {
-      const r = Math.random()
-      return r < 0.45 ? 0 : r < 0.65 ? 1 : r < 0.8 ? 2 : r < 0.92 ? 3 : 4
-    })
-  }
+  const cells = HEATMAP_CELLS
   const levelColor = (l: number) => {
     if (l === 0) return "#eeeeed"
     return `rgba(10,10,10,${l * 0.25})`
@@ -532,7 +545,7 @@ function GitHubSection() {
           <div className={s.githubCard}>
             <div className={s.sectionLabel} style={{ marginBottom: 16 }}>Contribution Activity</div>
             <div className={s.contribGrid}>
-              {cellsRef.current.map((lvl, i) => (
+              {cells.map((lvl, i) => (
                 <div key={i} className={s.contribCell} style={{ background: levelColor(lvl) }} />
               ))}
             </div>
