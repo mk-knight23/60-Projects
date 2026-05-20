@@ -36,7 +36,7 @@
     "stripe": "^20.2.0"
   },
   "devDependencies": {
-    "@netlify/plugin-nextjs": "^5.15.9",
+    "@netlify/plugin-nextjs": "^5.15.11",
     "@railway/cli": "^4.33.0",
     "@react-email/preview-server": "^5.2.9",
     "@tailwindcss/postcss": "^4",
