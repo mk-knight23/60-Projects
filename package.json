@@ -49,7 +49,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.4",
     "jest": "^30.3.0",
-    "jest-environment-jsdom": "^30.3.0",
+    "jest-environment-jsdom": "^30.4.1",
     "playwright": "^1.58.1",
     "react-email": "4.3.2",
     "tailwindcss": "^4",
