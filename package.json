@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@react-email/components": "^1.0.6",
-    "@react-email/render": "^2.0.4",
+    "@react-email/render": "^2.0.8",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.91.1",
     "@types/mdx": "^2.0.13",
