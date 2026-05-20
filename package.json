@@ -32,7 +32,7 @@
     "next-plausible": "^3.12.5",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "resend": "^6.8.0",
+    "resend": "^6.12.3",
     "stripe": "^20.2.0"
   },
   "devDependencies": {
